@@ -1,5 +1,5 @@
-import "./App.css";
-import LoginPage from "./LoginPage";
+import React from "react";
+import LoginPage from "./LoginPage"; // Importing updated LoginPage
 
 function App() {
   return <LoginPage />;
