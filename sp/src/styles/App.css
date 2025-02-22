@@ -1,0 +1,35 @@
+/* 🟢 Sidebar */
+.sidebar {
+  width: 250px; /* ✅ Fixed Sidebar Width */
+  background-color: #0C1A33;
+  height: 100vh;
+  position: fixed; /* ✅ Keep Sidebar Fixed */
+  left: 0;
+  top: 0;
+}
+
+/* 🟢 Main Layout (Container for Everything) */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* 🟢 Main Content */
+.main-content {
+  flex-grow: 1; /* ✅ Take Remaining Space */
+  padding-left: 250px; /* ✅ Push Content Right When Sidebar is Visible */
+  transition: padding-left 0.3s ease-in-out;
+}
+
+/* 🟢 If Sidebar is Hidden, Adjust */
+.no-sidebar .main-content {
+  padding-left: 0; /* ✅ Take Full Width */
+}
+
+/* 🟢 Right Sidebar (Upcoming Events Section) */
+.right-sidebar {
+  width: 300px;
+  background-color: #F2F2F2;
+  height: 100vh;
+}

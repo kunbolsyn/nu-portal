@@ -1,0 +1,68 @@
+/* 🟢 Header Container */
+.header {
+  background-color: #F2F2F2;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 🟢 Search Bar */
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+/* 🟢 Search Box Fix */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: 250px;
+  box-shadow: none;
+}
+
+/* 🔍 Search Icon */
+.search-icon {
+  color: gray;
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+/* 🟢 Search Input */
+.search-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 6px;
+  font-size: 14px;
+}
+
+/* 🟢 Profile & Notifications */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* 🔔 Notification Bell */
+.notification-icon {
+  font-size: 18px;
+  color: #333;
+}
+
+/* 👤 Profile Picture */
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}

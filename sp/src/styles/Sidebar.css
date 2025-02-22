@@ -1,0 +1,66 @@
+/* Sidebar Container */
+.sidebar {
+  width: 250px;
+  background-color: #0C1A33; /* Correct NU Blue */
+  color: white;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Full NU Logo */
+.full-logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Sidebar Navigation */
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-bottom: 5px;
+  opacity: 1; /* ✅ Ensure it's visible */
+}
+
+/* Active Page */
+.sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+/* Sidebar Icons */
+.sidebar .nav-link i {
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+/* Ensure the missing items are displayed */
+.sidebar hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 15px 0;
+}
+
+/* Logout Button */
+.sidebar .logout {
+  color: #FF6B6B;
+  font-weight: bold;
+}
+
+.sidebar .logout:hover {
+  background-color: #FF6B6B;
+  color: white;
+}

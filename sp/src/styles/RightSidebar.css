@@ -1,0 +1,40 @@
+.right-sidebar {
+  width: 250px;
+  background-color: #F2F2F2;
+  padding: 20px;
+}
+
+/* Fix Title */
+.sidebar-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Fix Calendar */
+.calendar-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.calendar-img {
+  width: 100%;
+}
+
+/* Fix Events List */
+.events-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-list li {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
