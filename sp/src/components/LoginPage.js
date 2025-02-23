@@ -22,6 +22,15 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
+      {/* Top Bar */}
+      <div className="topbar">
+        <img
+          src={`${process.env.PUBLIC_URL}/NU-logo.png`}
+          alt="Logo"
+          className="topbar-logo"
+        />
+      </div>
+
       <Container className="d-flex justify-content-center align-items-center vh-100">
         <Card className="login-card">
           <Card.Body>

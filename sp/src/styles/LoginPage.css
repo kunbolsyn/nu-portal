@@ -4,8 +4,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('../../public/bg.png') no-repeat center center fixed;
+  background: url("../../public/bg.png") no-repeat center center fixed;
   background-size: cover;
+}
+
+.topbar {
+  height: 50px;
+  width: 100%;
+  background-color: #0e1c36;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.topbar-logo {
+  height: 45px;
 }
 
 /* ✅ Login Card */
@@ -31,7 +48,7 @@
   border-radius: 6px;
   height: 42px;
   font-size: 15px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   border: 1px solid #dcdcdc;
   padding: 10px;
   text-align: left;
@@ -45,14 +62,14 @@
 }
 
 .custom-input::placeholder {
-  color: #A0A0A0;
+  color: #a0a0a0;
   font-size: 15px;
   text-align: left;
 }
 
 /* ✅ Login Button */
 .login-btn {
-  background-color: #0A0A23 !important;
+  background-color: #0a0a23 !important;
   border: none;
   border-radius: 6px;
   height: 45px;
@@ -62,7 +79,7 @@
 }
 
 .login-btn:hover {
-  background-color: #18183A !important;
+  background-color: #18183a !important;
 }
 
 /* ✅ Google Login Button */
@@ -70,11 +87,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #DADCE0;
+  border: 1px solid #dadce0;
   padding: 10px;
   font-weight: 500;
-  background-color: #FFFFFF !important; /* ✅ White background */
-  color: #3C4043 !important; /* ✅ Dark gray text */
+  background-color: #ffffff !important; /* ✅ White background */
+  color: #3c4043 !important; /* ✅ Dark gray text */
   border-radius: 6px;
   height: 45px;
   width: 100%;
@@ -84,8 +101,8 @@
 
 /* ✅ Hover Effect */
 .google-login:hover {
-  background-color: #F8F9FA;
-  border-color: #B8B8B8;
+  background-color: #f8f9fa;
+  border-color: #b8b8b8;
 }
 
 /* ✅ Google Logo Fix */
