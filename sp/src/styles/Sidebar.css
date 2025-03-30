@@ -1,7 +1,7 @@
 /* Sidebar Container */
 .sidebar {
   width: 250px;
-  background-color: #0C1A33; /* Correct NU Blue */
+  background-color: #0c1a33; /* Correct NU Blue */
   color: white;
   padding: 20px;
   height: 100vh;
@@ -56,11 +56,11 @@
 
 /* Logout Button */
 .sidebar .logout {
-  color: #FF6B6B;
+  color: #ff6b6b;
   font-weight: bold;
 }
 
 .sidebar .logout:hover {
-  background-color: #FF6B6B;
+  background-color: #ff6b6b;
   color: white;
 }

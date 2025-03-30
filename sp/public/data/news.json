@@ -1,0 +1,26 @@
+[
+  {
+    "title": "New Research in Robotics",
+    "content": "NU students showcase their latest robotic innovations in the annual tech fair.",
+    "author": "NU Tech Department",
+    "date": "Jan 10, 2024",
+    "category": "Articles",
+    "image": "images/robotics.jpg"
+  },
+  {
+    "title": "Student Government Announces Charity Drive",
+    "content": "Help raise funds for local communities by donating non-perishable items at designated points around campus.",
+    "author": "Student Council",
+    "date": "Jan 12, 2024",
+    "category": "Community",
+    "image": "images/donation.jpg"
+  },
+  {
+    "title": "Campus Safety Upgrades",
+    "content": "New security measures include additional campus patrols and improved lighting in parking areas.",
+    "author": "Campus Security",
+    "date": "Jan 15, 2024",
+    "category": "Notices",
+    "image": "images/safety.jpg"
+  }
+]

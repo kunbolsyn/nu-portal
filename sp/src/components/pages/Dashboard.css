@@ -1,0 +1,179 @@
+/* Import the Inter font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+.dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+  color: #333;
+}
+
+/* Banner Section */
+.banner {
+  position: relative;
+  margin-bottom: 30px;
+  min-height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: url("/public/images/banner.jpg") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px;
+}
+
+/* Gradient Overlay for readability */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+}
+
+.banner-text {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+.banner h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.banner p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.banner-date {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.learn-more-btn {
+  background-color: #161d35;
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* News Section */
+.news-section {
+  margin-bottom: 30px;
+}
+
+.news-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #161d35;
+}
+
+.news-section h2 i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
+.news-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.news-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Uniform Image Size */
+.news-image {
+  width: 100%;
+  height: 150px; /* Set a fixed height */
+  object-fit: cover; /* Crop images if needed */
+  border-radius: 4px;
+}
+
+.news-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.news-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.news-meta {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* My Updates Section */
+.updates-section {
+  margin-bottom: 30px;
+}
+
+.updates-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #161d35;
+}
+
+.updates-section h2 i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
+.updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.update-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.update-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.update-item p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.update-date {
+  font-size: 0.85rem;
+  color: #888;
+}

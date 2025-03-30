@@ -1,41 +1,30 @@
+// App.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import RightSidebar from "./components/RightSidebar";
-import Dashboard from "./components/pages/Dashboard.js";
-import Content from "./components/Content";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
+import ProtectedLayout from "./components/ProtectedLayout";
+import Dashboard from "./components/pages/Dashboard";
+import News from "./components/pages/News";
+import Events from "./components/pages/Events";
+import Calendar from "./components/pages/Calendar";
+import Settings from "./components/pages/Settings";
 import "./styles/App.css";
-
-const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
 const App = () => (
   <Router>
     <Routes>
+      {/* Public Route */}
       <Route path="/" element={<LoginPage />} />
-      <Route
-        path="/dashboard"
-        element={
-          isAuthenticated ? (
-            <div className={`app-layout ${Sidebar ? "" : "no-sidebar"}`}>
-              {/* Sidebar is Visible */}
-              <Sidebar />
-              
-              {/* Main Content Adjusts Based on Sidebar */}
-              <div className="main-content">
-                <Header />
-                <Content />
-              </div>
-              
-              {/* Right Sidebar (Upcoming Events) */}
-              <RightSidebar />
-            </div>
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
+
+      {/* Protected Routes */}
+      <Route path="/" element={<ProtectedLayout />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="news" element={<News />} />
+        <Route path="events" element={<Events />} />
+        <Route path="calendar" element={<Calendar />} />
+        <Route path="settings" element={<Settings />} />
+        {/* Add more nested routes as needed */}
+      </Route>
     </Routes>
   </Router>
 );

@@ -1,40 +1,61 @@
+/* Right Sidebar Container */
 .right-sidebar {
   width: 250px;
-  background-color: #F2F2F2;
+  background-color: #f5f5f5; /* Light grey background */
+  color: #161d35; /* Dark blue fonts */
   padding: 20px;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
-/* Fix Title */
-.sidebar-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* Fix Calendar */
-.calendar-container {
-  text-align: center;
+/* Sidebar Titles */
+.right-sidebar .sidebar-title,
+.right-sidebar .events-title {
+  font-size: 1.2rem;
   margin-bottom: 15px;
+  color: #161d35; /* Dark blue */
+  font-family: "Inter", sans-serif;
 }
 
-.calendar-img {
-  width: 100%;
+/* Calendar Container */
+.right-sidebar .calendar-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-/* Fix Events List */
-.events-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
+/* Override React Calendar Styles */
+.right-sidebar .mini-calendar,
+.right-sidebar .react-calendar {
+  background: transparent !important;
+  border: none !important;
+  font-family: "Inter", sans-serif !important;
+  color: #161d35;
 }
 
-.event-list {
+/* Calendar Navigation & Tiles */
+.right-sidebar .react-calendar__navigation,
+.right-sidebar .react-calendar__tile {
+  background: transparent !important;
+  border: none !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Event List Styling */
+.right-sidebar .event-list {
   list-style: none;
   padding: 0;
+  margin: 0;
+  color: #161d35;
 }
 
-.event-list li {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 5px;
+.right-sidebar .event-list li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
 }
