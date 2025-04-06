@@ -1,0 +1,144 @@
+.news-page {
+  padding: 20px 20px; /* Reduced top margin */
+  font-family: "Inter", sans-serif;
+}
+
+/* Top Section: Featured and Side News */
+.news-hero {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  height: 300px; /* Fixed height for symmetry */
+}
+
+.featured-news {
+  flex: 2;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.featured-news img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-news .overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(22, 29, 53, 0.7); /* Dark overlay for readability */
+  padding: 10px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.featured-news .overlay .author,
+.featured-news .overlay .date {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.featured-news .overlay .title {
+  font-size: 1.5rem;
+  margin-top: 5px;
+}
+
+.side-news {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.side-news-card {
+  flex: 1; /* Evenly distribute height */
+  background: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.side-news-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.side-news-card h3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 5px 10px;
+  background: rgba(22, 29, 53, 0.7);
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Filter Bar */
+.news-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.news-filters input[type="text"],
+.news-filters select {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.news-filters button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #161d35;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* News Cards Grid */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.news-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.news-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.news-card h4 {
+  margin: 10px;
+  font-size: 1.1rem;
+  color: #161d35;
+}
+
+.news-card .meta {
+  margin: 0 10px;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.news-card .description {
+  margin: 10px;
+  font-size: 1rem;
+  color: #333;
+}
