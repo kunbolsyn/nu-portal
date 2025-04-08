@@ -8,6 +8,8 @@ import News from "./components/pages/News";
 import Events from "./components/pages/Events";
 import Calendar from "./components/pages/Calendar";
 import Settings from "./components/pages/Settings";
+import StudentClubs from "./components/pages/StudentClubs";  // Add StudentClubs here
+import MyPage from "./components/pages/MyPage";
 import "./styles/App.css";
 
 const App = () => (
@@ -19,10 +21,12 @@ const App = () => (
       {/* Protected Routes */}
       <Route path="/" element={<ProtectedLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="mypage" element={<MyPage />} />
         <Route path="news" element={<News />} />
         <Route path="events" element={<Events />} />
         <Route path="calendar" element={<Calendar />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="studentclubs" element={<StudentClubs />} />
         {/* Add more nested routes as needed */}
       </Route>
     </Routes>

@@ -30,9 +30,10 @@ const Sidebar = () => {
         <Nav.Link as={Link} to="/phonebook" className={location.pathname === "/phonebook" ? "active" : ""}>
           <i className="fas fa-address-book"></i> Phonebook
         </Nav.Link>
-        <Nav.Link as={Link} to="/clubs" className={location.pathname === "/clubs" ? "active" : ""}>
+        <Nav.Link as={Link} to="/studentclubs" className={location.pathname === "/studentclubs" ? "active" : ""}>
           <i className="fas fa-users"></i> Student Clubs
         </Nav.Link>
+
         <Nav.Link as={Link} to="/mypage" className={location.pathname === "/mypage" ? "active" : ""}>
           <i className="fas fa-user"></i> My Page
         </Nav.Link>

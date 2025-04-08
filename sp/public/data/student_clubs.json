@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Art Studio",
+    "status": "Active",
+    "category": "Entertainment",
+    "members": 20,
+    "description": "A creative club focused on visual arts and painting.",
+    "logo": "artstudio.jpg"
+  },
+  {
+    "name": "Boxing Club",
+    "status": "Active",
+    "category": "Sports",
+    "members": 25,
+    "description": "A club for boxing enthusiasts and athletes.",
+    "logo": "boxclub.jfif"
+  },
+  {
+    "name": "Board Games",
+    "status": "Active",
+    "category": "Recreation",
+    "members": 15,
+    "description": "A fun club for board game lovers.",
+    "logo": "boardgames.png"
+  },
+  {
+    "name": "Dance Club",
+    "status": "Active",
+    "category": "Arts",
+    "members": 12,
+    "description": "A club focused on all styles of dance.",
+    "logo": "dclub.jpg"
+  }
+]
