@@ -1,7 +1,7 @@
 [
   {
     "title": "Student Film Festival To Showcase Local Talent",
-    "date": "November 20, 2024",
+    "date": "March 20, 2025",
     "image": "/images/filmfestival.jpg",
     "organizer": "Alex Tinez, Event Coordinator",
     "description": "The annual Student Film Festival is returning this year, showcasing short films created by students...",
@@ -9,7 +9,7 @@
   },
   {
     "title": "AI Innovations Workshop",
-    "date": "December 5, 2024",
+    "date": "March 20, 2025",
     "image": "/images/aiworkshop.jpg",
     "organizer": "NU Tech Department",
     "description": "Join us for an in-depth workshop on AI and Machine Learning, covering latest research and applications...",
@@ -17,7 +17,7 @@
   },
   {
     "title": "Business Networking Event",
-    "date": "December 10, 2024",
+    "date": "March 10, 2025",
     "image": "/images/networking.jpg",
     "organizer": "Business Society",
     "description": "An evening of networking and mentorship opportunities with local entrepreneurs and industry experts.",
@@ -25,7 +25,7 @@
   },
   {
     "title": "Open Mic Night",
-    "date": "January 15, 2025",
+    "date": "April 15, 2025",
     "image": "/images/openmic.jpg",
     "organizer": "Music Club",
     "description": "Showcase your talents! Singers, poets, and comedians are all welcome to perform in a casual atmosphere.",
@@ -33,7 +33,7 @@
   },
   {
     "title": "Coding Bootcamp Demo Day",
-    "date": "January 25, 2025",
+    "date": "April 23, 2025",
     "image": "/images/codingdemo.jpg",
     "organizer": "NU Tech Department",
     "description": "Graduates of the coding bootcamp will present their final projects. Come and see the innovation!",

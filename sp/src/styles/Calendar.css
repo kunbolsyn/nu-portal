@@ -1,0 +1,118 @@
+/* Container that spans nearly full width and full height of viewport */
+.calendar-page {
+  width: 95%;
+  max-width: 1200px; /* Or any max you like */
+  margin: 0 auto;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  font-family: "Inter", sans-serif;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Make the entire calendar a flex column to keep the top fixed and the grid scrollable if needed */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.calendar-header h2 {
+  color: #161d35;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Navigation Buttons: no border, circle background on hover, etc. */
+.nav-arrow {
+  background: none;
+  border: none;
+  color: #161d35;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.2s ease;
+}
+
+.nav-arrow:hover {
+  background-color: rgba(22, 29, 53, 0.1);
+  border-radius: 50%;
+}
+
+/* Make a container for the grid that can scroll if it doesn't fit vertically */
+.calendar-grid,
+.calendar-days {
+  width: 100%;
+}
+
+/* Day Labels with borders and rounded top corners */
+.day-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #ccc;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+}
+
+.day-labels > div {
+  background-color: #f0f0f0;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: 600;
+  color: #161d35;
+  border: 1px solid #ddd;
+}
+
+/* Calendar Days Container with slightly rounded bottom corners */
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #ccc;
+  flex: 1; /* So it expands to fill vertical space */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow-y: auto; /* If the height is too small, scroll inside */
+}
+
+.calendar-cell {
+  background-color: #fff;
+  min-height: 100px;
+  position: relative;
+  padding: 5px;
+  overflow: hidden;
+  border: 1px solid #ddd; /* Light border around each cell */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.day-number {
+  font-weight: bold;
+  color: #161d35;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+/* Keep event names in squares, truncated if they exceed width */
+.event-tag {
+  background-color: #167ef3;
+  color: #fff;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+}

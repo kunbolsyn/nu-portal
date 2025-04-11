@@ -8,7 +8,8 @@ import News from "./components/pages/News";
 import Events from "./components/pages/Events";
 import Calendar from "./components/pages/Calendar";
 import Settings from "./components/pages/Settings";
-import StudentClubs from "./components/pages/StudentClubs";  // Add StudentClubs here
+import StudentClubs from "./components/pages/StudentClubs";
+import SuggestNews from "./components/pages/SuggestNews";
 import MyPage from "./components/pages/MyPage";
 import "./styles/App.css";
 
@@ -27,6 +28,7 @@ const App = () => (
         <Route path="calendar" element={<Calendar />} />
         <Route path="settings" element={<Settings />} />
         <Route path="studentclubs" element={<StudentClubs />} />
+        <Route path="suggest-news" element={<SuggestNews />} />
         {/* Add more nested routes as needed */}
       </Route>
     </Routes>
