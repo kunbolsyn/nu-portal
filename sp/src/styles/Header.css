@@ -1,10 +1,11 @@
 /* 🟢 Header Container */
 .header {
-  background-color: #F2F2F2;
   padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: Inter, sans-serif;
+  border-bottom: 1px solid #ccc;
 }
 
 /* 🟢 Search Bar */

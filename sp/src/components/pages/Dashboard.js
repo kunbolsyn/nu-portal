@@ -22,7 +22,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Banner Section */}
       <div className="banner">
         <div className="banner-overlay"></div>
         <div className="banner-text">
@@ -33,7 +32,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* University News */}
       <div className="news-section">
         <h2>
           <i className="fas fa-newspaper"></i> University News
@@ -45,17 +43,16 @@ const Dashboard = () => {
                 <img src={item.image} alt={item.title} className="news-image" />
               )}
               <h3>{item.title}</h3>
-              <p>{item.content}</p>
               <div className="news-meta">
                 <span>{item.author}</span> | <span>{item.date}</span> |{" "}
                 <span>{item.category}</span>
               </div>
+              <p>{item.content}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* My Updates */}
       <div className="updates-section">
         <h2>
           <i className="fas fa-bell"></i> My Updates

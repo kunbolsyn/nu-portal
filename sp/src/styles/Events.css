@@ -18,6 +18,11 @@
   color: #161d35; /* Dark blue accent */
 }
 
+.featured-events-section h2 i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
 /* Responsive grid for featured events:
    Each card has a minimum width of 280px and expands as needed */
 .featured-events {
@@ -107,6 +112,11 @@
   color: #161d35;
 }
 
+.upcoming-events-header h2 i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
 /* Filter Bar Styling */
 .events-filter-bar {
   display: flex;
@@ -156,7 +166,7 @@
   margin-bottom: 8px;
 }
 
-.event-card-body .event-meta {
+.event-card-body .event-meta-icons {
   font-size: 0.9rem;
   color: #555;
   margin-bottom: 8px;
@@ -165,4 +175,5 @@
 .event-card-body .event-desc {
   font-size: 0.95rem;
   color: #333;
+  margin-bottom: 0px;
 }

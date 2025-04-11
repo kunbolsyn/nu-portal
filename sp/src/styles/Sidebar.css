@@ -10,6 +10,7 @@
   top: 0;
   display: flex;
   flex-direction: column;
+  font-family: "Inter", sans-serif;
 }
 
 /* Full NU Logo */
@@ -38,12 +39,14 @@
   background-color: rgba(255, 255, 255, 0.15);
   font-weight: bold;
   border-radius: 6px;
+  color: white;
 }
 
 /* Sidebar Icons */
 .sidebar .nav-link i {
   font-size: 18px;
   margin-right: 12px;
+  color: white;
 }
 
 /* Ensure the missing items are displayed */
@@ -63,4 +66,12 @@
 .sidebar .logout:hover {
   background-color: #ff6b6b;
   color: white;
+}
+
+.sidebar .nav-link:hover {
+  color: white !important;
+}
+
+.sidebar .nav-link:hover i {
+  color: white !important;
 }

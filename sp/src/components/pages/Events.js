@@ -24,7 +24,9 @@ const Events = () => {
     <div className="events-page">
       {/* Featured Events Section */}
       <div className="featured-events-section">
-        <h2>Registration Open!</h2>
+        <h2>
+          <i className="fas fa-bolt"></i> Registration Open!
+        </h2>
         <div className="featured-events">
           {featuredEvents.map((event, index) => (
             <div key={index} className="featured-event-card">
@@ -49,7 +51,10 @@ const Events = () => {
 
       {/* Upcoming Events Section */}
       <div className="upcoming-events-header">
-        <h2>Upcoming Events</h2>
+        <h2>
+          <i className="fas fa-calendar-alt"></i> Upcoming Events
+        </h2>
+
         <div className="events-filter-bar">
           <select>
             <option value="">Select clubs</option>
@@ -69,9 +74,14 @@ const Events = () => {
             <img src={event.image} alt={event.title} />
             <div className="event-card-body">
               <h4>{event.title}</h4>
-              <p className="event-meta">
-                {event.organizer} | {event.date}
-              </p>
+              <div className="event-meta-icons">
+                <p>
+                  <i className="fas fa-user"></i> {event.organizer}
+                </p>
+                <p>
+                  <i className="fas fa-calendar-alt"></i> {event.date}
+                </p>
+              </div>
               <p className="event-desc">{event.description}</p>
             </div>
           </div>
