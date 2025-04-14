@@ -12,6 +12,7 @@ import StudentClubs from "./components/pages/StudentClubs";
 import SuggestNews from "./components/pages/SuggestNews";
 import MyPage from "./components/pages/MyPage";
 import Phonebook from "./components/pages/Phonebook";
+import EventPlanning from "./components/pages/EventPlanning";
 import "./styles/App.css";
 
 const App = () => (
@@ -31,6 +32,7 @@ const App = () => (
         <Route path="studentclubs" element={<StudentClubs />} />
         <Route path="suggest-news" element={<SuggestNews />} />
         <Route path="phonebook" element={<Phonebook />} />
+        <Route path="event-planning" element={<EventPlanning />} />
         {/* Add more nested routes as needed */}
       </Route>
     </Routes>
