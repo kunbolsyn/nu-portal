@@ -1,58 +1,91 @@
-import React from "react";
+// src/components/pages/MyPage.js
+import React, { useState, useEffect } from "react";
 import "../../styles/MyPage.css";
 
 const MyPage = () => {
-  const yearOfStudy = "2025"; // Actual year of study
-  const major = "Computer Science"; // Example major
-  const department = "SEDS"; // Example department
-  const gpa = "3.8"; // Example GPA
-  const phoneNumber = "+X(X)XXX XX XX"; // Example phone number
-  const email = "name.surname@nu.edu.kz"; // Example email
+  const [contacts, setContacts] = useState([]);
+  const [clubs, setClubs] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch("/data/student_clubs.json")
+      .then((res) => res.json())
+      .then((data) => setClubs(data.slice(0, 6)))
+      .catch((err) => console.error("Error fetching clubs:", err));
+
+    fetch("/data/saved_contacts.json")
+      .then((res) => res.json())
+      .then((data) => setContacts(data))
+      .catch((err) => console.error("Error fetching contacts:", err));
+  }, []);
+
+  const filteredContacts = contacts.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="mypage">
-      <div className="about-section">
-        <div className="about-info">
-          <img
-            src={process.env.PUBLIC_URL + "/profile.png"}
-            alt="Profile"
-            className="profile-pic"
-          />
-          <div className="details">
-            <h2>Name Surname</h2>
-            <div className="info-row">
-              <div className="info-item">
-                <span className="icon">📧</span>
-                <span>{email}</span>
-              </div>
-              <div className="info-item">
-                <span className="icon">📞</span>
-                <span>{phoneNumber}</span>
-              </div>
-            </div>
-            <div className="info-row">
-              <div className="info-item">
-                <span className="icon">🎓</span>
-                <span>{yearOfStudy}</span>
-              </div>
-              <div className="info-item">
-                <span className="icon">🎓</span>
-                <span>{major}</span>
-              </div>
-            </div>
-            <div className="info-row">
-              <div className="info-item">
-                <span className="icon">🏫</span>
-                <span>{department}</span>
-              </div>
-              <div className="info-item">
-                <span className="icon">📊</span>
-                <span>{gpa}</span>
-              </div>
+    <div className="mypage-container">
+      {/* About Me Section */}
+      <section className="about-me-section">
+        <h3><i className="fas fa-user"></i> About Me</h3>
+        <div className="profile-card">
+          <img src="/images/alisher.jpg" alt="Profile" className="profile-img" />
+          <div className="profile-info">
+            <h4 className="profile-name">Name Surname</h4>
+            <div className="profile-grid">
+              <div><i className="fas fa-envelope"></i> name.surname@nu.edu.kz</div>
+              <div><i className="fas fa-phone"></i> +X(XXX)XXX XX XX</div>
+              <div><i className="fas fa-calendar"></i> Year of Study</div>
+              <div><i className="fas fa-book"></i> Major</div>
+              <div><i className="fas fa-map-marker-alt"></i> Department</div>
+              <div><i className="fas fa-graduation-cap"></i> GPA</div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Saved Contacts */}
+      <section className="contacts-section">
+        <h3><i className="fas fa-star"></i> Saved Contacts</h3>
+        <div className="contacts-search">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="filter-btn">
+            <i className="fas fa-filter"></i> Filters
+          </button>
+        </div>
+        <div className="contacts-grid">
+          {filteredContacts.map((contact, index) => (
+            <div key={index} className="contact-card">
+              <img src={contact.image} alt={contact.name} />
+              <p>{contact.name}</p>
+            </div>
+          ))}
+        </div>
+        <div className="pagination-info">
+          1–{filteredContacts.length} of {contacts.length}
+        </div>
+      </section>
+
+      {/* My Clubs */}
+      <section className="myclubs-section">
+        <h3><i className="fas fa-paw"></i> My Clubs</h3>
+        <div className="clubs-grid">
+          {clubs.map((club, index) => (
+            <div key={index} className="club-card">
+              <img src={`/images/${club.logo}`} alt={club.name} />
+              <p>{club.name}</p>
+            </div>
+          ))}
+        </div>
+        <div className="pagination-info">
+          1–{clubs.length} of {clubs.length}
+        </div>
+      </section>
     </div>
   );
 };
