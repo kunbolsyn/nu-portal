@@ -1,0 +1,113 @@
+.phonebook-container {
+    padding: 20px 10px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .phonebook-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    scrollbar-width: none;
+  }
+  .phonebook-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .phonebook-tabs button {
+    background: none;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: #444;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .phonebook-tabs button.active {
+    border-bottom: 2px solid #161d35;
+    color: #161d35;
+    font-weight: 600;
+  }
+  .phonebook-tabs button:hover {
+    color: #000;
+  }
+  
+  .phonebook-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .phonebook-filters input,
+  .phonebook-filters select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .phonebook-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 10px;
+  }
+  
+  .phonebook-row {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-size: 0.85rem;
+    gap: 16px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .phonebook-row .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px; /* Or 50% for circular */
+    object-fit: cover;
+    display: block;
+  }
+  
+  .phonebook-row span {
+    flex: 1 1 0;
+    max-width: 120px;
+    min-width: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .phonebook-row .star-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #d4a106;
+    cursor: pointer;
+  }
+  .phonebook-row .star-btn:hover {
+    transform: scale(1.1);
+  }
+  .phonebook-row .saved {
+    color: #d4a106;
+  }
+  
+  .pagination-info {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: right;
+    padding: 5px 10px;
+  }
+  
