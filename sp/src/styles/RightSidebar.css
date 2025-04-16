@@ -59,3 +59,27 @@
   font-size: 0.95rem;
   font-family: "Inter", sans-serif;
 }
+
+.event-list li {
+  cursor: pointer;
+  color: #161d35;
+  padding: 4px 0;
+  transition: color 0.2s;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.event-list li:hover {
+  color: #167ef3;
+  text-decoration: underline;
+}
+
+.event-link {
+  color: #161d35;
+  text-decoration: none;
+}
+
+.event-link:hover {
+  text-decoration: underline;
+  color: #1a47d4;
+}

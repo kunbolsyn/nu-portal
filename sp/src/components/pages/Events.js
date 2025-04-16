@@ -3,6 +3,7 @@ import "../../styles/Events.css";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
     fetch("/data/events.json")
@@ -15,10 +16,26 @@ const Events = () => {
     return <div className="events-page">Loading events...</div>;
   }
 
+  // Get today's date and date 2 weeks from now
+  const today = new Date();
+  const twoWeeksFromNow = new Date();
+  twoWeeksFromNow.setDate(today.getDate() + 14);
+
+  // Helper to check if two dates are the same (ignoring time)
+  const isSameDay = (d1, d2) =>
+    new Date(d1).toDateString() === new Date(d2).toDateString();
+
   // Featured events: first 3
   const featuredEvents = events.slice(0, 3);
-  // Upcoming events: the rest
-  const upcomingEvents = events.slice(3);
+
+  // Upcoming events: within 2 weeks or match selected date
+  const upcomingEvents = events.filter((event) => {
+    const eventDate = new Date(event.date);
+    if (selectedDate) {
+      return isSameDay(eventDate, new Date(selectedDate));
+    }
+    return eventDate >= today && eventDate <= twoWeeksFromNow;
+  });
 
   return (
     <div className="events-page">
@@ -41,7 +58,6 @@ const Events = () => {
                     <i className="fas fa-calendar-alt"></i> {event.date}
                   </p>
                 </div>
-                {/* Register button pinned to bottom */}
                 <button className="register-btn">Register</button>
               </div>
             </div>
@@ -63,7 +79,11 @@ const Events = () => {
             <option value="Business Club">Business Club</option>
             <option value="Music Club">Music Club</option>
           </select>
-          <input type="date" />
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
         </div>
       </div>
 
