@@ -124,6 +124,17 @@
   margin-bottom: 5px;
 }
 
+.news-card description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: calc(1.4em * 3);
+}
+
 .news-meta {
   font-size: 0.85rem;
   color: #888;

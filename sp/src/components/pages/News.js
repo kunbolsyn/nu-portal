@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/News.css";
+import NewsDetail from "./NewsDetail";
 
 const News = () => {
   const [news, setNews] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     fetch("/data/news.json")
@@ -15,7 +17,7 @@ const News = () => {
     return <div className="news-page">Loading news...</div>;
   }
 
-  // Divide news into sections:
+  // Divide news into sections
   const featured = news[0];
   const sideNews = news.slice(1, 3);
   const gridNews = news.slice(3);
@@ -24,17 +26,30 @@ const News = () => {
     <div className="news-page">
       {/* Top Section: Featured and Side News */}
       <section className="news-hero">
-        <div className="featured-news">
+        <div
+          className="featured-news"
+          onClick={() => setSelected(featured)}
+          style={{ cursor: "pointer" }}
+        >
           <img src={featured.image} alt={featured.title} />
           <div className="overlay">
-            <p className="author">{featured.author}</p>
-            <p className="date">{featured.date}</p>
+            <p className="author">
+              <i className="fas fa-user"></i> {featured.author}
+            </p>
+            <p className="date">
+              <i className="fas fa-calendar-alt"></i> {featured.date}
+            </p>
             <h2 className="title">{featured.title}</h2>
           </div>
         </div>
         <div className="side-news">
           {sideNews.map((item, index) => (
-            <div key={index} className="side-news-card">
+            <div
+              key={index}
+              className="side-news-card"
+              onClick={() => setSelected(item)}
+              style={{ cursor: "pointer" }}
+            >
               <img src={item.image} alt={item.title} />
               <h3>{item.title}</h3>
             </div>
@@ -56,28 +71,30 @@ const News = () => {
 
       {/* Grid of News Cards */}
       <div className="news-grid">
-        {gridNews.length > 0
-          ? gridNews.map((item, index) => (
-              <div key={index} className="news-card">
-                <img src={item.image} alt={item.title} />
-                <h4>{item.title}</h4>
-                <p className="meta">
-                  {item.author}, {item.date} | {item.category}
-                </p>
-                <p className="description">{item.content}</p>
-              </div>
-            ))
-          : news.map((item, index) => (
-              <div key={index} className="news-card">
-                <img src={item.image} alt={item.title} />
-                <h4>{item.title}</h4>
-                <p className="meta">
-                  {item.author}, {item.date} | {item.category}
-                </p>
-                <p className="description">{item.content}</p>
-              </div>
-            ))}
+        {news.map((item, index) => (
+          <div
+            key={index}
+            className="news-card"
+            onClick={() => setSelected(item)}
+            style={{ cursor: "pointer" }}
+          >
+            <img src={item.image} alt={item.title} />
+            <h4>{item.title}</h4>
+            <div className="meta">
+              <p>
+                <i className="fas fa-user"></i> {item.author}
+              </p>
+              <p>
+                <i className="fas fa-calendar-alt"></i> {item.date}
+              </p>
+            </div>
+            <p className="description">{item.content}</p>
+          </div>
+        ))}
       </div>
+
+      {/* Detail Overlay */}
+      <NewsDetail item={selected} onClose={() => setSelected(null)} />
     </div>
   );
 };
