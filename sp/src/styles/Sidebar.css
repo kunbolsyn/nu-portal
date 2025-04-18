@@ -11,6 +11,19 @@
   display: flex;
   flex-direction: column;
   font-family: "Inter", sans-serif;
+  overflow-y: auto;          /* ✅ Enables vertical scroll */
+  overflow-x: hidden;
+}
+
+/* Optional: Hide scrollbar (Chrome/Edge/Safari) */
+.sidebar::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Optional: Hide scrollbar (Firefox) */
+.sidebar {
+  scrollbar-width: none;
 }
 
 /* Full NU Logo */
@@ -31,7 +44,7 @@
   border-radius: 6px;
   text-decoration: none;
   margin-bottom: 5px;
-  opacity: 1; /* ✅ Ensure it's visible */
+  opacity: 1;
 }
 
 /* Active Page */
@@ -49,7 +62,7 @@
   color: white;
 }
 
-/* Ensure the missing items are displayed */
+/* Divider Line */
 .sidebar hr {
   border: 0;
   height: 1px;
