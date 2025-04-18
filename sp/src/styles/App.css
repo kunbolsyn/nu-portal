@@ -1,6 +1,5 @@
 /* 🟢 Sidebar */
 .sidebar {
-  width: 250px; /* ✅ Fixed Sidebar Width */
   background-color: #0c1a33;
   height: 100vh;
   position: fixed; /* ✅ Keep Sidebar Fixed */
@@ -8,29 +7,24 @@
   top: 0;
 }
 
-/* 🟢 Main Layout (Container for Everything) */
 .app-layout {
   display: flex;
   height: 100vh;
   transition: margin-left 0.3s ease-in-out;
 }
 
-/* 🟢 Main Content */
 .main-content {
   flex-grow: 1;
-  padding-left: 250px; /* left sidebar width */
-  padding-right: 300px; /* right sidebar width */
+  padding-left: 250px;
+  padding-right: 250px;
   transition: padding-left 0.3s ease-in-out;
 }
 
-/* 🟢 If Sidebar is Hidden, Adjust */
 .no-sidebar .main-content {
-  padding-left: 0; /* ✅ Take Full Width */
+  padding-left: 0;
 }
 
-/* 🟢 Right Sidebar (Upcoming Events Section) */
 .right-sidebar {
-  width: 300px;
   background-color: #f2f2f2;
   height: 100vh;
 }
