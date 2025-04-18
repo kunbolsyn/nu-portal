@@ -1,15 +1,9 @@
 [
-    { "name": "Dimas Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" },
-    { "name": "Name Surname", "image": "/images/profile.png" }
-  ]
-  
+  { "name": "Dimas Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" },
+  { "name": "Name Surname", "image": "/images/profile.jpg" }
+]

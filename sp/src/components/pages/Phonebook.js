@@ -2,16 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Phonebook.css";
 
-const TABS = [
-  "Students",
-  "Teaching Staff",
-  "University Employees",
-  "Student Clubs",
-  "Organizations",
-  "Offices",
-  "Campus Services",
-  "Emergency Contacts",
-];
+const TABS = ["Students", "Teaching Staff", "Staff", "Student Clubs", "Others"];
 
 const Phonebook = () => {
   const [contacts, setContacts] = useState([]);

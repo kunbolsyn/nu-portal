@@ -17,7 +17,7 @@ const Header = () => (
     {/* Profile & Notifications */}
     <div className="profile-section">
       <i className="fas fa-bell notification-icon"></i>
-      <img src={`${process.env.PUBLIC_URL}/profile.png`} alt="Profile" className="profile-pic" />
+      <img src={`/images/profile.jpg`} alt="Profile" className="profile-pic" />
     </div>
   </div>
 );

@@ -1,14 +1,13 @@
-// src/components/RightSidebar.js
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styles/RightSidebar.css";
+import EventDetail from "../components/pages/EventDetail"; // ✅ if it's directly under /pages
 
 const RightSidebar = () => {
   const [date, setDate] = useState(new Date());
   const [upcomingEvents, setUpcomingEvents] = useState([]);
-  const navigate = useNavigate();
+  const [selectedEvent, setSelectedEvent] = useState(null); // ✅
 
   useEffect(() => {
     fetch("/data/events.json")
@@ -29,7 +28,7 @@ const RightSidebar = () => {
   }, []);
 
   const goToEvent = (event) => {
-    navigate("/events", { state: { selectedEvent: event } });
+    setSelectedEvent(event); // ✅ show modal
   };
 
   return (
@@ -63,6 +62,12 @@ const RightSidebar = () => {
           ))
         )}
       </ul>
+
+      {/* ✅ Show event modal */}
+      <EventDetail
+        item={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+      />
     </div>
   );
 };
