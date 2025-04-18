@@ -17,7 +17,6 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-logo">
-
         <Link to="/dashboard">
           <img
             src={`${process.env.PUBLIC_URL}/NU-logo.png`}
@@ -25,11 +24,9 @@ const Sidebar = () => {
             className="full-logo"
           />
         </Link>
-
       </div>
 
       <Nav className="flex-column">
-
         <Nav.Link as={Link} to="/dashboard" className={isActive("/dashboard")}>
           <i className="fas fa-home"></i> Dashboard
         </Nav.Link>
@@ -49,12 +46,10 @@ const Sidebar = () => {
           <i className="fas fa-users"></i> Student Clubs
         </Nav.Link>
         <Nav.Link as={Link} to="/mypage" className={isActive("/mypage")}>
-
           <i className="fas fa-user"></i> My Page
         </Nav.Link>
 
         <hr />
-
 
         {userRole !== "staff" && (
           <Nav.Link as={Link} to="/event-planning" className={isActive("/event-planning")}>
@@ -69,8 +64,12 @@ const Sidebar = () => {
 
         <hr />
 
-        <Nav.Link onClick={handleLogout} className="logout">
+        {/* ✅ Settings Link (Restored) */}
+        <Nav.Link as={Link} to="/settings" className={isActive("/settings")}>
+          <i className="fas fa-cog"></i> Settings
+        </Nav.Link>
 
+        <Nav.Link onClick={handleLogout} className="logout">
           <i className="fas fa-sign-out-alt"></i> Logout
         </Nav.Link>
       </Nav>
