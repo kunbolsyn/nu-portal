@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/Dashboard.css";
+import "../../styles/DashboardStudent.css";
 
-const Dashboard = () => {
+const DashboardStudent = () => {
   const [news, setNews] = useState([]);
   const [updates, setUpdates] = useState([]);
 
@@ -71,4 +71,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardStudent;

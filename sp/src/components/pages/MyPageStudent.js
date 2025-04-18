@@ -1,8 +1,8 @@
 // src/components/pages/MyPage.js
 import React, { useState, useEffect } from "react";
-import "../../styles/MyPage.css";
+import "../../styles/MyPageStudent.css";
 
-const MyPage = () => {
+const MyPageStudent = () => {
   const [contacts, setContacts] = useState([]);
   const [clubs, setClubs] = useState([]);
   const [search, setSearch] = useState("");
@@ -90,4 +90,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default MyPageStudent;
