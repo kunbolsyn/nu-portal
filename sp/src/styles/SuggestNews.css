@@ -1,14 +1,32 @@
-/* SuggestNews.css */
+.suggest-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 0px;
+}
+
+.suggest-section-header i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
+.suggest-section-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #161d35;
+}
 
 .suggest-news-container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   font-family: "Inter", sans-serif;
   margin: 20px;
 }
 
-/* Create Post Section */
 .create-post-section {
   display: flex;
   gap: 20px;

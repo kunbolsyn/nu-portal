@@ -59,6 +59,10 @@ const SuggestNews = () => {
 
   return (
     <div className="suggest-news-container">
+      <div className="suggest-section-header">
+        <i className="fas fa-pen-nib"></i>
+        <h3>Create News</h3>
+      </div>
       <div className="create-post-section">
         {/* Upload Box */}
         <div
@@ -114,10 +118,11 @@ const SuggestNews = () => {
           <button onClick={handlePost}>Post</button>
         </div>
       </div>
-
-      {/* Previous Posts */}
-      <div className="previous-posts-section">
+      <div className="suggest-section-header">
+        <i className="fas fa-history"></i>
         <h3>Previous Posts</h3>
+      </div>
+      <div className="previous-posts-section">
         <div className="posts-list">
           {posts.length === 0 ? (
             <p className="no-posts-msg">No posts yet.</p>
@@ -132,7 +137,6 @@ const SuggestNews = () => {
                   />
                   <div className="post-info">
                     <p className="author-name">Name Surname</p>
-                    {/* e.g. you could store the author or timestamp */}
                   </div>
                 </div>
                 <h4 className="post-title">{post.title}</h4>

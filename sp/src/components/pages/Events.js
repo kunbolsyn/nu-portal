@@ -57,9 +57,10 @@ const Events = () => {
     <div className="events-page">
       {/* Featured Events Section */}
       <div className="featured-events-section">
-        <h2>
-          <i className="fas fa-bolt"></i> Registration Open!
-        </h2>
+        <div className="section-header">
+          <i className="fas fa-bolt"></i>
+          <h3>Registration Open!</h3>
+        </div>
         <div className="featured-events">
           {featuredEvents.map((event, idx) => (
             <div
@@ -87,10 +88,12 @@ const Events = () => {
       </div>
 
       {/* Upcoming Events Section */}
+
+      <div className="section-header">
+        <i className="fas fa-calendar-alt"></i>
+        <h3>Upcoming Events</h3>
+      </div>
       <div className="upcoming-events-header">
-        <h2>
-          <i className="fas fa-calendar-alt"></i> Upcoming Events
-        </h2>
         <div className="events-filter-bar">
           <select>
             <option value="">Select clubs</option>

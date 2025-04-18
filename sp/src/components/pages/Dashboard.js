@@ -25,7 +25,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Banner Section */}
       <div className="banner">
         <div className="banner-overlay"></div>
         <div className="banner-text">
@@ -38,9 +37,11 @@ const Dashboard = () => {
 
       {/* University News */}
       <div className="news-section">
-        <h2>
-          <i className="fas fa-newspaper"></i> University News
-        </h2>
+        <div className="section-header">
+          <i className="fas fa-newspaper"></i>
+          <h3>University News</h3>
+        </div>
+
         <div className="news-grid">
           {news.map((item, index) => (
             <div
@@ -66,9 +67,10 @@ const Dashboard = () => {
 
       {/* My Updates */}
       <div className="updates-section">
-        <h2>
-          <i className="fas fa-bell"></i> My Updates
-        </h2>
+        <div className="section-header">
+          <i className="fas fa-bell"></i>
+          <h3>My Updates</h3>
+        </div>
         <div className="updates-list">
           {updates.map((update, index) => (
             <div key={index} className="update-item">
