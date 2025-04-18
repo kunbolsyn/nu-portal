@@ -22,12 +22,15 @@
 }
 
 .calendar-header h2 {
-  color: #161d35;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
   margin: 0;
+  color: #161d35;
+}
+
+.calendar-header i {
+  font-size: 1.3rem;
+  color: #161d35;
 }
 
 /* Navigation Buttons: no border, circle background on hover, etc. */
@@ -117,20 +120,22 @@
   max-width: 100%;
 }
 
+/* Clickable event tags inside calendar cells */
 .event-tag.clickable {
-  background-color: #e0f0ff;
-  border: none;
+  all: unset; /* remove button defaults */
+  display: block;
+  background-color: #167ef3; /* same accent color */
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
   border-radius: 4px;
-  padding: 3px 6px;
-  margin: 2px 0;
+  margin-bottom: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   cursor: pointer;
-  color: #161d35;
-  font-size: 0.8rem;
-  text-align: left;
-  width: 100%;
 }
 
 .event-tag.clickable:hover {
-  background-color: #cde4fc;
+  background-color: #136bd4; /* slightly darker on hover */
 }
-

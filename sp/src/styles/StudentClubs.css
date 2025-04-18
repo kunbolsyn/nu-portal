@@ -1,163 +1,165 @@
 /* General Container for Student Clubs Page */
 .student-clubs-container {
-    font-family: "Inter", sans-serif;
-    background-color: #fff;
-    padding: 20px;
+  font-family: "Inter", sans-serif;
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Header Section */
+.student-clubs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 15px 20px;
+}
+
+/* Title Styling */
+.student-clubs-title {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #161d35;
+}
+
+/* Filters Section */
+.student-clubs-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 1;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.student-clubs-search,
+.student-clubs-status,
+.student-clubs-category,
+.student-clubs-filter-button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Search Input */
+.student-clubs-search {
+  flex: 1;
+  width: 150px; /* Allow it to expand */
+  max-width: 250px; /* Restrict max width */
+  outline: none;
+}
+
+/* Select Dropdowns (Status and Categories) */
+.student-clubs-status,
+.student-clubs-category {
+  width: 100%; /* Same width for the selects */
+}
+
+/* Filter Button */
+.student-clubs-filter-button {
+  background-color: #161d35;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.student-clubs-filter-button:hover {
+  background-color: #0c1326;
+}
+
+/* Club Card Section */
+.student-clubs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Club Card Box */
+.student-club-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better contrast */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.student-club-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for emphasis */
+}
+
+/* Club Image */
+.student-club-img {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Club Name and Description */
+.student-club-info h3 {
+  font-size: 1rem;
+  color: #161d35;
+  margin-bottom: 10px;
+}
+
+.student-club-info p {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Status & Category Tags */
+.student-club-status,
+.student-club-category {
+  background-color: #f2f2f2;
+  color: #161d35;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .student-clubs-list {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(200px, 1fr)
+    ); /* Adjust column for smaller screens */
   }
-  
-  /* Header Section */
+
   .student-clubs-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #fff;
-    padding: 15px 20px;
-    
-    
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  /* Title Styling */
-  .student-clubs-title {
-    font-size: 1.5rem;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #161d35;
-  }
-  
-  /* Filters Section */
+
   .student-clubs-filters {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-grow: 1;
-    max-width: 600px;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
   }
-  
+
   .student-clubs-search,
   .student-clubs-status,
   .student-clubs-category,
   .student-clubs-filter-button {
-    padding: 8px 12px;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    width: 100%;
   }
-  
-  /* Search Input */
-  .student-clubs-search {
-    flex: 1;
-    width: 150px; /* Allow it to expand */
-    max-width: 250px; /* Restrict max width */
-    outline: none;
-  }
-  
-  /* Select Dropdowns (Status and Categories) */
-  .student-clubs-status,
-  .student-clubs-category {
-    width: 100%; /* Same width for the selects */
-  }
-  
-  /* Filter Button */
-  .student-clubs-filter-button {
-    background-color: #161d35;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .student-clubs-filter-button:hover {
-    background-color: #0c1326;
-  }
-  
-  /* Club Card Section */
-  .student-clubs-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  /* Club Card Box */
-  .student-club-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better contrast */
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .student-club-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for emphasis */
-  }
-  
-  /* Club Image */
-  .student-club-img {
-    width: 240px;
-    height: 240px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-  }
-  
-  /* Club Name and Description */
-  .student-club-info h3 {
-    font-size: 1rem;
-    color: #161d35;
-    margin-bottom: 10px;
-  }
-  
-  .student-club-info p {
-    font-size: 1rem;
-    color: #555;
-    margin: 5px 0;
-  }
-  
-  /* Status & Category Tags */
-  .student-club-status,
-  .student-club-category {
-    background-color: #f2f2f2;
-    color: #161d35;
-    padding: 5px 12px;
-    border-radius: 16px;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-  }
-  
-  /* Responsive Design for Smaller Screens */
-  @media (max-width: 768px) {
-    .student-clubs-list {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column for smaller screens */
-    }
-  
-    .student-clubs-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .student-clubs-filters {
-      width: 100%;
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .student-clubs-search,
-    .student-clubs-status,
-    .student-clubs-category,
-    .student-clubs-filter-button {
-      width: 100%;
-    }
-  }
+}
 
-  .student-clubs-container hr {
-    border: 2;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 15px 0;
-  }
+.student-clubs-container hr {
+  border: 2;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 15px 0;
+}

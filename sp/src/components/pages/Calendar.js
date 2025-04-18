@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Calendar.css";
+import EventDetail from "../pages/EventDetail";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetch("/data/events.json")
@@ -15,48 +18,30 @@ const Calendar = () => {
 
   const year = currentMonth.year();
   const month = currentMonth.month();
-
   const startOfMonth = dayjs(new Date(year, month, 1));
   const daysInMonth = startOfMonth.daysInMonth();
   const startDayOfWeek = startOfMonth.day();
 
-  // Build 42 cells
+  // build calendar cells
   const calendarCells = [];
-  for (let i = 0; i < startDayOfWeek; i++) {
-    calendarCells.push(null);
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    calendarCells.push(d);
-  }
-  while (calendarCells.length < 42) {
-    calendarCells.push(null);
-  }
+  for (let i = 0; i < startDayOfWeek; i++) calendarCells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) calendarCells.push(d);
+  while (calendarCells.length < 42) calendarCells.push(null);
 
+  // events for a given day
   const getEventsForDay = (dayNumber) => {
     if (!dayNumber) return [];
     const cellDate = dayjs(new Date(year, month, dayNumber));
-    return events.filter((evt) => {
-      const evtDate = dayjs(evt.date);
-      return evtDate.isSame(cellDate, "day");
-    });
+    return events.filter((evt) => dayjs(evt.date).isSame(cellDate, "day"));
   };
 
-  const goToPreviousMonth = () => {
+  const goToPreviousMonth = () =>
     setCurrentMonth(currentMonth.subtract(1, "month"));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(currentMonth.add(1, "month"));
-  };
-
-  // Handle click on event
-  const handleEventClick = (event) => {
-    alert(`Event: ${event.title}\nDate: ${event.date}`);
-    // Or navigate, or open modal, etc.
-  };
+  const goToNextMonth = () => setCurrentMonth(currentMonth.add(1, "month"));
 
   return (
     <div className="calendar-page">
+      {/* header/nav */}
       <div className="calendar-header">
         <button onClick={goToPreviousMonth} className="nav-arrow">
           <i className="fas fa-chevron-left"></i>
@@ -70,18 +55,14 @@ const Calendar = () => {
         </button>
       </div>
 
-      {/* Day-of-week headers */}
+      {/* day labels */}
       <div className="calendar-grid day-labels">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+          <div key={d}>{d}</div>
+        ))}
       </div>
 
-      {/* Calendar cells */}
+      {/* days */}
       <div className="calendar-grid calendar-days">
         {calendarCells.map((dayNumber, idx) => {
           const dayEvents = getEventsForDay(dayNumber);
@@ -93,7 +74,7 @@ const Calendar = () => {
                   key={i}
                   className="event-tag clickable"
                   title={evt.title}
-                  onClick={() => handleEventClick(evt)}
+                  onClick={() => setSelectedEvent(evt)}
                 >
                   {evt.title}
                 </button>
@@ -102,6 +83,12 @@ const Calendar = () => {
           );
         })}
       </div>
+
+      {/* Reusable detail overlay */}
+      <EventDetail
+        item={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+      />
     </div>
   );
 };

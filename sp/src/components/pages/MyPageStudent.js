@@ -25,28 +25,49 @@ const MyPageStudent = () => {
 
   return (
     <div className="mypage-container">
-      {/* About Me Section */}
       <section className="about-me-section">
-        <h3><i className="fas fa-user"></i> About Me</h3>
+        <div className="section-header">
+          <i className="fas fa-user"></i>
+          <h3>About Me</h3>
+        </div>
+
         <div className="profile-card">
-          <img src="/images/alisher.jpg" alt="Profile" className="profile-img" />
+          <img
+            src="/images/alisher.jpg"
+            alt="Profile"
+            className="profile-img"
+          />
           <div className="profile-info">
             <h4 className="profile-name">Name Surname</h4>
             <div className="profile-grid">
-              <div><i className="fas fa-envelope"></i> name.surname@nu.edu.kz</div>
-              <div><i className="fas fa-phone"></i> +X(XXX)XXX XX XX</div>
-              <div><i className="fas fa-calendar"></i> Year of Study</div>
-              <div><i className="fas fa-book"></i> Major</div>
-              <div><i className="fas fa-map-marker-alt"></i> Department</div>
-              <div><i className="fas fa-graduation-cap"></i> GPA</div>
+              <div>
+                <i className="fas fa-envelope"></i> name.surname@nu.edu.kz
+              </div>
+              <div>
+                <i className="fas fa-phone"></i> +X(XXX)XXX XX XX
+              </div>
+              <div>
+                <i className="fas fa-calendar"></i> Year of Study
+              </div>
+              <div>
+                <i className="fas fa-book"></i> Major
+              </div>
+              <div>
+                <i className="fas fa-map-marker-alt"></i> Department
+              </div>
+              <div>
+                <i className="fas fa-graduation-cap"></i> GPA
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Saved Contacts */}
       <section className="contacts-section">
-        <h3><i className="fas fa-star"></i> Saved Contacts</h3>
+        <div className="section-header">
+          <i className="fas fa-star"></i>
+          <h3>Saved Contacts</h3>
+        </div>
         <div className="contacts-search">
           <input
             type="text"
@@ -73,7 +94,10 @@ const MyPageStudent = () => {
 
       {/* My Clubs */}
       <section className="myclubs-section">
-        <h3><i className="fas fa-paw"></i> My Clubs</h3>
+        <div className="section-header">
+          <i className="fas fa-paw"></i>
+          <h3>My Clubs</h3>
+        </div>
         <div className="clubs-grid">
           {clubs.map((club, index) => (
             <div key={index} className="club-card">
