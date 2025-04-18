@@ -1,10 +1,11 @@
 // src/components/pages/Dashboard.js
 import React, { useState, useEffect } from "react";
-import "../../styles/Dashboard.css";
+import "../../styles/DashboardStudent.css";
 import "../../styles/NewsCards.css";
 import NewsDetail from "./NewsDetail";
 
-const Dashboard = () => {
+
+const DashboardStudent = () => {
   const [news, setNews] = useState([]);
   const [updates, setUpdates] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
@@ -88,4 +89,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardStudent;

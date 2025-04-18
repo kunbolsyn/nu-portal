@@ -1,28 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card } from "react-bootstrap";
-import "../styles/LoginPage.css"; // Ensure correct path
+import "../styles/LoginPage.css";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // ✅ Hook for navigation
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("/data/users.json")
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error("Failed to load users:", err));
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Mock authentication (replace with real API later)
-    if (username === "admin" && password === "Admin123!@#") {
-      localStorage.setItem("isAuthenticated", "true"); // ✅ Save session
-      navigate("/dashboard"); // ✅ Redirect to Dashboard
+    const matchedUser = users.find(
+      (user) => user.username === username && user.password === password
+    );
+
+    if (matchedUser) {
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("userRole", matchedUser.role);
+      localStorage.setItem("username", matchedUser.username);
+
+      navigate("/dashboard");
+      window.location.reload(); // Force reload for route to pick up role
     } else {
-      alert("Invalid username or password!");
+      alert("Invalid username or password.");
     }
   };
 
   return (
     <div className="login-page">
-      {/* Top Bar */}
       <div className="topbar">
         <img
           src={`${process.env.PUBLIC_URL}/NU-logo.png`}
@@ -34,15 +48,12 @@ const LoginPage = () => {
       <Container className="d-flex justify-content-center align-items-center vh-100">
         <Card className="login-card">
           <Card.Body>
-            {/* Title */}
             <h4 className="text-center portal-title">
               Welcome to the internal information portal of <br />
               <strong>NAZARBAYEV UNIVERSITY</strong>
             </h4>
 
-            {/* Login Form */}
             <Form onSubmit={handleLogin}>
-              {/* Username Field */}
               <Form.Group controlId="formBasicUsername">
                 <Form.Control
                   type="text"
@@ -54,7 +65,6 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              {/* Password Field */}
               <Form.Group controlId="formBasicPassword" className="mt-3">
                 <Form.Control
                   type="password"
@@ -66,15 +76,13 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              {/* Login Button */}
               <Button type="submit" className="w-100 mt-4 login-btn">
                 Login
               </Button>
 
-              {/* Google Login Button */}
               <Button className="w-100 mt-2 google-login">
                 <img
-                  src={`${process.env.PUBLIC_URL}/google-logo.png`} // ✅ Fixed Filename Issue
+                  src={`${process.env.PUBLIC_URL}/google-logo.png`}
                   alt="Google logo"
                   className="google-logo"
                 />

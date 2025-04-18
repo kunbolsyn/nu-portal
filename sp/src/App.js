@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react"; // Added missing imports
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import ProtectedLayout from "./components/ProtectedLayout";
-import Dashboard from "./components/pages/Dashboard";
 import News from "./components/pages/News";
 import NewsDetail from "./components/pages/NewsDetail"; // Added missing import
 import Events from "./components/pages/Events";
@@ -11,33 +10,52 @@ import Calendar from "./components/pages/Calendar";
 import Settings from "./components/pages/Settings";
 import StudentClubs from "./components/pages/StudentClubs";
 import SuggestNews from "./components/pages/SuggestNews";
-import MyPage from "./components/pages/MyPage";
 import Phonebook from "./components/pages/Phonebook";
 import EventPlanning from "./components/pages/EventPlanning";
+import DashboardStudent from "./components/pages/DashboardStudent";
+import DashboardDSS from "./components/pages/DashboardDSS";
+import DashboardStaff from "./components/pages/DashboardStaff";
+import MyPageStudent from "./components/pages/MyPageStudent";
+import MyPageDSS from "./components/pages/MyPageDSS";
+import MyPageStaff from "./components/pages/MyPageStaff";
 import "./styles/App.css";
 
 const App = () => {
-  const [news, setNews] = useState([]);
 
-  useEffect(() => {
-    fetch("/data/news.json")
-      .then((res) => res.json())
-      .then((data) => setNews(data))
-      .catch((error) => console.error("Error fetching news:", error));
-  }, []);
+  const userRole = localStorage.getItem("userRole");
 
   return (
     <Router>
       <Routes>
-        {/* Public Route */}
         <Route path="/" element={<LoginPage />} />
 
-        {/* Protected Routes */}
         <Route path="/" element={<ProtectedLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="mypage" element={<MyPage />} />
+          <Route
+            path="dashboard"
+            element={
+              userRole === "dss" ? (
+                <DashboardDSS />
+              ) : userRole === "staff" ? (
+                <DashboardStaff />
+              ) : (
+                <DashboardStudent />
+              )
+            }
+          />
+          <Route
+            path="mypage"
+            element={
+              userRole === "dss" ? (
+                <MyPageDSS />
+              ) : userRole === "staff" ? (
+                <MyPageStaff />
+              ) : (
+                <MyPageStudent />
+              )
+            }
+          />
           <Route path="news" element={<News />} />
-          <Route path="news/:id" element={<NewsDetail news={news} />} />
+
           <Route path="events" element={<Events />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="settings" element={<Settings />} />

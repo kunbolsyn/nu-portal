@@ -44,8 +44,15 @@ const Calendar = () => {
   const goToPreviousMonth = () => {
     setCurrentMonth(currentMonth.subtract(1, "month"));
   };
+
   const goToNextMonth = () => {
     setCurrentMonth(currentMonth.add(1, "month"));
+  };
+
+  // Handle click on event
+  const handleEventClick = (event) => {
+    alert(`Event: ${event.title}\nDate: ${event.date}`);
+    // Or navigate, or open modal, etc.
   };
 
   return (
@@ -82,9 +89,14 @@ const Calendar = () => {
             <div key={idx} className="calendar-cell">
               {dayNumber && <div className="day-number">{dayNumber}</div>}
               {dayEvents.map((evt, i) => (
-                <div key={i} className="event-tag" title={evt.title}>
+                <button
+                  key={i}
+                  className="event-tag clickable"
+                  title={evt.title}
+                  onClick={() => handleEventClick(evt)}
+                >
                   {evt.title}
-                </div>
+                </button>
               ))}
             </div>
           );
