@@ -1,6 +1,7 @@
 // src/components/pages/Dashboard.js
 import React, { useState, useEffect } from "react";
 import "../../styles/Dashboard.css";
+import "../../styles/NewsCards.css";
 import NewsDetail from "./NewsDetail";
 
 const Dashboard = () => {
@@ -40,21 +41,22 @@ const Dashboard = () => {
         <h2>
           <i className="fas fa-newspaper"></i> University News
         </h2>
-        <div className="news-cards">
+        <div className="news-grid">
           {news.map((item, index) => (
             <div
               key={index}
               className="news-card"
               onClick={() => setSelectedNews(item)}
-              style={{ cursor: "pointer" }}
             >
-              {item.image && (
-                <img src={item.image} alt={item.title} className="news-image" />
-              )}
+              {item.image && <img src={item.image} alt={item.title} />}
               <h3>{item.title}</h3>
-              <div className="news-meta">
-                <span>{item.author}</span> | <span>{item.date}</span> |{" "}
-                <span>{item.category}</span>
+              <div className="meta">
+                <p>
+                  <i className="fas fa-user"></i> {item.author}
+                </p>
+                <p>
+                  <i className="fas fa-calendar-alt"></i> {item.date}
+                </p>
               </div>
               <p className="description">{item.content}</p>
             </div>

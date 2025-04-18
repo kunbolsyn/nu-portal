@@ -20,8 +20,8 @@ const NewsDetail = ({ item, onClose }) => {
           <p>
             <i className="fas fa-calendar-alt"></i> {item.date}
           </p>
-          <p className="category">{item.category}</p>
         </div>
+        <p className="category">{item.category}</p>
         <p className="detail-content">{item.content}</p>
       </div>
     </div>

@@ -7,7 +7,7 @@ const EventDetail = ({ item, onClose }) => {
   return (
     <div className="event-detail-backdrop" onClick={onClose}>
       <div className="event-detail-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+        <button className="event-close-btn" onClick={onClose}>
           ×
         </button>
         <img src={item.image} alt={item.title} className="detail-image" />
@@ -19,7 +19,6 @@ const EventDetail = ({ item, onClose }) => {
           <p>
             <i className="fas fa-calendar-alt"></i> {item.date}
           </p>
-          {item.club && <p className="detail-club">{item.club}</p>}
         </div>
         <p className="detail-description">{item.description}</p>
       </div>
