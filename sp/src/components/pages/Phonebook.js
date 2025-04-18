@@ -66,8 +66,9 @@ const Phonebook = () => {
     <div className="phonebook-container">
       <div className="section-header">
         <i className="fas fa-address-book"></i>
-        <h3> Phonebook</h3>
+        <h3>Phonebook</h3>
       </div>
+
       <div className="phonebook-tabs">
         {TABS.map((tab) => (
           <button

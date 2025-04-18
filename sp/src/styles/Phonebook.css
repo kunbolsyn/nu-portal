@@ -2,18 +2,19 @@
   padding: 20px 20px;
   max-width: 100%;
   overflow-x: hidden;
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 .phonebook-tabs {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-  margin-top: 0;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-top: -10px;
+  margin-bottom: 15px;
   border-bottom: 1px solid #ddd;
-  padding: 6px 0;
-  font-size: 0.8rem;
+  padding: 6px 10px;
+  font-size: 0.75rem;
   scrollbar-width: none;
 }
 .phonebook-tabs::-webkit-scrollbar {
@@ -24,7 +25,7 @@
   border: none;
   font-size: 0.85rem;
   font-weight: 500;
-  padding: 6px 12px;
+  padding: 6px 10px;
   cursor: pointer;
   color: #444;
   border-bottom: 2px solid transparent;
@@ -42,53 +43,48 @@
 .phonebook-filters {
   display: flex;
   gap: 10px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 .phonebook-filters input,
 .phonebook-filters select {
-  padding: 7px 10px;
-  font-size: 0.9rem;
+  padding: 8px;
+  font-size: 1rem;
   border-radius: 4px;
   border: 1px solid #ccc;
-  flex: 1 1 180px;
-  max-width: 250px;
 }
 
 .phonebook-table {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background-color: #fff;
+  gap: 10px;
+  background-color: white;
   border-radius: 6px;
-  padding: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  padding: 10px;
 }
 
 .phonebook-row {
   display: flex;
   align-items: center;
   background: white;
-  padding: 10px 14px;
+  padding: 8px 16px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   font-size: 0.85rem;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
-
 .phonebook-row .profile-pic {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 8px; /* Or 50% for circular */
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
 }
 
 .phonebook-row span {
-  flex: 1 1 auto;
-  max-width: 140px;
+  flex: 1 1 0;
+  max-width: 120px;
   min-width: 60px;
   white-space: nowrap;
   overflow: hidden;
@@ -99,21 +95,20 @@
   margin-left: auto;
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #d4a106;
   cursor: pointer;
-  transition: transform 0.2s ease;
 }
 .phonebook-row .star-btn:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 .phonebook-row .saved {
   color: #d4a106;
 }
 
 .pagination-info {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #666;
   text-align: right;
-  padding: 6px 2px;
+  padding: 5px 10px;
 }

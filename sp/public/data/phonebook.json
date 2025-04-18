@@ -1,47 +1,46 @@
 [
-    {
-      "category": "Students",
-      "image": "/images/alisher.jpg",
-      "name": "Alisher Surname",
-      "email": "surname.name@nu.edu.kz",
-      "id": "202100001",
-      "phone": "+7 (777) 123 4567",
-      "school": "School of Engineering",
-      "department": "Computer Science",
-      "gpa": "3.75"
-    },
-    {
-      "category": "Students",
-      "image": "/images/profile.png",
-      "name": "Another Student",
-      "email": "student2@nu.edu.kz",
-      "id": "202100002",
-      "phone": "+7 (777) 234 5678",
-      "school": "School of Sciences",
-      "department": "Physics",
-      "gpa": "3.85"
-    },
-    {
-      "category": "Teaching Staff",
-      "image": "/images/profile.png",
-      "name": "Dr. John Smith",
-      "email": "john.smith@nu.edu.kz",
-      "id": "EMP12345",
-      "phone": "+7 (777) 345 6789",
-      "school": "School of Engineering",
-      "department": "Mechanical Engineering",
-      "gpa": ""
-    },
-    {
-      "category": "University Employees",
-      "image": "/images/profile.png",
-      "name": "Jane Admin",
-      "email": "jane.admin@nu.edu.kz",
-      "id": "ADM67890",
-      "phone": "+7 (777) 456 7890",
-      "school": "",
-      "department": "Registrar’s Office",
-      "gpa": ""
-    }
-  ]
-  
+  {
+    "category": "Students",
+    "image": "/images/alisher.jpg",
+    "name": "Alisher Surname",
+    "email": "surname.name@nu.edu.kz",
+    "id": "202100001",
+    "phone": "+7 (777) 123 4567",
+    "school": "School of Engineering",
+    "department": "Computer Science",
+    "gpa": "3.75"
+  },
+  {
+    "category": "Students",
+    "image": "/images/profile.jpg",
+    "name": "Another Student",
+    "email": "student2@nu.edu.kz",
+    "id": "202100002",
+    "phone": "+7 (777) 234 5678",
+    "school": "School of Sciences",
+    "department": "Physics",
+    "gpa": "3.85"
+  },
+  {
+    "category": "Teaching Staff",
+    "image": "/images/profile.jpg",
+    "name": "Dr. John Smith",
+    "email": "john.smith@nu.edu.kz",
+    "id": "EMP12345",
+    "phone": "+7 (777) 345 6789",
+    "school": "School of Engineering",
+    "department": "Mechanical Engineering",
+    "gpa": ""
+  },
+  {
+    "category": "University Employees",
+    "image": "/images/profile.jpg",
+    "name": "Jane Admin",
+    "email": "jane.admin@nu.edu.kz",
+    "id": "ADM67890",
+    "phone": "+7 (777) 456 7890",
+    "school": "",
+    "department": "Registrar’s Office",
+    "gpa": ""
+  }
+]

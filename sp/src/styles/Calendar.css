@@ -75,16 +75,15 @@
   border: 1px solid #ddd;
 }
 
-/* Calendar Days Container with slightly rounded bottom corners */
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
   background-color: #ccc;
-  flex: 1; /* So it expands to fill vertical space */
+  flex: 1;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  overflow-y: auto; /* If the height is too small, scroll inside */
+  overflow-y: auto;
 }
 
 .calendar-cell {
@@ -93,7 +92,7 @@
   position: relative;
   padding: 5px;
   overflow: hidden;
-  border: 1px solid #ddd; /* Light border around each cell */
+  border: 1px solid #ddd;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -106,7 +105,6 @@
   margin-bottom: 5px;
 }
 
-/* Keep event names in squares, truncated if they exceed width */
 .event-tag {
   background-color: #167ef3;
   color: #fff;
@@ -120,11 +118,10 @@
   max-width: 100%;
 }
 
-/* Clickable event tags inside calendar cells */
 .event-tag.clickable {
-  all: unset; /* remove button defaults */
+  all: unset;
   display: block;
-  background-color: #167ef3; /* same accent color */
+  background-color: #167ef3;
   color: white;
   font-size: 0.75rem;
   padding: 2px 6px;
@@ -137,5 +134,5 @@
 }
 
 .event-tag.clickable:hover {
-  background-color: #136bd4; /* slightly darker on hover */
+  background-color: #136bd4;
 }
