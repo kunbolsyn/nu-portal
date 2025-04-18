@@ -63,6 +63,10 @@
   font-weight: bold;
 }
 
+.sidebar .logout i {
+  color: #ff6b6b;
+}
+
 .sidebar .logout:hover {
   background-color: #ff6b6b;
   color: white;

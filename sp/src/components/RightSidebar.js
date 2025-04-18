@@ -1,4 +1,6 @@
+// src/components/RightSidebar.js
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styles/RightSidebar.css";
@@ -6,6 +8,7 @@ import "../styles/RightSidebar.css";
 const RightSidebar = () => {
   const [date, setDate] = useState(new Date());
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/data/events.json")
@@ -25,6 +28,10 @@ const RightSidebar = () => {
       .catch((err) => console.error("Error loading events:", err));
   }, []);
 
+  const goToEvent = (event) => {
+    navigate("/events", { state: { selectedEvent: event } });
+  };
+
   return (
     <div className="right-sidebar">
       <h4 className="sidebar-title">
@@ -41,17 +48,17 @@ const RightSidebar = () => {
         {upcomingEvents.length === 0 ? (
           <li>No upcoming events</li>
         ) : (
-          upcomingEvents.map((event, index) => (
-            <li key={index}>
-              <a href={`/events`} className="event-link">
+          upcomingEvents.map((event, idx) => (
+            <li key={idx}>
+              <button className="event-link" onClick={() => goToEvent(event)}>
                 {event.title}
                 <br />
                 {new Date(event.date).toLocaleDateString("en-US", {
                   month: "short",
-                  day: "numeric", 
+                  day: "numeric",
                   year: "numeric",
                 })}
-              </a>
+              </button>
             </li>
           ))
         )}

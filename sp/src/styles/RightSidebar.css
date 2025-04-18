@@ -77,6 +77,15 @@
 .event-link {
   color: #161d35;
   text-decoration: none;
+  all: unset;
+  cursor: pointer;
+  text-align: left;
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  padding: 4px 0;
+  line-height: 1.4;
 }
 
 .event-link:hover {
