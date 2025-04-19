@@ -1,94 +1,141 @@
-/* Right Sidebar Container */
 .right-sidebar {
-  width: 250px;
-  background-color: #f5f5f5;
+  width: 280px;
+  padding: 12px;
+  font-family: "Inter", sans-serif;
   color: #161d35;
-  padding: 15px;
-  height: 100vh;
   position: fixed;
-  right: 0;
   top: 0;
-  display: flex;
-  flex-direction: column;
+  right: 0;
+  height: 100vh;
   overflow-y: auto;
+  background-color: #fafafa;
+  border-left: 1px solid #ccc;
 }
 
-/* Sidebar Titles */
-.right-sidebar .sidebar-title,
-.right-sidebar .events-title {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  color: #161d35;
-  font-family: "Inter", sans-serif;
+.calendar-card {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 8px;
 }
 
-/* Calendar Container */
-.right-sidebar .calendar-container {
-  margin-bottom: 15px;
+.events-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #161d35;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
-/* Override React Calendar Styles */
-.right-sidebar .mini-calendar,
-.right-sidebar .react-calendar {
-  background: transparent !important;
-  border: none !important;
-  font-family: "Inter", sans-serif !important;
-  color: #161d35;
-  font-size: 0.9rem; /* ⬅️ Shrink calendar text */
+.card-header i {
+  font-size: 1rem;
 }
 
-/* Calendar Navigation & Tiles */
-.right-sidebar .react-calendar__navigation,
-.right-sidebar .react-calendar__tile {
-  background: transparent !important;
-  border: none !important;
-  font-family: "Inter", sans-serif !important;
-}
-
-/* Event List Styling */
-.right-sidebar .event-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: #161d35;
-}
-
-.right-sidebar .event-list li {
-  margin-bottom: 6px; /* ⬅️ Slightly less spacing */
-  font-size: 0.85rem; /* ⬅️ Smaller font */
+.mini-calendar {
+  width: 100%;
+  border: none;
   font-family: "Inter", sans-serif;
 }
 
-.event-list li {
-  cursor: pointer;
+.mini-calendar .react-calendar__tile {
+  padding: 6px 0;
+  font-size: 0.8rem;
+}
+
+.mini-calendar .react-calendar__tile--now {
+  background: #161d35 !important;
+  color: #fff !important;
+}
+
+.mini-calendar .react-calendar__tile--active {
+  background: #4599ad !important;
+  color: #fff !important;
+  border-radius: 100%;
+}
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+  margin-top: -5px;
+}
+
+.react-calendar__navigation button {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  padding: 4px 6px;
   color: #161d35;
-  padding: 3px 0;
+  font-weight: 500;
+  cursor: pointer;
   transition: color 0.2s;
-  font-size: 0.85rem;
 }
 
-.event-list li:hover {
-  color: #167ef3;
-  text-decoration: underline;
+.react-calendar__navigation__label {
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.event-link {
-  color: #161d35;
-  text-decoration: none;
-  all: unset;
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+.upcoming-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.upcoming-item + .upcoming-item {
+  margin-top: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upcoming-content {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 8px 10px;
   cursor: pointer;
-  text-align: left;
-  display: block;
-  width: 100%;
-  font: inherit;
-  color: inherit;
-  padding: 3px 0;
-  line-height: 1.3;
+  transition: background 0.2s;
 }
 
-.event-link:hover {
-  text-decoration: underline;
-  color: #1a47d4;
+.upcoming-content:hover {
+  background: rgba(69, 153, 173, 0.3);
+}
+
+.ue-title {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #161d35;
+}
+
+.ue-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.ue-meta i {
+  color: #161d35;
+}
+
+.no-events {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+  padding: 12px 0;
 }

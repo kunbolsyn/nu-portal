@@ -1,10 +1,7 @@
-// App.js
-import React, { useState, useEffect } from "react"; // Added missing imports
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import ProtectedLayout from "./components/ProtectedLayout";
 import News from "./components/pages/News";
-import NewsDetail from "./components/pages/NewsDetail"; // Added missing import
 import Events from "./components/pages/Events";
 import Calendar from "./components/pages/Calendar";
 import Settings from "./components/pages/Settings";
@@ -18,10 +15,12 @@ import DashboardStaff from "./components/pages/DashboardStaff";
 import MyPageStudent from "./components/pages/MyPageStudent";
 import MyPageDSS from "./components/pages/MyPageDSS";
 import MyPageStaff from "./components/pages/MyPageStaff";
+import Requests from "./components/pages/Requests";
+import Payments from "./components/pages/Payments";
+import Booking from "./components/pages/Booking";
 import "./styles/App.css";
 
 const App = () => {
-
   const userRole = localStorage.getItem("userRole");
 
   return (
@@ -55,7 +54,6 @@ const App = () => {
             }
           />
           <Route path="news" element={<News />} />
-
           <Route path="events" element={<Events />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="settings" element={<Settings />} />
@@ -63,6 +61,9 @@ const App = () => {
           <Route path="suggest-news" element={<SuggestNews />} />
           <Route path="phonebook" element={<Phonebook />} />
           <Route path="event-planning" element={<EventPlanning />} />
+          <Route path="requests" element={<Requests />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="booking" element={<Booking />} />
         </Route>
       </Routes>
     </Router>

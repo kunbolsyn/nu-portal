@@ -2,67 +2,70 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styles/RightSidebar.css";
-import EventDetail from "../components/pages/EventDetail"; // ✅ if it's directly under /pages
+import EventDetail from "../components/pages/EventDetail";
 
 const RightSidebar = () => {
   const [date, setDate] = useState(new Date());
   const [upcomingEvents, setUpcomingEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null); // ✅
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetch("/data/events.json")
       .then((res) => res.json())
       .then((events) => {
         const now = new Date();
-        const twoWeeksFromNow = new Date(now);
-        twoWeeksFromNow.setDate(now.getDate() + 14);
-
-        const filtered = events.filter((event) => {
-          const eventDate = new Date(event.date);
-          return eventDate >= now && eventDate <= twoWeeksFromNow;
-        });
-
-        setUpcomingEvents(filtered);
+        const inTwoWeeks = new Date(now);
+        inTwoWeeks.setDate(now.getDate() + 14);
+        setUpcomingEvents(
+          events.filter((e) => {
+            const d = new Date(e.date);
+            return d >= now && d <= inTwoWeeks;
+          })
+        );
       })
-      .catch((err) => console.error("Error loading events:", err));
+      .catch(console.error);
   }, []);
-
-  const goToEvent = (event) => {
-    setSelectedEvent(event);
-  };
 
   return (
     <div className="right-sidebar">
-      <h4 className="sidebar-title">
-        {date.toLocaleString("default", { month: "long" })}{" "}
-        <span className="year">{date.getFullYear()}</span>
-      </h4>
-
-      <div className="calendar-container">
+      <div className="calendar-card">
         <Calendar onChange={setDate} value={date} className="mini-calendar" />
       </div>
 
-      <h4 className="events-title">Upcoming Events</h4>
-      <ul className="event-list">
-        {upcomingEvents.length === 0 ? (
-          <li>No upcoming events</li>
-        ) : (
-          upcomingEvents.map((event, idx) => (
-            <li key={idx}>
-              <button className="event-link" onClick={() => goToEvent(event)}>
-                {event.title}
-                <br />
-                {new Date(event.date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </button>
-            </li>
-          ))
-        )}
-      </ul>
+      <div className="card-header">
+        <i className="fas fa-bell"></i>
+        <span>Upcoming Events</span>
+      </div>
 
+      <div className="events-card">
+        <ul className="upcoming-list">
+          {upcomingEvents.length === 0 ? (
+            <li className="no-events">No upcoming events</li>
+          ) : (
+            upcomingEvents.map((evt, i) => (
+              <li key={i} className="upcoming-item">
+                <div
+                  className="upcoming-content"
+                  onClick={() => setSelectedEvent(evt)}
+                >
+                  <h5 className="ue-title">{evt.title}</h5>
+                  <div className="ue-meta">
+                    <i className="fas fa-calendar-check"></i>
+                    <span>
+                      {new Date(evt.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+
+      {/* Overlay Detail */}
       <EventDetail
         item={selectedEvent}
         onClose={() => setSelectedEvent(null)}
