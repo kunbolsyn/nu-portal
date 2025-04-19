@@ -1,6 +1,5 @@
 .right-sidebar {
   width: 280px;
-  background: #f9f9f9;
   padding: 12px;
   font-family: "Inter", sans-serif;
   color: #161d35;
@@ -9,6 +8,8 @@
   right: 0;
   height: 100vh;
   overflow-y: auto;
+  background-color: #fafafa;
+  border-left: 1px solid #ccc;
 }
 
 .calendar-card {
@@ -66,6 +67,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0px;
+  margin-top: -5px;
 }
 
 .react-calendar__navigation button {

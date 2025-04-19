@@ -1,9 +1,8 @@
-/* Sidebar Container */
 .sidebar {
   width: 220px;
   background-color: #0c1a33;
   color: white;
-  padding: 15px; /* ⬅️ Less padding */
+  padding: 15px;
   height: 100vh;
   position: fixed;
   left: 0;
@@ -15,31 +14,27 @@
   overflow-x: hidden;
 }
 
-/* Optional: Hide scrollbar (Chrome/Edge/Safari) */
 .sidebar::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
 
-/* Optional: Hide scrollbar (Firefox) */
 .sidebar {
   scrollbar-width: none;
 }
 
-/* Full NU Logo */
 .full-logo {
-  width: 150px; /* ⬅️ Smaller logo */
+  width: 150px;
   height: auto;
   margin-bottom: 15px;
 }
 
-/* Sidebar Navigation */
 .sidebar .nav-link {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px; /* ⬅️ Smaller font */
+  font-size: 14px;
   display: flex;
   align-items: center;
-  padding: 10px 15px; /* ⬅️ Reduced padding */
+  padding: 10px 15px;
   transition: all 0.3s ease;
   border-radius: 6px;
   text-decoration: none;
@@ -47,41 +42,10 @@
   opacity: 1;
 }
 
-/* Active Page */
 .sidebar .nav-link.active {
   background-color: rgba(255, 255, 255, 0.15);
   font-weight: bold;
-  color: white;
-}
-
-/* Sidebar Icons */
-.sidebar .nav-link i {
-  font-size: 15px; /* ⬅️ Slightly smaller */
-  margin-right: 8px; /* ⬅️ Adjust spacing */
-  color: white;
-}
-
-/* Divider Line */
-.sidebar hr {
-  border: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 10px 0;
-}
-
-/* Logout Button */
-.sidebar .logout {
-  color: #ff6b6b;
-  font-weight: bold;
-}
-
-.sidebar .logout i {
-  color: #ff6b6b;
-}
-
-.sidebar .logout:hover {
-  background-color: #ff6b6b;
-  color: white;
+  color: white !important;
 }
 
 .sidebar .nav-link:hover {
@@ -90,4 +54,17 @@
 
 .sidebar .nav-link:hover i {
   color: white !important;
+}
+
+.sidebar .nav-link i {
+  font-size: 15px;
+  margin-right: 8px;
+  color: white;
+}
+
+.sidebar hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 10px 0;
 }

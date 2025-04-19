@@ -18,14 +18,11 @@ const News = () => {
     return <div className="news-page">Loading news...</div>;
   }
 
-  // Divide news into sections
   const featured = news[0];
   const sideNews = news.slice(1, 3);
-  const gridNews = news.slice(3);
 
   return (
     <div className="news-page">
-      {/* Top Section: Featured and Side News */}
       <section className="news-hero">
         <div
           className="featured-news"
@@ -58,7 +55,10 @@ const News = () => {
         </div>
       </section>
 
-      {/* Filter Bar */}
+      <div className="section-header">
+        <i className="fas fa-newspaper"></i>
+        <h3>University News</h3>
+      </div>
       <div className="news-filters">
         <input type="text" placeholder="Search..." />
         <select>
@@ -70,7 +70,6 @@ const News = () => {
         <button>Filter</button>
       </div>
 
-      {/* Grid of News Cards */}
       <div className="news-grid">
         {news.map((item, index) => (
           <div
