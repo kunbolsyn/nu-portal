@@ -28,7 +28,7 @@ const RightSidebar = () => {
   }, []);
 
   const goToEvent = (event) => {
-    setSelectedEvent(event); // ✅ show modal
+    setSelectedEvent(event);
   };
 
   return (
@@ -63,7 +63,6 @@ const RightSidebar = () => {
         )}
       </ul>
 
-      {/* ✅ Show event modal */}
       <EventDetail
         item={selectedEvent}
         onClose={() => setSelectedEvent(null)}
