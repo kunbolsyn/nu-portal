@@ -46,6 +46,16 @@ const Sidebar = () => {
         </Nav.Link>
 
         <hr />
+        <Nav.Link as={Link} to="/requests" className={isActive("/requests")}>
+          <i className="fas fa-file-alt"></i> Requests
+        </Nav.Link>
+        <Nav.Link as={Link} to="/payments" className={isActive("/payments")}>
+          <i className="fas fa-credit-card"></i> Payments
+        </Nav.Link>
+        <Nav.Link as={Link} to="/booking" className={isActive("/booking")}>
+          <i className="fas fa-door-open"></i> Room Booking
+        </Nav.Link>
+        <hr />
 
         {userRole !== "staff" && (
           <Nav.Link
