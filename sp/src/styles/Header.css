@@ -12,6 +12,23 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.hamburger-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hamburger-btn-icon {
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
 /* 🟢 Search Bar */
 .search-container {
   display: flex;
