@@ -1,0 +1,168 @@
+.section-header i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+
+.section-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #161d35;
+}
+
+.booking-container {
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+  color: #161d35;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── CARDS ── */
+.booking-card {
+  background: #fff;
+  width: 100%;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* ── USER INFO ROWS ── */
+.user-info-card .user-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
+  margin-bottom: 10px;
+}
+
+.user-info-card .label {
+  font-weight: 600;
+  width: 140px;
+  color: #0d1b3e;
+}
+
+.user-info-card .value {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* ── BOOKING FORM ── */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Labels */
+.booking-form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #0d1b3e;
+}
+
+/* Inputs, selects, textarea */
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Time Range Row */
+.time-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.time-range input {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Clubs / Room select grouping can use same styles */
+
+/* Availability Banner */
+.availability {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Room Details */
+.room-details p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Purpose textarea override */
+.booking-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ── BUTTONS ── */
+.buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background-color: #0d1b3e;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0b1630;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .time-range {
+    flex-direction: column;
+  }
+  .user-info-card .user-info-row {
+    flex-direction: column;
+  }
+  .buttons-row {
+    justify-content: center;
+  }
+}
