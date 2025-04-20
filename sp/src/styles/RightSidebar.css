@@ -1,17 +1,3 @@
-.right-sidebar {
-  width: 280px;
-  padding: 12px;
-  font-family: "Inter", sans-serif;
-  color: #161d35;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  overflow-y: auto;
-  background-color: #fafafa;
-  border-left: 1px solid #ccc;
-}
-
 .calendar-card {
   background: #fff;
   border-radius: 8px;

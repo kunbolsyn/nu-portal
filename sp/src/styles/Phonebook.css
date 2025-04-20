@@ -1,8 +1,10 @@
 .phonebook-container {
   padding: 20px 20px;
-  max-width: 100%;
+  width: 100%;
   overflow-x: hidden;
   font-family: Inter, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .phonebook-tabs {

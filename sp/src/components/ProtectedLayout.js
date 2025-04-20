@@ -11,10 +11,13 @@ const ProtectedLayout = () => {
   return isAuthenticated ? (
     <div className="app-layout">
       <Sidebar />
-      <div className="main-content">
+      <div className="page-container">
         <Header />
-        <Outlet />
+        <div className="main-content">
+          <Outlet />
+        </div>
       </div>
+
       <RightSidebar />
     </div>
   ) : (
