@@ -1,4 +1,4 @@
-.sidebar {
+.left-sidebar {
   width: 220px;
   background-color: #0c1a33;
   color: white;
@@ -16,7 +16,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.sidebar::-webkit-scrollbar {
+.left-sidebar::-webkit-scrollbar {
   width: 0;
   background: transparent;
 }
@@ -92,7 +92,7 @@
     margin-left: 0 !important;
   }
 
-  .sidebar {
+  .left-sidebar {
     transform: translateX(-100%);
     position: fixed;
     z-index: 1000;
@@ -101,7 +101,7 @@
     background-color: #0c1a33;
   }
 
-  .sidebar.open-mobile {
+  .left-sidebar.open-mobile {
     transform: translateX(0);
   }
 

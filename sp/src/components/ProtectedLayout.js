@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import LeftSidebar from "./LeftSidebar";
 import Header from "./Header";
 import RightSidebar from "./RightSidebar";
 import "../styles/App.css";
@@ -20,7 +20,7 @@ const ProtectedLayout = () => {
 
   return isAuthenticated ? (
     <div className="app-layout">
-      <Sidebar isOpen={mobileSidebarOpen} onClose={closeSidebar} />
+      <LeftSidebar isOpen={mobileSidebarOpen} onClose={closeSidebar} />
       <div className="page-container">
         <Header onToggleSidebar={toggleSidebar} />
         <div className="main-content">
