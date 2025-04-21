@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Events.css";
 import EventDetail from "./EventDetail";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Events = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(
     location.state?.selectedEvent || null
@@ -25,13 +24,6 @@ const Events = () => {
       setSelectedEvent(location.state.selectedEvent);
     }
   }, [location.state]);
-
-  // 3) Helper: clear both local and navigation state on close
-  const closeOverlay = () => {
-    setSelectedEvent(null);
-    // Replace entry to clear out location.state without changing URL
-    navigate(location.pathname, { replace: true, state: {} });
-  };
 
   if (!events.length) {
     return <div className="events-page">Loading events...</div>;

@@ -1,7 +1,31 @@
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 60px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+
 .full-logo {
   width: 150px;
   height: auto;
-  margin-bottom: 15px;
+}
+
+.close-sidebar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close-sidebar-icon {
+  font-size: 20px;
+  color: white;
 }
 
 .sidebar .nav-link {

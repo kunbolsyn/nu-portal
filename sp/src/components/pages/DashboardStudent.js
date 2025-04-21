@@ -4,25 +4,26 @@ import "../../styles/DashboardStudent.css";
 import "../../styles/NewsCards.css";
 import NewsDetail from "./NewsDetail";
 
-
 const DashboardStudent = () => {
   const [news, setNews] = useState([]);
   const [updates, setUpdates] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
 
   useEffect(() => {
-    // Fetch news data
     fetch("/data/news.json")
       .then((res) => res.json())
       .then((data) => setNews(data))
       .catch((error) => console.error("Error fetching news:", error));
 
-    // Fetch updates data
     fetch("/data/updates.json")
       .then((res) => res.json())
       .then((data) => setUpdates(data))
       .catch((error) => console.error("Error fetching updates:", error));
   }, []);
+
+  if (news.length === 0) {
+    return <div className="dashboard">Loading dashboard...</div>;
+  }
 
   return (
     <div className="dashboard">

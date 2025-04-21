@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../styles/Header.css";
 
-const Header = () => {
+const Header = ({ onToggleSidebar }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -24,16 +24,26 @@ const Header = () => {
 
   return (
     <div className="header">
-      {/* Search Bar */}
-      <div className="search-container">
-        <Form className="search-form">
-          <div className="search-box">
-            <i className="fas fa-search search-icon"></i>
-            <input type="text" placeholder="Search" className="search-input" />
-          </div>
-        </Form>
+      <div className="header-left">
+        <div className="hamburger-btn">
+          <i
+            className="fas fa-bars hamburger-btn-icon"
+            onClick={onToggleSidebar}
+          ></i>
+        </div>
+        <div className="search-container">
+          <Form className="search-form">
+            <div className="search-box">
+              <i className="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-input"
+              />
+            </div>
+          </Form>
+        </div>
       </div>
-
       {/* Profile & Notifications */}
       <div className="profile-section" ref={menuRef}>
         <i className="fas fa-bell notification-icon"></i>

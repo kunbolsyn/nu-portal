@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
 import "../../styles/Calendar.css";
 import EventDetail from "../pages/EventDetail";
 
