@@ -104,3 +104,17 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* ==== HOVER ANIMATION FOR NEWS CARDS ==== */
+
+.news-card,
+.side-news-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover,
+.side-news-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+

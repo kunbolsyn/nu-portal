@@ -22,7 +22,7 @@ const ClubDetail = ({ item, onClose }) => {
             <img
               src={`/images/${item.logo}`}
               alt={item.name}
-              className="detail-image"
+              className="club-detail-image"
             />
           </div>
           <div className="text-section">

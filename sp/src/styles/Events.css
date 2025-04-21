@@ -177,3 +177,15 @@
   color: #333;
   margin-bottom: 0px;
 }
+
+/* Hover animation for event cards (same as student clubs) */
+.event-card,
+.featured-event-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.event-card:hover,
+.featured-event-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 0, 0, 0.2);
+}
