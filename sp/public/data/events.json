@@ -1,7 +1,7 @@
 [
   {
     "title": "Student Film Festival To Showcase Local Talent",
-    "date": "2025-04-20",
+    "date": "2025-04-30",
     "venue": "Main Hall",
     "startTime": "14:00",
     "endTime": "16:00",
@@ -12,7 +12,7 @@
   },
   {
     "title": "AI Innovations Workshop",
-    "date": "2025-04-20",
+    "date": "2025-04-28",
     "venue": "8.103",
     "startTime": "10:00",
     "endTime": "12:00",
@@ -23,7 +23,7 @@
   },
   {
     "title": "Business Networking Event",
-    "date": "2025-04-17",
+    "date": "2025-04-25",
     "venue": "Upper Atrium",
     "startTime": "17:00",
     "endTime": "19:00",
@@ -34,7 +34,7 @@
   },
   {
     "title": "Open Mic Night",
-    "date": "2025-04-19",
+    "date": "2025-04-25",
     "venue": "Ballroom Left",
     "startTime": "18:00",
     "endTime": "21:00",
@@ -45,7 +45,7 @@
   },
   {
     "title": "Coding Bootcamp Demo Day",
-    "date": "2025-04-23",
+    "date": "2025-05-01",
     "venue": "Green Hall",
     "startTime": "15:00",
     "endTime": "17:00",

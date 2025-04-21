@@ -1,0 +1,106 @@
+.club-detail-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+  
+  .club-detail-modal {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    width: 60vw;
+    height: 80vh;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 10001;
+  }
+  
+  .club-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .club-close-btn:hover {
+    background: #eee;
+  }
+  
+  .club-detail-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .image-section {
+    flex: 1;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .detail-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .text-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .detail-title {
+    margin: 0 0 12px;
+    font-size: 1.4rem;
+    color: #161d35;
+    max-width: calc(100% - 40px);
+    word-wrap: break-word;
+  }
+  
+  .detail-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  .detail-meta i {
+    color: #161d35;
+    margin-right: 6px;
+  }
+  
+  .scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollable-content::-webkit-scrollbar {
+    display: none;
+  }
+  .detail-description {
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+  }
+  

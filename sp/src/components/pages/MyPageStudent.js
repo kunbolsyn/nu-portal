@@ -7,6 +7,12 @@ const MyPageStudent = () => {
   const [clubs, setClubs] = useState([]);
   const [search, setSearch] = useState("");
 
+  const handleContactClick = (contact) => {
+    alert(`You clicked on ${contact.name}`);
+    // TODO: navigate, show modal, or log details
+  };
+  
+
   useEffect(() => {
     fetch("/data/student_clubs.json")
       .then((res) => res.json())
@@ -80,12 +86,20 @@ const MyPageStudent = () => {
           </button>
         </div>
         <div className="contacts-grid">
-          {filteredContacts.map((contact, index) => (
-            <div key={index} className="contact-card">
-              <img src={contact.image} alt={contact.name} />
-              <p>{contact.name}</p>
-            </div>
-          ))}
+        {filteredContacts.map((contact, index) => (
+  <div
+    key={index}
+    className="contact-card clickable"
+    onClick={() => handleContactClick(contact)}
+    tabIndex={0}
+    role="button"
+    onKeyDown={(e) => e.key === "Enter" && handleContactClick(contact)}
+  >
+    <img src={contact.image} alt={contact.name} />
+    <p>{contact.name}</p>
+  </div>
+))}
+
         </div>
         <div className="pagination-info">
           1–{filteredContacts.length} of {contacts.length}

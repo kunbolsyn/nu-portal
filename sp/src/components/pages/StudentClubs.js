@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/StudentClubs.css";
+import ClubDetail from "./ClubDetail"; // <-- NEW
+import { useLocation, useNavigate } from "react-router-dom"; // <-- NEW
 
 const StudentClubs = () => {
   const [clubs, setClubs] = useState([]);
@@ -7,15 +9,28 @@ const StudentClubs = () => {
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterCategory, setFilterCategory] = useState("");
 
+  const location = useLocation(); // <-- NEW
+  const navigate = useNavigate(); // <-- NEW
+  const [selectedClub, setSelectedClub] = useState(location.state?.selectedClub || null); // <-- NEW
+
   useEffect(() => {
-    // Fetch data from student_clubs.json
     fetch("/data/student_clubs.json")
       .then((response) => response.json())
       .then((data) => setClubs(data))
       .catch((error) => console.error("Error fetching clubs data:", error));
   }, []);
 
-  // Filter clubs based on status, category, and search query
+  useEffect(() => {
+    if (location.state?.selectedClub) {
+      setSelectedClub(location.state.selectedClub);
+    }
+  }, [location.state]);
+
+  const closeOverlay = () => {
+    setSelectedClub(null);
+    navigate(location.pathname, { replace: true, state: {} });
+  };
+
   const filteredClubs = clubs.filter((club) => {
     const matchesStatus =
       filterStatus === "All" || club.status === filterStatus;
@@ -31,7 +46,6 @@ const StudentClubs = () => {
 
   return (
     <div className="student-clubs-container">
-      {/* Header with filters */}
       <div className="section-header">
         <i className="fas fa-users"></i>
         <h3 className="student-clubs-title">Student Clubs</h3>
@@ -67,12 +81,16 @@ const StudentClubs = () => {
         <button className="student-clubs-filter-button">Filter</button>
       </div>
 
-      {/* Displaying filtered clubs */}
       <div className="student-clubs-list">
         {filteredClubs.map((club, index) => (
-          <div key={index} className="student-club-card">
+          <div
+            key={index}
+            className="student-club-card"
+            onClick={() => setSelectedClub(club)}
+            style={{ cursor: "pointer" }}
+          >
             <img
-              src={`/images/${club.logo}`} // Assuming logo is in /images/ directory
+              src={`/images/${club.logo}`}
               alt={club.name}
               className="student-club-img"
             />
@@ -92,6 +110,9 @@ const StudentClubs = () => {
           </div>
         ))}
       </div>
+
+      {/* Modal Detail Overlay */}
+      <ClubDetail item={selectedClub} onClose={closeOverlay} />
     </div>
   );
 };
