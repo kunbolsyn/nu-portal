@@ -1,4 +1,3 @@
-/* ── BACKDROP ── */
 .event-detail-backdrop {
   position: fixed;
   inset: 0;
@@ -6,10 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000; /* raised */
+  z-index: 10000;
+  font-family: Inter, sans-serif;
 }
 
-/* ── MODAL ── */
 .event-detail-modal {
   position: relative;
   background: #fff;
@@ -22,7 +21,6 @@
   z-index: 10001; /* raised */
 }
 
-/* ── CLOSE BUTTON ── */
 .event-close-btn {
   position: absolute;
   top: 10px;

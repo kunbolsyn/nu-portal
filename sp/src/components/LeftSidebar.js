@@ -20,10 +20,12 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           />
         </Link>
         <div className="close-left-sidebar-btn">
-          <i className="fas fa-bars close-left-sidebar-icon" onClick={onClose}></i>
+          <i
+            className="fas fa-times close-left-sidebar-icon"
+            onClick={onClose}
+          ></i>
         </div>
       </div>
-
 
       <hr />
       <Nav className="flex-column">
@@ -36,7 +38,7 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-home"></i> Dashboard
         </Nav.Link>
 
-{/*///////////////////////////////////////////////////////////////////////////////////*/}
+        {/*///////////////////////////////////////////////////////////////////////////////////*/}
         <hr />
         <Nav.Link
           as={Link}
@@ -47,7 +49,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-newspaper"></i> University News
         </Nav.Link>
 
-
         <Nav.Link
           as={Link}
           to="/events"
@@ -56,7 +57,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
         >
           <i className="fas fa-clock"></i> Campus Events
         </Nav.Link>
-
 
         <Nav.Link
           as={Link}
@@ -67,7 +67,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-calendar-alt"></i> Event Calendar
         </Nav.Link>
 
-
         <Nav.Link
           as={Link}
           to="/phonebook"
@@ -76,7 +75,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
         >
           <i className="fas fa-address-book"></i> Phonebook
         </Nav.Link>
-
 
         <Nav.Link
           as={Link}
@@ -87,7 +85,7 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-university"></i> Infocenter
         </Nav.Link>
 
-{/*///////////////////////////////////////////////////////////////////////////////////*/}
+        {/*///////////////////////////////////////////////////////////////////////////////////*/}
         <hr />
         {userRole === "student" && (
           <Nav.Link
@@ -100,7 +98,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           </Nav.Link>
         )}
 
-
         {userRole === "usm" && (
           <Nav.Link
             as={Link}
@@ -111,7 +108,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
             <i className="fas fa-vote-yea"></i> Request Management
           </Nav.Link>
         )}
-
 
         {userRole !== "dss" && (
           <Nav.Link
@@ -124,7 +120,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           </Nav.Link>
         )}
 
-
         {userRole === "dss" && (
           <Nav.Link
             as={Link}
@@ -135,7 +130,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
             <i className="fas fa-mail-bulk"></i> Event Management
           </Nav.Link>
         )}
-
 
         {userRole === "dss" && (
           <Nav.Link
@@ -148,7 +142,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           </Nav.Link>
         )}
 
-
         {userRole === "dss" && (
           <Nav.Link
             as={Link}
@@ -160,7 +153,7 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           </Nav.Link>
         )}
 
-{/*///////////////////////////////////////////////////////////////////////////////////*/}
+        {/*///////////////////////////////////////////////////////////////////////////////////*/}
         <hr />
         <Nav.Link
           as={Link}
@@ -171,7 +164,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-tasks"></i> Event Planning
         </Nav.Link>
 
-
         <Nav.Link
           as={Link}
           to="/requests"
@@ -180,7 +172,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
         >
           <i className="fas fa-edit"></i> Requests
         </Nav.Link>
-
 
         <Nav.Link
           as={Link}
@@ -191,7 +182,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           <i className="fas fa-door-open"></i> Room Booking
         </Nav.Link>
 
-
         <Nav.Link
           as={Link}
           to="/payments"
@@ -199,9 +189,7 @@ const LeftSidebar = ({ isOpen, onClose }) => {
           onClick={onClose}
         >
           <i className="fas fa-credit-card"></i> Payments
-        </Nav.Link>        
-
-
+        </Nav.Link>
       </Nav>
     </div>
   );

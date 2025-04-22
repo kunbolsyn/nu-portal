@@ -109,13 +109,13 @@
     display: inline;
   }
 
-  .close-sidebar-btn {
+  .close-left-sidebar-btn {
     display: inline;
   }
 }
 
 @media (min-width: 769px) {
-  .close-sidebar-btn {
+  .close-left-sidebar-btn {
     display: none;
   }
 

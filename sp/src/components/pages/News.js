@@ -8,9 +8,32 @@ const News = () => {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch("/data/news.json")
-      .then((res) => res.json())
-      .then((data) => setNews(data))
+    const token = localStorage.getItem("token");
+
+    fetch("https://senior-project-java-backend.onrender.com/api/news/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch news");
+        return res.json();
+      })
+      .then((data) => {
+        const transformed = data.map((item) => ({
+          id: item.news_id,
+          title: item.newsTitle,
+          author: item.author || "Unknown",
+          date: item.newsDatePosted,
+          content: item.text_content,
+          image:
+            item.photos.length > 0
+              ? item.photos[0].filePath
+              : "/default-news.jpg", // fallback image
+          raw: item, // save raw data in case needed in detail view
+        }));
+        setNews(transformed);
+      })
       .catch((error) => console.error("Error fetching news:", error));
   }, []);
 
@@ -59,21 +82,11 @@ const News = () => {
         <i className="fas fa-newspaper"></i>
         <h3>University News</h3>
       </div>
-      <div className="news-filters">
-        <input type="text" placeholder="Search..." />
-        <select>
-          <option value="">All Categories</option>
-          <option value="Articles">Articles</option>
-          <option value="Community">Community</option>
-          <option value="Notices">Notices</option>
-        </select>
-        <button>Filter</button>
-      </div>
 
       <div className="news-grid">
-        {news.map((item, index) => (
+        {news.map((item) => (
           <div
-            key={index}
+            key={item.id}
             className="news-card"
             onClick={() => setSelected(item)}
             style={{ cursor: "pointer" }}
@@ -93,7 +106,6 @@ const News = () => {
         ))}
       </div>
 
-      {/* Detail Overlay */}
       <NewsDetail item={selected} onClose={() => setSelected(null)} />
     </div>
   );
