@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "../styles/LoginPage.css";
@@ -6,32 +6,44 @@ import "../styles/LoginPage.css";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("/data/users.json")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error("Failed to load users:", err));
-  }, []);
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const matchedUser = users.find(
-      (user) => user.username === username && user.password === password
-    );
+    try {
+      const response = await fetch(
+        "https://senior-project-java-backend.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: username, password }),
+        }
+      );
 
-    if (matchedUser) {
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", matchedUser.role);
-      localStorage.setItem("username", matchedUser.username);
+      if (response.status === 200) {
+        const authHeader = response.headers.get("Authorization");
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+          const token = authHeader.split(" ")[1];
+          localStorage.setItem("token", token);
+          localStorage.setItem("isAuthenticated", "true");
+          localStorage.setItem("userRole", "student"); // you can update this based on response later
+          localStorage.setItem("username", username);
 
-      navigate("/dashboard");
-      window.location.reload(); // Force reload for route to pick up role
-    } else {
-      alert("Invalid username or password.");
+          console.log(token);
+          navigate("/dashboard");
+          window.location.reload(); // Force refresh to apply role-based routing
+        } else {
+          alert("Login successful, but token not received.");
+        }
+      } else {
+        alert("Invalid username or password.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Something went wrong during login.");
     }
   };
 
@@ -89,6 +101,30 @@ const LoginPage = () => {
                 <span>Login using Google</span>
               </Button>
             </Form>
+
+            {/* 🔒 Previous local login logic (commented out for backup)
+            useEffect(() => {
+              fetch("/data/users.json")
+                .then((res) => res.json())
+                .then((data) => setUsers(data))
+                .catch((err) => console.error("Failed to load users:", err));
+            }, []);
+
+            const matchedUser = users.find(
+              (user) => user.username === username && user.password === password
+            );
+
+            if (matchedUser) {
+              localStorage.setItem("isAuthenticated", "true");
+              localStorage.setItem("userRole", matchedUser.role);
+              localStorage.setItem("username", matchedUser.username);
+
+              navigate("/dashboard");
+              window.location.reload(); // Force reload for route to pick up role
+            } else {
+              alert("Invalid username or password.");
+            }
+            */}
           </Card.Body>
         </Card>
       </Container>
