@@ -3,53 +3,92 @@ import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "../styles/LoginPage.css";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const API_BASE = "https://senior-project-java-backend.onrender.com";
 
-  const [isLoading, setIsLoading] = useState(false); // ✅ Add this line for loading state
+const LoginPage = () => {
+  const [username, setUsername] = useState(""); // actually email
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState(""); // ✅ fixed state declaration
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // ✅ Disable button while waiting
+    setIsLoading(true);
+    setMessage(""); // clear previous messages
 
     try {
-      const response = await fetch(
-        "https://senior-project-java-backend.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: username, password }),
-        }
-      );
+      // 1) Log in and grab token
+      const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password }),
+      });
 
-      if (response.status === 200) {
-        const authHeader = response.headers.get("Authorization");
-        if (authHeader && authHeader.startsWith("Bearer ")) {
-          const token = authHeader.split(" ")[1];
-          localStorage.setItem("token", token);
-          localStorage.setItem("isAuthenticated", "true");
-          localStorage.setItem("userRole", "student");
-          localStorage.setItem("username", username);
-
-          console.log(token);
-          navigate("/dashboard");
-          window.location.reload(); // Force refresh to apply role-based routing
-        } else {
-          alert("Login successful, but token not received.");
-        }
-      } else {
-        alert("Invalid username or password.");
+      if (loginRes.status !== 200) {
+        setMessage("Invalid username or password.");
+        return;
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Something went wrong during login.");
+
+      const authHeader = loginRes.headers.get("Authorization");
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        setMessage("Login succeeded but no token returned.");
+        return;
+      }
+
+      const token = authHeader.split(" ")[1];
+      localStorage.setItem("token", token);
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("username", username);
+
+      let role = "student";
+      try {
+        const acctRes = await fetch(
+          `${API_BASE}/api/v1/account/email/${encodeURIComponent(username)}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setMessage(
+          `Fetching account info from ${acctRes.url} — status ${acctRes.status}`
+        );
+
+        if (!acctRes.ok) {
+          const errText = await acctRes.text();
+          setMessage(
+            `Error ${acctRes.status}: ${errText || acctRes.statusText}`
+          );
+        } else {
+          const acctData = await acctRes.json();
+          console.log("👤 Account response JSON:", acctData);
+          if (acctData.role) {
+            role = acctData.role;
+            setMessage(`Login succeeded, role: ${role}`);
+          } else {
+            setMessage("Login succeeded, but response had no `role` field");
+          }
+        }
+      } catch (err) {
+        setMessage("Fetch failed: " + err.message);
+      }
+
+      localStorage.setItem("userRole", role.toLowerCase());
+
+      // 3) Navigate into the app
+      navigate("/dashboard");
+      window.location.reload();
+    } catch (err) {
+      console.error("Login error:", err);
+      setMessage("Something went wrong during login.");
     } finally {
-      setIsLoading(false); // ✅ Re-enable button after response
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +114,7 @@ const LoginPage = () => {
               <Form.Group controlId="formBasicUsername">
                 <Form.Control
                   type="text"
-                  placeholder="Username"
+                  placeholder="Username (email)"
                   className="custom-input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -94,7 +133,6 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              {/* ✅ Update login button to be disabled during loading */}
               <Button
                 type="submit"
                 className="w-100 mt-4 login-btn"
@@ -112,6 +150,11 @@ const LoginPage = () => {
                 <span>Login using Google</span>
               </Button>
             </Form>
+
+            {/* ✅ Display message */}
+            {message && (
+              <div className="mt-3 text-danger text-center">{message}</div>
+            )}
           </Card.Body>
         </Card>
       </Container>
