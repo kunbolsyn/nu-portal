@@ -26,6 +26,10 @@ const Infocenter = () => {
           <h3>Contacts</h3>
           <p>Department contacts, support emails, and phone numbers.</p>
         </div>
+        <div className="category">
+          <h3>Contacts</h3>
+          <p>Department contacts, support emails, and phone numbers.</p>
+        </div>
       </div>
     </div>
   );

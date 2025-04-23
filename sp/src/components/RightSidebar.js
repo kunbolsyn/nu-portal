@@ -51,7 +51,7 @@ const RightSidebar = () => {
   return (
     <div className="right-sidebar">
       <div className="calendar-card">
-        <Calendar onChange={setDate} value={date} className="mini-calendar" />
+        <Calendar locale="en-US" onChange={setDate} value={date} className="mini-calendar" />
       </div>
 
       <div className="card-header">

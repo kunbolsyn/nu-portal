@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0px;
-  height: 50px;
+  height: 40px;
 }
 
 .left-sidebar-logo {
@@ -29,8 +29,8 @@
 }
 
 .left-sidebar .nav-link {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 13px;
+  color: white;
+  font-size: 12px;
   display: flex;
   align-items: center;
   padding: 7px 7px;

@@ -1,5 +1,5 @@
 .calendar-card {
-  background: #fff;
+  background: white;
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #161d35;
+  background: #0E1C36;
   color: #fff;
   padding: 8px 12px;
   font-size: 0.95rem;
@@ -35,11 +35,11 @@
 
 .mini-calendar .react-calendar__tile {
   padding: 6px 0;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .mini-calendar .react-calendar__tile--now {
-  background: #161d35 !important;
+  background: #0E1C36 !important;
   color: #fff !important;
 }
 
@@ -48,20 +48,34 @@
   color: #fff !important;
   border-radius: 100%;
 }
+
+/* Weekday labels like Mon, Tue, Wed... */
+.react-calendar__month-view__weekdays__weekday {
+  font-size: 0.6rem; /* You can set this to any size you like */
+  font-weight: 600;
+  color: #0E1C36; /* Optional: style the color too */
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-transform: uppercase;
+  display: block;
+  text-align: center;
+}
+
 .react-calendar__navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0px;
-  margin-top: -5px;
+  margin-top: -10px;
 }
 
 .react-calendar__navigation button {
   background: none;
   border: none;
   font-size: 0.9rem;
-  padding: 4px 6px;
-  color: #161d35;
+  padding: 4px 0px;
+  color: #0E1C36;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.2s;
@@ -70,6 +84,8 @@
 .react-calendar__navigation__label {
   font-size: 0.9rem;
   font-weight: 600;
+  color: #0E1C36;   /* Optional: change text color */
+  text-transform: uppercase; /* Optional: uppercase the label */
 }
 
 .react-calendar__navigation__prev2-button,
@@ -104,7 +120,7 @@
   margin: 0 0 4px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #161d35;
+  color: #0E1C36;
 }
 
 .ue-meta {
@@ -116,7 +132,7 @@
 }
 
 .ue-meta i {
-  color: #161d35;
+  color: #0E1C36;
 }
 
 .no-events {
