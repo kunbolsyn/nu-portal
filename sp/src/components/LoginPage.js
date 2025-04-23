@@ -29,7 +29,7 @@ const LoginPage = () => {
           const token = authHeader.split(" ")[1];
           localStorage.setItem("token", token);
           localStorage.setItem("isAuthenticated", "true");
-          localStorage.setItem("userRole", "student");
+          localStorage.setItem("userRole", "dss");
           localStorage.setItem("username", username);
 
           console.log(token);
