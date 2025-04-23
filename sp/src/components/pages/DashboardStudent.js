@@ -27,13 +27,15 @@ const DashboardStudent = () => {
         const transformed = data.map((item) => ({
           id: item.news_id,
           title: item.newsTitle,
-          author: item.author || "Unknown",
+          name: item.name || "Unknown",
+          surname: item.surname || "",
+          username: item.email,
           date: item.newsDatePosted,
           content: item.text_content,
           image:
-            item.photos && item.photos.length > 0
+            item.photos.length > 0
               ? item.photos[0].filePath
-              : "/images/default-news.jpg", // fallback
+              : "images/default-news.jpg",
         }));
         setNews(transformed);
       })
@@ -81,7 +83,7 @@ const DashboardStudent = () => {
               <h3>{item.title}</h3>
               <div className="meta">
                 <p>
-                  <i className="fas fa-user"></i> {item.author}
+                  <i className="fas fa-user"></i> {item.name} {item.surname}
                 </p>
                 <p>
                   <i className="fas fa-calendar-alt"></i> {item.date}

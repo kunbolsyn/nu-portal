@@ -23,7 +23,9 @@ const News = () => {
         const transformed = data.map((item) => ({
           id: item.news_id,
           title: item.newsTitle,
-          author: item.author || "Unknown",
+          name: item.name || "Unknown",
+          surname: item.surname || "",
+          username: item.email,
           date: item.newsDatePosted,
           content: item.text_content,
           image:
@@ -54,7 +56,7 @@ const News = () => {
           <img src={featured.image} alt={featured.title} />
           <div className="overlay">
             <p className="author">
-              <i className="fas fa-user"></i> {featured.author}
+              <i className="fas fa-user"></i> {featured.name} {featured.surname}
             </p>
             <p className="date">
               <i className="fas fa-calendar-alt"></i> {featured.date}
@@ -95,7 +97,7 @@ const News = () => {
             <h4>{item.title}</h4>
             <div className="meta">
               <p>
-                <i className="fas fa-user"></i> {item.author}
+                <i className="fas fa-user"></i> {item.name} {item.surname}
               </p>
               <p>
                 <i className="fas fa-calendar-alt"></i> {item.date}

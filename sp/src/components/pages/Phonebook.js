@@ -73,7 +73,7 @@ const Phonebook = () => {
                 school: item.school,
                 department: item.major,
                 gpa: item.gpa,
-                image: item.account.photo?.filePath || "/images/profile.jpg",
+                image: item.account.photo?.filePath || "images/profile.jpg",
               };
             case "Teaching Staff":
               return {
@@ -83,7 +83,7 @@ const Phonebook = () => {
                 phone: item.phoneNumber,
                 school: item.school,
                 department: item.specialization,
-                image: item.account.photo?.filePath || "/images/profile.jpg",
+                image: item.account.photo?.filePath || "images/profile.jpg",
               };
             case "Staff":
               return {
@@ -93,7 +93,7 @@ const Phonebook = () => {
                 phone: item.phoneNumber,
                 school: item.department?.title || "",
                 department: item.jobPosition,
-                image: item.account.photo?.filePath || "/images/profile.jpg",
+                image: item.account.photo?.filePath || "images/profile.jpg",
               };
             case "Student Clubs":
               return {
@@ -105,7 +105,7 @@ const Phonebook = () => {
                 department: item.president.major,
                 image:
                   item.president.account.photo?.filePath ||
-                  "/images/profile.jpg",
+                  "images/profile.jpg",
               };
             case "Others":
               return {
@@ -114,7 +114,7 @@ const Phonebook = () => {
                 email: item.corporateEmail,
                 phone: item.phoneNumber,
                 department: item.description,
-                image: "/images/profile.jpg",
+                image: "images/profile.jpg",
               };
             default:
               return null;
@@ -127,10 +127,22 @@ const Phonebook = () => {
   }, [activeTab]);
 
   const toggleSave = (c) => {
+    const normalizedContact = {
+      id: c.id,
+      name: c.name,
+      email: c.email ?? "-",
+      phone: c.phone ?? "-",
+      school: c.school ?? "-",
+      department: c.department ?? "-",
+      gpa: c.gpa ?? null,
+      image: c.image ?? "images/profile.jpg",
+    };
+
     const isSaved = savedContacts.some((x) => x.id === c.id);
     const updated = isSaved
       ? savedContacts.filter((x) => x.id !== c.id)
-      : [...savedContacts, c];
+      : [...savedContacts, normalizedContact];
+
     setSavedContacts(updated);
     localStorage.setItem("savedContacts", JSON.stringify(updated));
   };

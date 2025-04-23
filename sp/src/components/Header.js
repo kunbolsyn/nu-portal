@@ -53,7 +53,7 @@ const Header = ({ onToggleSidebar }) => {
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <img
-            src={`/images/profile.jpg`}
+            src={`images/profile.jpg`}
             alt="Profile"
             className="profile-pic"
           />

@@ -6,36 +6,27 @@ import "../styles/LoginPage.css";
 const API_BASE = "https://senior-project-java-backend.onrender.com";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState(""); // actually email
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState(""); // ✅ fixed state declaration
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage(""); // clear previous messages
 
     try {
-      // 1) Log in and grab token
       const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: username, password }),
       });
 
-      if (loginRes.status !== 200) {
-        setMessage("Invalid username or password.");
-        return;
-      }
+      if (loginRes.status !== 200) return;
 
       const authHeader = loginRes.headers.get("Authorization");
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        setMessage("Login succeeded but no token returned.");
-        return;
-      }
+      if (!authHeader || !authHeader.startsWith("Bearer ")) return;
 
       const token = authHeader.split(" ")[1];
       localStorage.setItem("token", token);
@@ -43,6 +34,7 @@ const LoginPage = () => {
       localStorage.setItem("username", username);
 
       let role = "student";
+
       try {
         const acctRes = await fetch(
           `${API_BASE}/api/v1/account/email/${encodeURIComponent(username)}`,
@@ -56,37 +48,20 @@ const LoginPage = () => {
           }
         );
 
-        setMessage(
-          `Fetching account info from ${acctRes.url} — status ${acctRes.status}`
-        );
-
-        if (!acctRes.ok) {
-          const errText = await acctRes.text();
-          setMessage(
-            `Error ${acctRes.status}: ${errText || acctRes.statusText}`
-          );
-        } else {
+        if (acctRes.ok) {
           const acctData = await acctRes.json();
-          console.log("👤 Account response JSON:", acctData);
-          if (acctData.role) {
-            role = acctData.role;
-            setMessage(`Login succeeded, role: ${role}`);
-          } else {
-            setMessage("Login succeeded, but response had no `role` field");
-          }
+          if (acctData.role) role = acctData.role;
+          if (acctData.id) localStorage.setItem("accountId", acctData.id);
         }
       } catch (err) {
-        setMessage("Fetch failed: " + err.message);
+        // Fail silently
       }
 
       localStorage.setItem("userRole", role.toLowerCase());
-
-      // 3) Navigate into the app
       navigate("/dashboard");
       window.location.reload();
     } catch (err) {
-      console.error("Login error:", err);
-      setMessage("Something went wrong during login.");
+      // Fail silently
     } finally {
       setIsLoading(false);
     }
@@ -150,11 +125,6 @@ const LoginPage = () => {
                 <span>Login using Google</span>
               </Button>
             </Form>
-
-            {/* ✅ Display message */}
-            {message && (
-              <div className="mt-3 text-danger text-center">{message}</div>
-            )}
           </Card.Body>
         </Card>
       </Container>
