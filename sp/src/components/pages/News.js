@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Add this import
 import "../../styles/News.css";
-import "../../styles/NewsCards.css";
-import NewsDetail from "./NewsDetail";
 
 const News = () => {
   const [news, setNews] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const navigate = useNavigate(); // ✅ Use navigate
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,8 +28,7 @@ const News = () => {
           image:
             item.photos.length > 0
               ? item.photos[0].filePath
-              : "/default-news.jpg", // fallback image
-          raw: item, // save raw data in case needed in detail view
+              : "images/default-news.jpg",
         }));
         setNews(transformed);
       })
@@ -49,7 +47,7 @@ const News = () => {
       <section className="news-hero">
         <div
           className="featured-news"
-          onClick={() => setSelected(featured)}
+          onClick={() => navigate(`/news/${featured.id}`)} // ✅ Navigate to new page
           style={{ cursor: "pointer" }}
         >
           <img src={featured.image} alt={featured.title} />
@@ -63,12 +61,13 @@ const News = () => {
             <h2 className="title">{featured.title}</h2>
           </div>
         </div>
+
         <div className="side-news">
           {sideNews.map((item, index) => (
             <div
               key={index}
               className="side-news-card"
-              onClick={() => setSelected(item)}
+              onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
               style={{ cursor: "pointer" }}
             >
               <img src={item.image} alt={item.title} />
@@ -88,7 +87,7 @@ const News = () => {
           <div
             key={item.id}
             className="news-card"
-            onClick={() => setSelected(item)}
+            onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
             style={{ cursor: "pointer" }}
           >
             <img src={item.image} alt={item.title} />
@@ -105,8 +104,6 @@ const News = () => {
           </div>
         ))}
       </div>
-
-      <NewsDetail item={selected} onClose={() => setSelected(null)} />
     </div>
   );
 };
