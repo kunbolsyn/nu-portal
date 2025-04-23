@@ -27,9 +27,9 @@ const Events = () => {
           organizer: item.organizer,
           date: item.date,
           image:
-            // item.photos_link.length > 0
-            //   ? item.photos_link
-            "images/default-event.jpg",
+            item.photos_link.length > 0
+              ? item.photos_link
+              : "images/default-event.jpg",
         }));
         setEvents(transformed);
       })
