@@ -5,7 +5,6 @@ import "../../styles/MyPage.css"; // adjust if needed
 const MyPage = () => {
   const [profile, setProfile] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const [clubs, setClubs] = useState([]);
   const [search, setSearch] = useState("");
 
   const role = localStorage.getItem("userRole");
@@ -44,11 +43,6 @@ const MyPage = () => {
     };
 
     fetchProfile();
-
-    fetch("/data/student_clubs.json")
-      .then((r) => r.json())
-      .then((data) => setClubs(data.slice(0, 6)))
-      .catch((e) => console.error(e));
   }, [role, accountId, token]);
 
   const filteredContacts = contacts.filter((c) =>
@@ -69,7 +63,7 @@ const MyPage = () => {
     return (
       <div className="profile-card">
         <img
-          src={acct.photo?.filePath || "/images/profile.jpg"}
+          src={acct.photo?.filePath || "images/profile.jpg"}
           alt="Profile"
           className="profile-img"
         />
@@ -189,7 +183,7 @@ const MyPage = () => {
                       style={{ width: 50, height: 50, objectFit: "cover" }}
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "/images/profile.jpg";
+                        e.target.src = "images/profile.jpg";
                       }}
                     />
                   </td>
@@ -210,25 +204,6 @@ const MyPage = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      </section>
-
-      {/* My Clubs (unchanged) */}
-      <section className="myclubs-section">
-        <div className="section-header">
-          <i className="fas fa-paw"></i>
-          <h3>My Clubs</h3>
-        </div>
-        <div className="clubs-grid">
-          {clubs.map((club, i) => (
-            <div key={i} className="club-card">
-              <img src={`/images/${club.logo}`} alt={club.name} />
-              <p>{club.name}</p>
-            </div>
-          ))}
-        </div>
-        <div className="pagination-info">
-          1–{clubs.length} of {clubs.length}
         </div>
       </section>
     </div>

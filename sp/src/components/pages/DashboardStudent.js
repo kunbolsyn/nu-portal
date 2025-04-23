@@ -33,9 +33,9 @@ const DashboardStudent = () => {
           date: item.newsDatePosted,
           content: item.text_content,
           image:
-            item.photos && item.photos.length > 0
+            item.photos.length > 0
               ? item.photos[0].filePath
-              : "/images/default-news.jpg", // fallback
+              : "images/default-news.jpg",
         }));
         setNews(transformed);
       })

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import ProtectedLayout from "./components/ProtectedLayout";
 import News from "./components/pages/News";
@@ -23,40 +23,38 @@ const App = () => {
   const userRole = localStorage.getItem("userRole");
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
 
-        <Route path="/" element={<ProtectedLayout />}>
-          <Route
-            path="dashboard"
-            element={
-              userRole === "dss" ? (
-                <DashboardDSS />
-              ) : userRole === "staff" ? (
-                <DashboardStaff />
-              ) : (
-                <DashboardStudent />
-              )
-            }
-          />
+      <Route path="/" element={<ProtectedLayout />}>
+        <Route
+          path="dashboard"
+          element={
+            userRole === "dss" ? (
+              <DashboardDSS />
+            ) : userRole === "staff" ? (
+              <DashboardStaff />
+            ) : (
+              <DashboardStudent />
+            )
+          }
+        />
 
-          <Route path="mypage" element={<MyPage />} />
-          <Route path="news" element={<News />} />
-          <Route path="events" element={<Events />} />
-          <Route path="calendar" element={<Calendar />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="studentclubs" element={<StudentClubs />} />
-          <Route path="suggest-news" element={<SuggestNews />} />
-          <Route path="phonebook" element={<Phonebook />} />
-          <Route path="event-planning" element={<EventPlanning />} />
-          <Route path="requests" element={<Requests />} />
-          <Route path="payments" element={<Payments />} />
-          <Route path="booking" element={<Booking />} />
-          <Route path="/news/:id" element={<NewsPage />} />
-        </Route>
-      </Routes>
-    </Router>
+        <Route path="mypage" element={<MyPage />} />
+        <Route path="news" element={<News />} />
+        <Route path="events" element={<Events />} />
+        <Route path="calendar" element={<Calendar />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="studentclubs" element={<StudentClubs />} />
+        <Route path="suggest-news" element={<SuggestNews />} />
+        <Route path="phonebook" element={<Phonebook />} />
+        <Route path="event-planning" element={<EventPlanning />} />
+        <Route path="requests" element={<Requests />} />
+        <Route path="payments" element={<Payments />} />
+        <Route path="booking" element={<Booking />} />
+        <Route path="/news/:id" element={<NewsPage />} />
+      </Route>
+    </Routes>
   );
 };
 

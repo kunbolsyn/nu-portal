@@ -16,8 +16,14 @@ const StudentClubs = () => {
   );
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     fetch(
-      "https://senior-project-java-backend.onrender.com/api/v1/studentorganization/all"
+      "https://senior-project-java-backend.onrender.com/api/v1/studentorganization/all",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     )
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +35,7 @@ const StudentClubs = () => {
           aims: club.aims,
           members: "N/A", // You can replace this if you have member count
           status: "Active", // If API doesn't return status, default to Active
-          logo: club.president?.account?.photo?.filePath || "NU_logo.png",
+          logo: club.president?.account?.photo?.filePath || "club_logo.png",
           fullData: club,
         }));
         setClubs(mappedClubs);
@@ -110,11 +116,10 @@ const StudentClubs = () => {
               src={
                 club.logo.startsWith("http")
                   ? club.logo
-                  : `/images/${club.logo}`
+                  : `images/default-news.jpg`
               }
               alt={club.name}
               className="student-club-img"
-              onError={(e) => (e.target.src = "/images/default_logo.png")}
             />
             <div className="student-club-info">
               <h3 className="club-name">
