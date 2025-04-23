@@ -71,7 +71,7 @@ const StudentClubs = () => {
     <div className="student-clubs-container">
       <div className="section-header">
         <i className="fas fa-users"></i>
-        <h3 className="student-clubs-title">Student Clubs</h3>
+        <h1 className="student-clubs-title">Student Clubs</h1>
       </div>
       <div className="student-clubs-filters">
         <input

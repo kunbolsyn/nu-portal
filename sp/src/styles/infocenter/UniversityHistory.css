@@ -1,0 +1,48 @@
+/* UniversityHistory.css */
+.university-history {
+    padding: 2rem 3rem;
+    font-family: 'Inter', sans-serif;
+    color: #0E1C36;
+  }
+  
+  .page-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #EBEBEB;
+  }
+  
+  .page-header i {
+    font-size: 24px;
+    margin-right: 1rem;
+    color: #0E1C36;
+  }
+  
+  .page-header h1 {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .content-section {
+    max-width: 800px;
+  }
+  
+  .content-section h2 {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 1.5rem 0 1rem;
+    color: #0E1C36;
+  }
+  
+  .content-section p, 
+  .content-section li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #58574b;
+  }
+  
+  .content-section ul {
+    padding-left: 1.5rem;
+  }

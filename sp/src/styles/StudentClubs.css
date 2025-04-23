@@ -1,28 +1,40 @@
 /* General Container for Student Clubs Page */
 .student-clubs-container {
+  display: flex;
+  flex-direction: column;
   font-family: "Inter", sans-serif;
   background-color: #fff;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 /* Header Section */
-.student-clubs-header {
+.section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  background-color: #fff;
-  padding: 15px 20px;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.section-header i {
+  font-size: 25px;
+  color: #0E1C36;
+  margin-right: -5px;
+}
+
+.section-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0E1C36;
+  margin: 10px;
 }
 
 /* Title Styling */
 .student-clubs-title {
-  font-size: 1.5rem;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #161d35;
+  font-size: 17px;
+  font-weight: bold;
+  color: #0E1C36;
+  margin: 0;
 }
 
 /* Filters Section */
@@ -49,15 +61,15 @@
 /* Search Input */
 .student-clubs-search {
   flex: 1;
-  width: 150px; /* Allow it to expand */
-  max-width: 250px; /* Restrict max width */
+  width: 150px;
+  max-width: 250px;
   outline: none;
 }
 
 /* Select Dropdowns (Status and Categories) */
 .student-clubs-status,
 .student-clubs-category {
-  width: 100%; /* Same width for the selects */
+  width: 100%;
 }
 
 /* Filter Button */
@@ -83,7 +95,7 @@
 .student-club-card {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -93,7 +105,7 @@
 
 .student-club-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for emphasis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Club Image */
@@ -132,15 +144,7 @@
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
   .student-clubs-list {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(200px, 1fr)
-    ); /* Adjust column for smaller screens */
-  }
-
-  .student-clubs-header {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
   .student-clubs-filters {
@@ -158,7 +162,7 @@
 }
 
 .student-clubs-container hr {
-  border: 2;
+  border: 0;
   height: 1px;
   background: rgba(255, 255, 255, 0.2);
   margin: 15px 0;
