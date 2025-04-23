@@ -127,10 +127,22 @@ const Phonebook = () => {
   }, [activeTab]);
 
   const toggleSave = (c) => {
+    const normalizedContact = {
+      id: c.id,
+      name: c.name,
+      email: c.email ?? "-",
+      phone: c.phone ?? "-",
+      school: c.school ?? "-",
+      department: c.department ?? "-",
+      gpa: c.gpa ?? null,
+      image: c.image ?? "/images/profile.jpg",
+    };
+
     const isSaved = savedContacts.some((x) => x.id === c.id);
     const updated = isSaved
       ? savedContacts.filter((x) => x.id !== c.id)
-      : [...savedContacts, c];
+      : [...savedContacts, normalizedContact];
+
     setSavedContacts(updated);
     localStorage.setItem("savedContacts", JSON.stringify(updated));
   };

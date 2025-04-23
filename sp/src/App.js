@@ -12,9 +12,7 @@ import EventPlanning from "./components/pages/EventPlanning";
 import DashboardStudent from "./components/pages/DashboardStudent";
 import DashboardDSS from "./components/pages/DashboardDSS";
 import DashboardStaff from "./components/pages/DashboardStaff";
-import MyPageStudent from "./components/pages/MyPageStudent";
-import MyPageDSS from "./components/pages/MyPageDSS";
-import MyPageStaff from "./components/pages/MyPageStaff";
+import MyPage from "./components/pages/MyPage";
 import Requests from "./components/pages/Requests";
 import Payments from "./components/pages/Payments";
 import Booking from "./components/pages/Booking";
@@ -42,18 +40,8 @@ const App = () => {
               )
             }
           />
-          <Route
-            path="mypage"
-            element={
-              userRole === "dss" ? (
-                <MyPageDSS />
-              ) : userRole === "staff" ? (
-                <MyPageStaff />
-              ) : (
-                <MyPageStudent />
-              )
-            }
-          />
+
+          <Route path="mypage" element={<MyPage />} />
           <Route path="news" element={<News />} />
           <Route path="events" element={<Events />} />
           <Route path="calendar" element={<Calendar />} />
