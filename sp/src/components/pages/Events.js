@@ -29,7 +29,7 @@ const Events = () => {
           image:
             item.photos_link.length > 0
               ? item.photos_link
-              : "images/default-event.jpg",
+              : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
         }));
         setEvents(transformed);
       })

@@ -31,7 +31,7 @@ const News = () => {
           image:
             item.photos.length > 0
               ? item.photos[0].filePath
-              : "images/default-news.jpg",
+              : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
         }));
         setNews(transformed);
       })

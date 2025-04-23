@@ -23,7 +23,9 @@ const LoginPage = () => {
         body: JSON.stringify({ email: username, password }),
       });
 
+
       if (loginRes.status !== 200) return;
+
 
       const authHeader = loginRes.headers.get("Authorization");
       if (!authHeader || !authHeader.startsWith("Bearer ")) return;
