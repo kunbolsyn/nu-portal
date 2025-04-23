@@ -1,60 +1,95 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../../styles/SuggestNews.css";
 
+const API_BASE = "https://senior-project-java-backend.onrender.com";
+const IDS_KEY = "suggestedNewsIds";
+
 const SuggestNews = () => {
-  // State for Title, Description, and Uploaded Image
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null); // We'll store as a base64 string for preview
-
-  // State for posts (simulating "Previous Posts")
-  const [posts, setPosts] = useState([]);
-
-  // Refs for file input
+  const [image, setImage] = useState(null); // base64
+  const [posts, setPosts] = useState([]); // fetched posts
   const fileInputRef = useRef(null);
 
-  // Handle file selection (browse)
+  // Load previous post IDs and fetch each post
+  useEffect(() => {
+    const saved = localStorage.getItem(IDS_KEY);
+    if (!saved) return;
+
+    const ids = JSON.parse(saved);
+    if (!ids.length) return;
+
+    Promise.all(
+      ids.map((id) =>
+        fetch(`${API_BASE}/api/news/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }).then((res) => {
+          if (!res.ok) throw new Error(`Failed to fetch post ${id}`);
+          return res.json();
+        })
+      )
+    )
+      .then((fetchedPosts) => {
+        // Show newest first
+        setPosts(fetchedPosts.reverse());
+      })
+      .catch((err) => console.error("Error loading previous posts:", err));
+  }, []);
+
+  // Handle file select / drag & drop
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result); // base64 data
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImage(reader.result);
+    reader.readAsDataURL(file);
   };
-
-  // Optional: handle drag & drop
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
+  const handleDragOver = (e) => e.preventDefault();
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImage(reader.result);
+    reader.readAsDataURL(file);
   };
 
-  // Post the new news item
-  const handlePost = () => {
+  // Create a new news suggestion
+  const handlePost = async () => {
     if (!title || !description || !image) return;
-    const newPost = {
-      title,
-      description,
-      image,
-    };
-    setPosts([newPost, ...posts]); // add new post to top
-    // Clear fields
-    setTitle("");
-    setDescription("");
-    setImage(null);
+
+    const payload = { title, description, image, status: "waiting" };
+    try {
+      const res = await fetch(`${API_BASE}/api/news`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        console.error("Failed to post news:", res.statusText);
+        return;
+      }
+      const savedPost = await res.json();
+      // Update ID list in localStorage
+      const prevIds = JSON.parse(localStorage.getItem(IDS_KEY) || "[]");
+      const newIds = [...prevIds, savedPost.id];
+      localStorage.setItem(IDS_KEY, JSON.stringify(newIds));
+
+      // Prepend new post to state
+      setPosts((p) => [savedPost, ...p]);
+      // Clear form
+      setTitle("");
+      setDescription("");
+      setImage(null);
+    } catch (err) {
+      console.error("Error posting news:", err);
+    }
   };
 
   return (
@@ -63,8 +98,8 @@ const SuggestNews = () => {
         <i className="fas fa-pen-nib"></i>
         <h3>Create News</h3>
       </div>
+
       <div className="create-post-section">
-        {/* Upload Box */}
         <div
           className="upload-box"
           onDragOver={handleDragOver}
@@ -90,7 +125,6 @@ const SuggestNews = () => {
           />
         </div>
 
-        {/* Text Fields */}
         <div className="news-fields">
           <label>Title</label>
           <div className="title-input-wrapper">
@@ -118,6 +152,7 @@ const SuggestNews = () => {
           <button onClick={handlePost}>Post</button>
         </div>
       </div>
+
       <div className="suggest-section-header">
         <i className="fas fa-history"></i>
         <h3>Previous Posts</h3>
@@ -127,8 +162,8 @@ const SuggestNews = () => {
           {posts.length === 0 ? (
             <p className="no-posts-msg">No posts yet.</p>
           ) : (
-            posts.map((post, index) => (
-              <div key={index} className="post-card">
+            posts.map((post) => (
+              <div key={post.id} className="post-card">
                 <div className="post-header">
                   <img
                     src={post.image}
@@ -136,7 +171,11 @@ const SuggestNews = () => {
                     className="post-image"
                   />
                   <div className="post-info">
-                    <p className="author-name">Name Surname</p>
+                    <p className="author-name">You</p>
+                    <p className="post-status">
+                      Status: <strong>{post.status}</strong>
+                    </p>
+                    <p className="post-id">ID: {post.id}</p>
                   </div>
                 </div>
                 <h4 className="post-title">{post.title}</h4>
