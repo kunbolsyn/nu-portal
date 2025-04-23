@@ -1,0 +1,45 @@
+.infocenter {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .infocenter h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #003366;
+  }
+  
+  .info-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .category {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .category:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category h3 {
+    font-size: 1.25rem;
+    color: #0055a5;
+    margin-bottom: 0.5rem;
+  }
+  
+  .category p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+  }
+  
