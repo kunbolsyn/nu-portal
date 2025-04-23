@@ -116,7 +116,7 @@ const StudentClubs = () => {
               src={
                 club.logo.startsWith("http")
                   ? club.logo
-                  : `images/default-news.jpg`
+                  : `${process.env.PUBLIC_URL}/images/default-event.jpg`
               }
               alt={club.name}
               className="student-club-img"

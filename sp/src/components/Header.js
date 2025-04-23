@@ -9,7 +9,7 @@ const Header = ({ onToggleSidebar }) => {
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/nu-portal";
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Header = ({ onToggleSidebar }) => {
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <img
-            src={`images/profile.jpg`}
+            src={`${process.env.PUBLIC_URL}/images/profile.jpg`}
             alt="Profile"
             className="profile-pic"
           />

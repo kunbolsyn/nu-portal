@@ -63,7 +63,10 @@ const MyPage = () => {
     return (
       <div className="profile-card">
         <img
-          src={acct.photo?.filePath || "images/profile.jpg"}
+          src={
+            acct.photo?.filePath ||
+            `${process.env.PUBLIC_URL}/images/profile.jpg`
+          }
           alt="Profile"
           className="profile-img"
         />
