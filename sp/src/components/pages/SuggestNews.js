@@ -1,45 +1,84 @@
+// src/components/pages/SuggestNews.js
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/SuggestNews.css";
 
 const API_BASE = "https://senior-project-java-backend.onrender.com";
-const IDS_KEY = "suggestedNewsIds";
 
 const SuggestNews = () => {
+  const [profile, setProfile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null); // base64
-  const [posts, setPosts] = useState([]); // fetched posts
+  const [image, setImage] = useState(null);
+  const [posts, setPosts] = useState([]);
   const fileInputRef = useRef(null);
 
-  // Load previous post IDs and fetch each post
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("userRole");
+  const accountId = localStorage.getItem("accountId");
+  const username = localStorage.getItem("username");
+
+  // 1) Fetch user profile for name/surname
   useEffect(() => {
-    const saved = localStorage.getItem(IDS_KEY);
-    if (!saved) return;
+    const fetchProfile = async () => {
+      try {
+        let endpoint = "";
+        if (role === "student") {
+          endpoint = `/api/v1/student/accountid/${accountId}`;
+        } else if (role === "faculty") {
+          endpoint = `/api/v1/teachingstaff/accountid/${accountId}`;
+        } else {
+          endpoint = `/api/v1/staff/accountid/${accountId}`;
+        }
 
-    const ids = JSON.parse(saved);
-    if (!ids.length) return;
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        setProfile(await res.json());
+      } catch {
+        // silently fail
+      }
+    };
+    if (accountId && token) fetchProfile();
+  }, [role, accountId, token]);
 
-    Promise.all(
-      ids.map((id) =>
-        fetch(`${API_BASE}/api/news/${id}`, {
+  // 2) Fetch all posts by this user
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const url = `${API_BASE}/api/news/email/${encodeURIComponent(
+          username
+        )}`;
+        const res = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
-        }).then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch post ${id}`);
-          return res.json();
-        })
-      )
-    )
-      .then((fetchedPosts) => {
-        // Show newest first
-        setPosts(fetchedPosts.reverse());
-      })
-      .catch((err) => console.error("Error loading previous posts:", err));
-  }, []);
+        });
 
-  // Handle file select / drag & drop
+        // No content? just clear posts.
+        if (res.status === 204) {
+          setPosts([]);
+          return;
+        }
+        if (!res.ok) {
+          // non-OK (404, etc) → treat as no posts
+          setPosts([]);
+          return;
+        }
+
+        const data = await res.json();
+        setPosts(data.reverse());
+      } catch {
+        // network error → do nothing
+      }
+    };
+
+    if (username && token) fetchPosts();
+  }, [username, token]);
+
+  // File handlers
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -57,48 +96,49 @@ const SuggestNews = () => {
     reader.readAsDataURL(file);
   };
 
-  // Create a new news suggestion
+  // 3) Post new suggestion
   const handlePost = async () => {
-    if (!title || !description || !image) return;
-
-    const payload = { title, description, image, status: "waiting" };
+    if (!title || !description) return;
+    const today = new Date().toISOString().split("T")[0];
+    const payload = {
+      newsTitle: title,
+      text_content: description,
+      email: username,
+      newsDateRequestSent: today,
+      status: "waiting",
+      name: profile?.name,
+      surname: profile?.surname,
+      photos: image ? [{ filePath: image }] : [],
+      videos: [],
+      downloadable_files: [],
+    };
     try {
       const res = await fetch(`${API_BASE}/api/news`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        console.error("Failed to post news:", res.statusText);
-        return;
-      }
-      const savedPost = await res.json();
-      // Update ID list in localStorage
-      const prevIds = JSON.parse(localStorage.getItem(IDS_KEY) || "[]");
-      const newIds = [...prevIds, savedPost.id];
-      localStorage.setItem(IDS_KEY, JSON.stringify(newIds));
-
-      // Prepend new post to state
-      setPosts((p) => [savedPost, ...p]);
-      // Clear form
+      if (!res.ok) return;
+      const saved = await res.json();
+      setPosts((p) => [saved, ...p]);
       setTitle("");
       setDescription("");
       setImage(null);
-    } catch (err) {
-      console.error("Error posting news:", err);
+    } catch {
+      // silently fail
     }
   };
 
   return (
     <div className="suggest-news-container">
+      {/* Create News Section */}
       <div className="suggest-section-header">
-        <i className="fas fa-pen-nib"></i>
+        <i className="fas fa-pen-nib" />
         <h3>Create News</h3>
       </div>
-
       <div className="create-post-section">
         <div
           className="upload-box"
@@ -153,37 +193,48 @@ const SuggestNews = () => {
         </div>
       </div>
 
+      {/* Previous Posts Section */}
       <div className="suggest-section-header">
-        <i className="fas fa-history"></i>
+        <i className="fas fa-history" />
         <h3>Previous Posts</h3>
       </div>
       <div className="previous-posts-section">
-        <div className="posts-list">
-          {posts.length === 0 ? (
-            <p className="no-posts-msg">No posts yet.</p>
-          ) : (
-            posts.map((post) => (
-              <div key={post.id} className="post-card">
-                <div className="post-header">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="post-image"
-                  />
-                  <div className="post-info">
-                    <p className="author-name">You</p>
-                    <p className="post-status">
-                      Status: <strong>{post.status}</strong>
-                    </p>
-                    <p className="post-id">ID: {post.id}</p>
-                  </div>
-                </div>
-                <h4 className="post-title">{post.title}</h4>
-                <p className="post-desc">{post.description}</p>
-              </div>
-            ))
-          )}
-        </div>
+        {posts.length === 0 ? (
+          <p className="no-posts-msg">No posts yet.</p>
+        ) : (
+          <table className="posts-table">
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Date Requested</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((p) => (
+                <tr key={p.news_id}>
+                  <td>
+                    {p.photos?.[0]?.filePath ? (
+                      <img
+                        src={p.photos[0].filePath}
+                        alt=""
+                        className="post-thumb"
+                      />
+                    ) : (
+                      <div className="post-thumb empty" />
+                    )}
+                  </td>
+                  <td>{`${p.name} ${p.surname}`}</td>
+                  <td>{p.newsTitle}</td>
+                  <td>{p.newsDateRequestSent}</td>
+                  <td>{p.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

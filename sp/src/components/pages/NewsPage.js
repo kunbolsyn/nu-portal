@@ -29,7 +29,7 @@ const NewsPage = () => {
         </button>
 
         <img
-          src={news.photos?.[0]?.filePath || "/images/default-news.jpg"}
+          src={news.photos?.[0]?.filePath || "images/default-news.jpg"}
           alt={news.newsTitle}
           className="news-detail-image"
         />
