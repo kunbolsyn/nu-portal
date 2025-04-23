@@ -1,24 +1,49 @@
-// src/components/pages/Dashboard.js
+// src/components/pages/DashboardStudent.js
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/DashboardStudent.css";
 import "../../styles/NewsCards.css";
-import NewsDetail from "./NewsDetail";
 
 const DashboardStudent = () => {
   const [news, setNews] = useState([]);
   const [updates, setUpdates] = useState([]);
-  const [selectedNews, setSelectedNews] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/data/news.json")
-      .then((res) => res.json())
-      .then((data) => setNews(data))
-      .catch((error) => console.error("Error fetching news:", error));
+    const token = localStorage.getItem("token");
 
+    // Fetch university news from backend
+    fetch("https://senior-project-java-backend.onrender.com/api/news/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch news");
+        return res.json();
+      })
+      .then((data) => {
+        // transform to your frontend shape
+        const transformed = data.map((item) => ({
+          id: item.news_id,
+          title: item.newsTitle,
+          author: item.author || "Unknown",
+          date: item.newsDatePosted,
+          content: item.text_content,
+          image:
+            item.photos && item.photos.length > 0
+              ? item.photos[0].filePath
+              : "/images/default-news.jpg", // fallback
+        }));
+        setNews(transformed);
+      })
+      .catch((err) => console.error("Error fetching news:", err));
+
+    // Fetch your updates (still local or your updates endpoint)
     fetch("/data/updates.json")
       .then((res) => res.json())
       .then((data) => setUpdates(data))
-      .catch((error) => console.error("Error fetching updates:", error));
+      .catch((err) => console.error("Error fetching updates:", err));
   }, []);
 
   if (news.length === 0) {
@@ -28,7 +53,7 @@ const DashboardStudent = () => {
   return (
     <div className="dashboard">
       <div className="banner">
-        <div className="banner-overlay"></div>
+        <div className="banner-overlay" />
         <div className="banner-text">
           <h1>Tech Talk 2024</h1>
           <p>Join us for a face-to-face talk with AI innovators!</p>
@@ -45,13 +70,14 @@ const DashboardStudent = () => {
         </div>
 
         <div className="news-grid">
-          {news.map((item, index) => (
+          {news.map((item) => (
             <div
-              key={index}
+              key={item.id}
               className="news-card"
-              onClick={() => setSelectedNews(item)}
+              onClick={() => navigate(`/news/${item.id}`)} // navigate to NewsPage
+              style={{ cursor: "pointer" }}
             >
-              {item.image && <img src={item.image} alt={item.title} />}
+              <img src={item.image} alt={item.title} />
               <h3>{item.title}</h3>
               <div className="meta">
                 <p>
@@ -74,8 +100,8 @@ const DashboardStudent = () => {
           <h3>My Updates</h3>
         </div>
         <div className="updates-list">
-          {updates.map((update, index) => (
-            <div key={index} className="update-item">
+          {updates.map((update, idx) => (
+            <div key={idx} className="update-item">
               <h3>{update.title}</h3>
               <p>{update.content}</p>
               <span className="update-date">{update.date}</span>
@@ -83,9 +109,6 @@ const DashboardStudent = () => {
           ))}
         </div>
       </div>
-
-      {/* News Detail Overlay */}
-      <NewsDetail item={selectedNews} onClose={() => setSelectedNews(null)} />
     </div>
   );
 };

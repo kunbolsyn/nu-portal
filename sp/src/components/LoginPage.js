@@ -6,10 +6,14 @@ import "../styles/LoginPage.css";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false); // ✅ Add this line for loading state
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // ✅ Disable button while waiting
 
     try {
       const response = await fetch(
@@ -44,6 +48,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error("Login failed:", error);
       alert("Something went wrong during login.");
+    } finally {
+      setIsLoading(false); // ✅ Re-enable button after response
     }
   };
 
@@ -88,8 +94,13 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              <Button type="submit" className="w-100 mt-4 login-btn">
-                Login
+              {/* ✅ Update login button to be disabled during loading */}
+              <Button
+                type="submit"
+                className="w-100 mt-4 login-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
 
               <Button className="w-100 mt-2 google-login">
@@ -101,30 +112,6 @@ const LoginPage = () => {
                 <span>Login using Google</span>
               </Button>
             </Form>
-
-            {/* 🔒 Previous local login logic (commented out for backup)
-            useEffect(() => {
-              fetch("/data/users.json")
-                .then((res) => res.json())
-                .then((data) => setUsers(data))
-                .catch((err) => console.error("Failed to load users:", err));
-            }, []);
-
-            const matchedUser = users.find(
-              (user) => user.username === username && user.password === password
-            );
-
-            if (matchedUser) {
-              localStorage.setItem("isAuthenticated", "true");
-              localStorage.setItem("userRole", matchedUser.role);
-              localStorage.setItem("username", matchedUser.username);
-
-              navigate("/dashboard");
-              window.location.reload(); // Force reload for route to pick up role
-            } else {
-              alert("Invalid username or password.");
-            }
-            */}
           </Card.Body>
         </Card>
       </Container>

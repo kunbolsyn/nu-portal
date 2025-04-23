@@ -19,6 +19,7 @@ import Requests from "./components/pages/Requests";
 import Payments from "./components/pages/Payments";
 import Booking from "./components/pages/Booking";
 import Infocenter from "./components/pages/Infocenter";
+import NewsPage from "./components/pages/NewsPage";
 import "./styles/App.css";
 
 const App = () => {
@@ -66,6 +67,7 @@ const App = () => {
           <Route path="payments" element={<Payments />} />
           <Route path="booking" element={<Booking />} />
           <Route path="infocenter" element={<Infocenter />} />
+          <Route path="/news/:id" element={<NewsPage />} />
         </Route>
       </Routes>
     </Router>

@@ -10,20 +10,42 @@ const RightSidebar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    fetch("/data/events.json")
-      .then((res) => res.json())
-      .then((events) => {
-        const now = new Date();
-        const inTwoWeeks = new Date(now);
-        inTwoWeeks.setDate(now.getDate() + 14);
-        setUpcomingEvents(
-          events.filter((e) => {
-            const d = new Date(e.date);
-            return d >= now && d <= inTwoWeeks;
-          })
-        );
+    const token = localStorage.getItem("token");
+
+    fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch events");
+        return res.json();
       })
-      .catch(console.error);
+      .then((data) => {
+        const now = new Date();
+        const inTwoWeeks = new Date();
+        inTwoWeeks.setDate(now.getDate() + 14);
+
+        const upcoming = data
+          .map((item) => ({
+            id: item.eventId,
+            title: item.eventTitle,
+            description: item.description,
+            organizer: item.organizer,
+            date: item.date,
+            image:
+              item.photos_link && item.photos_link !== "string"
+                ? item.photos_link
+                : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+          }))
+          .filter((e) => {
+            const eventDate = new Date(e.date);
+            return eventDate >= now && eventDate <= inTwoWeeks;
+          });
+
+        setUpcomingEvents(upcoming);
+      })
+      .catch((err) => console.error("Error fetching upcoming events:", err));
   }, []);
 
   return (
