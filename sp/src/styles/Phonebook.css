@@ -1,116 +1,99 @@
 .phonebook-container {
-  padding: 20px 20px;
-  width: 100%;
-  overflow-x: hidden;
-  font-family: Inter, sans-serif;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.section-header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .phonebook-tabs {
   display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  gap: 10px;
-  margin-top: -10px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 12px;
   border-bottom: 1px solid #ddd;
-  padding: 6px 10px;
-  font-size: 0.75rem;
-  scrollbar-width: none;
+  padding-bottom: 4px;
 }
-.phonebook-tabs::-webkit-scrollbar {
-  display: none;
-}
+
 .phonebook-tabs button {
   background: none;
   border: none;
-  font-size: 0.85rem;
+  padding: 6px 12px;
   font-weight: 500;
-  padding: 6px 10px;
   cursor: pointer;
-  color: #444;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
+  color: #555;
+  transition: color 0.2s;
 }
-.phonebook-tabs button.active {
-  border-bottom: 2px solid #161d35;
+
+.phonebook-tabs button.active,
+.phonebook-tabs button:hover {
   color: #161d35;
   font-weight: 600;
 }
-.phonebook-tabs button:hover {
-  color: #000;
-}
 
 .phonebook-filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
-.phonebook-filters input,
-.phonebook-filters select {
-  padding: 8px;
-  font-size: 1rem;
-  border-radius: 4px;
+
+.phonebook-filters input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.95rem;
   border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.phonebook-table-wrapper {
+  overflow-x: auto;
 }
 
 .phonebook-table {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: white;
-  border-radius: 6px;
-  padding: 10px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* vertical gaps */
 }
 
-.phonebook-row {
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  font-size: 0.85rem;
-  gap: 16px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+.phonebook-table th {
+  background: #f0f0f0;
+  text-align: left;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
-.phonebook-row .profile-pic {
+
+.phonebook-table td {
+  background: #fff;
+  padding: 12px;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.phonebook-profile-pic {
   width: 40px;
   height: 40px;
-  border-radius: 8px; /* Or 50% for circular */
   object-fit: cover;
-  display: block;
+  border-radius: 8px;
 }
 
-.phonebook-row span {
-  flex: 1 1 0;
-  max-width: 120px;
-  min-width: 60px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.phonebook-row .star-btn {
-  margin-left: auto;
+.star-btn {
   background: none;
   border: none;
   font-size: 1.1rem;
   color: #d4a106;
   cursor: pointer;
 }
-.phonebook-row .star-btn:hover {
-  transform: scale(1.1);
-}
-.phonebook-row .saved {
+
+.star-btn .saved {
   color: #d4a106;
 }
 
 .pagination-info {
-  font-size: 0.85rem;
-  color: #666;
   text-align: right;
-  padding: 5px 10px;
+  margin-top: 8px;
+  color: #666;
+  font-size: 0.85rem;
 }

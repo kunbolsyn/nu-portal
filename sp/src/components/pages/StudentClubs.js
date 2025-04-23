@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/StudentClubs.css";
-import ClubDetail from "./ClubDetail"; // <-- NEW
-import { useLocation, useNavigate } from "react-router-dom"; // <-- NEW
+import ClubDetail from "./ClubDetail";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const StudentClubs = () => {
   const [clubs, setClubs] = useState([]);
@@ -9,14 +9,37 @@ const StudentClubs = () => {
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterCategory, setFilterCategory] = useState("");
 
-  const location = useLocation(); // <-- NEW
-  const navigate = useNavigate(); // <-- NEW
-  const [selectedClub, setSelectedClub] = useState(location.state?.selectedClub || null); // <-- NEW
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [selectedClub, setSelectedClub] = useState(
+    location.state?.selectedClub || null
+  );
 
   useEffect(() => {
-    fetch("/data/student_clubs.json")
+    const token = localStorage.getItem("token");
+    fetch(
+      "https://senior-project-java-backend.onrender.com/api/v1/studentorganization/all",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
-      .then((data) => setClubs(data))
+      .then((data) => {
+        // Adapt backend data to match UI format
+        const mappedClubs = data.map((club) => ({
+          name: club.title,
+          description: club.description,
+          category: club.category,
+          aims: club.aims,
+          members: "N/A", // You can replace this if you have member count
+          status: "Active", // If API doesn't return status, default to Active
+          logo: club.president?.account?.photo?.filePath || "club_logo.png",
+          fullData: club,
+        }));
+        setClubs(mappedClubs);
+      })
       .catch((error) => console.error("Error fetching clubs data:", error));
   }, []);
 
@@ -86,11 +109,15 @@ const StudentClubs = () => {
           <div
             key={index}
             className="student-club-card"
-            onClick={() => setSelectedClub(club)}
+            onClick={() => setSelectedClub(club.fullData)}
             style={{ cursor: "pointer" }}
           >
             <img
-              src={`/images/${club.logo}`}
+              src={
+                club.logo.startsWith("http")
+                  ? club.logo
+                  : `images/default-news.jpg`
+              }
               alt={club.name}
               className="student-club-img"
             />
@@ -111,7 +138,6 @@ const StudentClubs = () => {
         ))}
       </div>
 
-      {/* Modal Detail Overlay */}
       <ClubDetail item={selectedClub} onClose={closeOverlay} />
     </div>
   );

@@ -1,0 +1,50 @@
+.image-container {
+  position: relative;
+}
+
+.news-detail-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Inter, sans-serif;
+}
+
+.news-detail-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.news-detail-page h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+.meta {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.news-detail-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.back-button:hover {
+  background-color: rgba(240, 240, 240, 0.95);
+}

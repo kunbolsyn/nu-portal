@@ -3,60 +3,159 @@ import React, { useState, useEffect } from "react";
 import "../../styles/Phonebook.css";
 
 const TABS = ["Students", "Teaching Staff", "Staff", "Student Clubs", "Others"];
+const API_BASE = "https://senior-project-java-backend.onrender.com";
 
 const Phonebook = () => {
   const [contacts, setContacts] = useState([]);
   const [savedContacts, setSavedContacts] = useState([]);
   const [activeTab, setActiveTab] = useState("Students");
   const [search, setSearch] = useState("");
-  const [schoolFilter, setSchoolFilter] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Load saved contacts once (from localStorage / fallback JSON)
   useEffect(() => {
-    fetch("/data/phonebook.json")
-      .then((res) => res.json())
-      .then((data) => setContacts(data))
-      .catch((err) => console.error("Error fetching phonebook:", err));
-
-    fetch("/data/saved_contacts.json")
-      .then((res) => res.json())
-      .then((data) => setSavedContacts(data))
-      .catch((err) => console.error("Error fetching saved contacts:", err));
+    const stored = localStorage.getItem("savedContacts");
+    if (stored) {
+      setSavedContacts(JSON.parse(stored));
+    } else {
+      fetch("/data/saved_contacts.json")
+        .then((r) => r.json())
+        .then((data) => {
+          setSavedContacts(data);
+          localStorage.setItem("savedContacts", JSON.stringify(data));
+        })
+        .catch(console.error);
+    }
   }, []);
 
-  const toggleSave = (contact) => {
-    const isSaved = savedContacts.some((c) => c.email === contact.email);
-    const updated = isSaved
-      ? savedContacts.filter((c) => c.email !== contact.email)
-      : [...savedContacts, contact];
+  // Fetch the right endpoint when tab changes
+  useEffect(() => {
+    let path;
+    switch (activeTab) {
+      case "Students":
+        path = "/api/v1/student/all";
+        break;
+      case "Teaching Staff":
+        path = "/api/v1/teachingstaff/all";
+        break;
+      case "Staff":
+        path = "/api/v1/staff/all";
+        break;
+      case "Student Clubs":
+        path = "/api/v1/studentorganization/all";
+        break;
+      case "Others":
+        path = "/api/v1/department/all";
+        break;
+      default:
+        return;
+    }
 
-    setSavedContacts(updated);
-
-    // Send updated saved contacts to backend
-    fetch("/api/save-contacts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
+    setLoading(true);
+    fetch(`${API_BASE}${path}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to save contacts.");
-        console.log("Contacts updated successfully.");
+        if (!res.ok) throw new Error(`${activeTab} fetch failed`);
+        return res.json();
       })
-      .catch((err) => console.error(err));
+      .then((data) => {
+        const formatted = data.map((item) => {
+          switch (activeTab) {
+            case "Students":
+              return {
+                id: item.id,
+                name: `${item.name} ${item.surname}`,
+                email: item.account.email,
+                phone: item.phoneNumber,
+                school: item.school,
+                department: item.major,
+                gpa: item.gpa,
+                image: item.account.photo?.filePath || "images/profile.jpg",
+              };
+            case "Teaching Staff":
+              return {
+                id: item.account.email,
+                name: `${item.name} ${item.surname}`,
+                email: item.account.email,
+                phone: item.phoneNumber,
+                school: item.school,
+                department: item.specialization,
+                image: item.account.photo?.filePath || "images/profile.jpg",
+              };
+            case "Staff":
+              return {
+                id: item.account.email,
+                name: `${item.name} ${item.surname}`,
+                email: item.account.email,
+                phone: item.phoneNumber,
+                school: item.department?.title || "",
+                department: item.jobPosition,
+                image: item.account.photo?.filePath || "images/profile.jpg",
+              };
+            case "Student Clubs":
+              return {
+                id: item.corpEmail,
+                name: `${item.title} (Pres: ${item.president.name} ${item.president.surname})`,
+                email: item.corpEmail,
+                phone: item.president.phoneNumber,
+                school: item.president.school,
+                department: item.president.major,
+                image:
+                  item.president.account.photo?.filePath ||
+                  "images/profile.jpg",
+              };
+            case "Others":
+              return {
+                id: item.corporateEmail,
+                name: item.title,
+                email: item.corporateEmail,
+                phone: item.phoneNumber,
+                department: item.description,
+                image: "images/profile.jpg",
+              };
+            default:
+              return null;
+          }
+        });
+        setContacts(formatted.filter(Boolean));
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [activeTab]);
+
+  const toggleSave = (c) => {
+    const normalizedContact = {
+      id: c.id,
+      name: c.name,
+      email: c.email ?? "-",
+      phone: c.phone ?? "-",
+      school: c.school ?? "-",
+      department: c.department ?? "-",
+      gpa: c.gpa ?? null,
+      image: c.image ?? "images/profile.jpg",
+    };
+
+    const isSaved = savedContacts.some((x) => x.id === c.id);
+    const updated = isSaved
+      ? savedContacts.filter((x) => x.id !== c.id)
+      : [...savedContacts, normalizedContact];
+
+    setSavedContacts(updated);
+    localStorage.setItem("savedContacts", JSON.stringify(updated));
   };
 
-  const filtered = contacts.filter(
-    (c) =>
-      c.category === activeTab &&
-      c.name.toLowerCase().includes(search.toLowerCase()) &&
-      (schoolFilter === "" || c.school === schoolFilter) &&
-      (departmentFilter === "" || c.department === departmentFilter)
+  // Filter by name only
+  const filtered = contacts.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="phonebook-container">
       <div className="section-header">
-        <i className="fas fa-address-book"></i>
+        <i className="fas fa-address-book" />
         <h3>Phonebook</h3>
       </div>
 
@@ -75,68 +174,85 @@ const Phonebook = () => {
       <div className="phonebook-filters">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <select
-          value={schoolFilter}
-          onChange={(e) => setSchoolFilter(e.target.value)}
-        >
-          <option value="">School</option>
-          {[...new Set(contacts.map((c) => c.school).filter(Boolean))].map(
-            (school) => (
-              <option key={school} value={school}>
-                {school}
-              </option>
-            )
-          )}
-        </select>
-        <select
-          value={departmentFilter}
-          onChange={(e) => setDepartmentFilter(e.target.value)}
-        >
-          <option value="">Department</option>
-          {[...new Set(contacts.map((c) => c.department).filter(Boolean))].map(
-            (dep) => (
-              <option key={dep} value={dep}>
-                {dep}
-              </option>
-            )
-          )}
-        </select>
       </div>
 
-      <div className="phonebook-table">
-        {filtered.map((contact, index) => {
-          const isSaved = savedContacts.some((c) => c.email === contact.email);
-          return (
-            <div key={index} className="phonebook-row">
-              <img
-                src={contact.image}
-                alt={contact.name}
-                className="profile-pic"
-              />
-              <span>{contact.name}</span>
-              <span>{contact.email}</span>
-              <span>{contact.id}</span>
-              <span>{contact.phone}</span>
-              <span>{contact.school}</span>
-              <span>{contact.department}</span>
-              <span>{contact.gpa || "-"}</span>
-              <button className="star-btn" onClick={() => toggleSave(contact)}>
-                <i
-                  className={isSaved ? "fas fa-star saved" : "far fa-star"}
-                ></i>
-              </button>
-            </div>
-          );
-        })}
-        <div className="pagination-info">
-          1–{filtered.length} of{" "}
-          {contacts.filter((c) => c.category === activeTab).length}
+      {loading ? (
+        <p>Loading {activeTab}…</p>
+      ) : (
+        <div className="phonebook-table-wrapper">
+          <table className="phonebook-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Email</th>
+                {activeTab === "Students" && <th>ID</th>}
+                <th>Phone</th>
+                {["Students", "Teaching Staff", "Student Clubs"].includes(
+                  activeTab
+                ) && <th>School</th>}
+                {activeTab === "Staff" && <th>Department</th>}
+                {activeTab === "Others" && <th>Description</th>}
+                {activeTab === "Students" && <th>Major</th>}
+                {activeTab === "Teaching Staff" && <th>Specialization</th>}
+                {activeTab === "Staff" && <th>Position</th>}
+                {activeTab === "Student Clubs" && <th>Major</th>}
+                {activeTab === "Students" && <th>GPA</th>}
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((c) => {
+                const isSaved = savedContacts.some((x) => x.id === c.id);
+                return (
+                  <tr key={c.id}>
+                    <td>
+                      <img
+                        src={c.image}
+                        alt={c.name}
+                        className="phonebook-profile-pic"
+                      />
+                    </td>
+                    <td>{c.name}</td>
+                    <td>{c.email}</td>
+                    {activeTab === "Students" && <td>{c.id}</td>}
+                    <td>{c.phone}</td>
+                    {["Students", "Teaching Staff", "Student Clubs"].includes(
+                      activeTab
+                    ) && <td>{c.school}</td>}
+                    {activeTab === "Staff" && <td>{c.school}</td>}
+                    {activeTab === "Others" && <td>{c.department}</td>}
+                    {activeTab === "Students" && <td>{c.department}</td>}
+                    {activeTab === "Teaching Staff" && <td>{c.department}</td>}
+                    {activeTab === "Staff" && <td>{c.department}</td>}
+                    {activeTab === "Student Clubs" && <td>{c.department}</td>}
+                    {activeTab === "Students" && <td>{c.gpa ?? "-"}</td>}
+                    <td>
+                      <button
+                        className="star-btn"
+                        onClick={() => toggleSave(c)}
+                      >
+                        <i
+                          className={
+                            isSaved ? "fas fa-star saved" : "far fa-star"
+                          }
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div className="pagination-info">
+            Showing {filtered.length} of {contacts.length}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

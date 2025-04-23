@@ -3,47 +3,69 @@ import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "../styles/LoginPage.css";
 
+const API_BASE = "https://senior-project-java-backend.onrender.com";
+
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "https://senior-project-java-backend.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: username, password }),
-        }
-      );
+      const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password }),
+      });
 
-      if (response.status === 200) {
-        const authHeader = response.headers.get("Authorization");
-        if (authHeader && authHeader.startsWith("Bearer ")) {
-          const token = authHeader.split(" ")[1];
-          localStorage.setItem("token", token);
-          localStorage.setItem("isAuthenticated", "true");
-          localStorage.setItem("userRole", "dss");
-          localStorage.setItem("username", username);
 
-          console.log(token);
-          navigate("/dashboard");
-          window.location.reload(); // Force refresh to apply role-based routing
-        } else {
-          alert("Login successful, but token not received.");
+      if (loginRes.status !== 200) return;
+
+
+      const authHeader = loginRes.headers.get("Authorization");
+      if (!authHeader || !authHeader.startsWith("Bearer ")) return;
+
+      const token = authHeader.split(" ")[1];
+      localStorage.setItem("token", token);
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("username", username);
+
+      let role = "student";
+
+      try {
+        const acctRes = await fetch(
+          `${API_BASE}/api/v1/account/email/${encodeURIComponent(username)}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (acctRes.ok) {
+          const acctData = await acctRes.json();
+          if (acctData.role) role = acctData.role;
+          if (acctData.id) localStorage.setItem("accountId", acctData.id);
         }
-      } else {
-        alert("Invalid username or password.");
+      } catch (err) {
+        // Fail silently
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Something went wrong during login.");
+
+      localStorage.setItem("userRole", role.toLowerCase());
+      navigate("/dashboard");
+      window.location.reload();
+    } catch (err) {
+      // Fail silently
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,7 +91,7 @@ const LoginPage = () => {
               <Form.Group controlId="formBasicUsername">
                 <Form.Control
                   type="text"
-                  placeholder="Username"
+                  placeholder="Username (email)"
                   className="custom-input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -88,8 +110,12 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              <Button type="submit" className="w-100 mt-4 login-btn">
-                Login
+              <Button
+                type="submit"
+                className="w-100 mt-4 login-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
 
               <Button className="w-100 mt-2 google-login">
@@ -101,30 +127,6 @@ const LoginPage = () => {
                 <span>Login using Google</span>
               </Button>
             </Form>
-
-            {/* 🔒 Previous local login logic (commented out for backup)
-            useEffect(() => {
-              fetch("/data/users.json")
-                .then((res) => res.json())
-                .then((data) => setUsers(data))
-                .catch((err) => console.error("Failed to load users:", err));
-            }, []);
-
-            const matchedUser = users.find(
-              (user) => user.username === username && user.password === password
-            );
-
-            if (matchedUser) {
-              localStorage.setItem("isAuthenticated", "true");
-              localStorage.setItem("userRole", matchedUser.role);
-              localStorage.setItem("username", matchedUser.username);
-
-              navigate("/dashboard");
-              window.location.reload(); // Force reload for route to pick up role
-            } else {
-              alert("Invalid username or password.");
-            }
-            */}
           </Card.Body>
         </Card>
       </Container>

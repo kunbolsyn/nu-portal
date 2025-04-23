@@ -9,9 +9,30 @@ const Calendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    fetch("/data/events.json")
-      .then((res) => res.json())
-      .then((data) => setEvents(data))
+    const token = localStorage.getItem("token");
+    fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch events");
+        return res.json();
+      })
+      .then((data) => {
+        const transformed = data.map((item) => ({
+          id: item.eventId,
+          title: item.eventTitle,
+          description: item.description,
+          organizer: item.organizer,
+          date: item.date,
+          image:
+            item.photos_link && item.photos_link !== "string"
+              ? item.photos_link
+              : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+        }));
+        setEvents(transformed);
+      })
       .catch((err) => console.error("Error fetching events:", err));
   }, []);
 
@@ -21,13 +42,11 @@ const Calendar = () => {
   const daysInMonth = startOfMonth.daysInMonth();
   const startDayOfWeek = startOfMonth.day();
 
-  // build calendar cells
   const calendarCells = [];
   for (let i = 0; i < startDayOfWeek; i++) calendarCells.push(null);
   for (let d = 1; d <= daysInMonth; d++) calendarCells.push(d);
   while (calendarCells.length < 42) calendarCells.push(null);
 
-  // events for a given day
   const getEventsForDay = (dayNumber) => {
     if (!dayNumber) return [];
     const cellDate = dayjs(new Date(year, month, dayNumber));

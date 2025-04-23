@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Add this import
 import "../../styles/News.css";
 import "../../styles/NewsCards.css";
-import NewsDetail from "./NewsDetail";
 
 const News = () => {
   const [news, setNews] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const navigate = useNavigate(); // ✅ Use navigate
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,14 +23,15 @@ const News = () => {
         const transformed = data.map((item) => ({
           id: item.news_id,
           title: item.newsTitle,
-          author: item.author || "Unknown",
+          name: item.name || "Unknown",
+          surname: item.surname || "",
+          username: item.email,
           date: item.newsDatePosted,
           content: item.text_content,
           image:
             item.photos.length > 0
               ? item.photos[0].filePath
-              : "/default-news.jpg", // fallback image
-          raw: item, // save raw data in case needed in detail view
+              : "images/default-news.jpg",
         }));
         setNews(transformed);
       })
@@ -49,13 +50,13 @@ const News = () => {
       <section className="news-hero">
         <div
           className="featured-news"
-          onClick={() => setSelected(featured)}
+          onClick={() => navigate(`/news/${featured.id}`)} // ✅ Navigate to new page
           style={{ cursor: "pointer" }}
         >
           <img src={featured.image} alt={featured.title} />
           <div className="overlay">
             <p className="author">
-              <i className="fas fa-user"></i> {featured.author}
+              <i className="fas fa-user"></i> {featured.name} {featured.surname}
             </p>
             <p className="date">
               <i className="fas fa-calendar-alt"></i> {featured.date}
@@ -63,12 +64,13 @@ const News = () => {
             <h2 className="title">{featured.title}</h2>
           </div>
         </div>
+
         <div className="side-news">
           {sideNews.map((item, index) => (
             <div
               key={index}
               className="side-news-card"
-              onClick={() => setSelected(item)}
+              onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
               style={{ cursor: "pointer" }}
             >
               <img src={item.image} alt={item.title} />
@@ -88,14 +90,14 @@ const News = () => {
           <div
             key={item.id}
             className="news-card"
-            onClick={() => setSelected(item)}
+            onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
             style={{ cursor: "pointer" }}
           >
             <img src={item.image} alt={item.title} />
             <h4>{item.title}</h4>
             <div className="meta">
               <p>
-                <i className="fas fa-user"></i> {item.author}
+                <i className="fas fa-user"></i> {item.name} {item.surname}
               </p>
               <p>
                 <i className="fas fa-calendar-alt"></i> {item.date}
@@ -105,8 +107,6 @@ const News = () => {
           </div>
         ))}
       </div>
-
-      <NewsDetail item={selected} onClose={() => setSelected(null)} />
     </div>
   );
 };
