@@ -51,7 +51,19 @@ const RightSidebar = () => {
   return (
     <div className="right-sidebar">
       <div className="calendar-card">
-        <Calendar locale="en-US" onChange={setDate} value={date} className="mini-calendar" />
+        <Calendar 
+          locale="en-US" 
+          onChange={setDate} 
+          value={date} 
+          className="mini-calendar"
+          tileContent={({ date, view }) =>
+            view === "month" &&
+            upcomingEvents.some(
+              (evt) => new Date(evt.date).toDateString() === date.toDateString()
+            ) ? (
+              <div className="event-indicator"></div>
+            ) : null
+          }/>
       </div>
 
       <div className="card-header">
