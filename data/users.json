@@ -1,0 +1,33 @@
+[
+  {
+    "username": "student1",
+    "password": "Student123!",
+    "role": "student"
+  },
+  {
+    "username": "dss1",
+    "password": "DSS123!",
+    "role": "dss"
+  },
+
+  {
+    "username": "staff1",
+    "password": "Staff123!",
+    "role": "staff"
+  },
+  {
+    "username": "staff1",
+    "password": "Staff123!",
+    "role": "faculty"
+  },
+  {
+    "username": "usm1",
+    "password": "USM123!",
+    "role": "usm"
+  },
+  {
+    "username": "it1",
+    "password": "IT123!",
+    "role": "it"
+  }
+]

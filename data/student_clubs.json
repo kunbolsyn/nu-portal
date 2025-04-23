@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Art Studio",
+    "status": "Active",
+    "category": "Entertainment",
+    "members": 20,
+    "description": "A creative club focused on visual arts and painting.",
+    "logo": "artstudio.jpg",
+    "president": "Anna Smith",
+    "founded": "2017",
+    "instagram": "https://www.instagram.com/nu_art_studio/"
+  },
+  {
+    "name": "Boxing Club",
+    "status": "Active",
+    "category": "Sports",
+    "members": 25,
+    "description": "A club for boxing enthusiasts and athletes.",
+    "logo": "boxclub.jfif",
+    "president": "John Doe",
+    "founded": "2015",
+    "instagram": "https://www.instagram.com/nuboxingclub/"
+  },
+  {
+    "name": "Board Games",
+    "status": "Active",
+    "category": "Recreation",
+    "members": 15,
+    "description": "A fun club for board game lovers.",
+    "logo": "boardgames.png",
+    "president": "Emily Taylor",
+    "founded": "2018",
+    "instagram": "https://www.instagram.com/nu.boardgames/"
+  },
+  {
+    "name": "Dance Club",
+    "status": "Active",
+    "category": "Arts",
+    "members": 12,
+    "description": "A club focused on all styles of dance.",
+    "logo": "dclub.jpg",
+    "president": "Sophia Lee",
+    "founded": "2016",
+    "instagram": "https://www.instagram.com/nudanceclub/"
+  }
+]

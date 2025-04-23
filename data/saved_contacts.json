@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Dimas Surname",
+    "email": "dimas@example.com",
+    "phone": "+123456789",
+    "school": "Engineering",
+    "department": "Computer Science",
+    "gpa": 3.8,
+    "image": "/images/profile.jpg"
+  }
+]

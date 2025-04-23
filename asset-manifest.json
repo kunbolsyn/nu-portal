@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/nu-portal/static/css/main.3b7a3d56.css",
+    "main.js": "/nu-portal/static/js/main.debb47a0.js",
+    "static/js/488.c2fb710e.chunk.js": "/nu-portal/static/js/488.c2fb710e.chunk.js",
+    "static/media/bg.png": "/nu-portal/static/media/bg.4545c055f6c660d2e6f4.png",
+    "static/media/fa-solid-900.ttf": "/nu-portal/static/media/fa-solid-900.2582b0e4bcf85eceead0.ttf",
+    "static/media/banner.jpg": "/nu-portal/static/media/banner.fff50b54039bccfba9ed.jpg",
+    "static/media/fa-brands-400.ttf": "/nu-portal/static/media/fa-brands-400.1815e00441357e01619e.ttf",
+    "static/media/fa-solid-900.woff2": "/nu-portal/static/media/fa-solid-900.2463b90d9a316e4e5294.woff2",
+    "static/media/fa-brands-400.woff2": "/nu-portal/static/media/fa-brands-400.c210719e60948b211a12.woff2",
+    "static/media/fa-regular-400.ttf": "/nu-portal/static/media/fa-regular-400.914997e1bdfc990d0897.ttf",
+    "static/media/fa-regular-400.woff2": "/nu-portal/static/media/fa-regular-400.89999bdf5d835c012025.woff2",
+    "static/media/fa-v4compatibility.ttf": "/nu-portal/static/media/fa-v4compatibility.da94ef451f4969af06e6.ttf",
+    "static/media/fa-v4compatibility.woff2": "/nu-portal/static/media/fa-v4compatibility.ea8f94e1d22e0d35ccd4.woff2",
+    "index.html": "/nu-portal/index.html",
+    "main.3b7a3d56.css.map": "/nu-portal/static/css/main.3b7a3d56.css.map",
+    "main.debb47a0.js.map": "/nu-portal/static/js/main.debb47a0.js.map",
+    "488.c2fb710e.chunk.js.map": "/nu-portal/static/js/488.c2fb710e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3b7a3d56.css",
+    "static/js/main.debb47a0.js"
+  ]
+}
