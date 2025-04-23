@@ -1,75 +1,88 @@
+// src/components/pages/Events.js
 import React, { useState, useEffect } from "react";
 import "../../styles/Events.css";
 import EventDetail from "./EventDetail";
-import { useLocation } from "react-router-dom";
 
 const Events = () => {
-  const location = useLocation();
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(
-    location.state?.selectedEvent || null
-  );
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
-    fetch("/data/events.json")
-      .then((res) => res.json())
-      .then(setEvents)
-      .catch(console.error);
+    const token = localStorage.getItem("token");
+    fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch events");
+        return res.json();
+      })
+      .then((data) => {
+        const transformed = data.map((item) => ({
+          id: item.eventId,
+          title: item.eventTitle,
+          description: item.description,
+          organizer: item.organizer,
+          date: item.date,
+          image:
+            // item.photos_link.length > 0
+            //   ? item.photos_link
+            "images/default-event.jpg",
+        }));
+        setEvents(transformed);
+      })
+      .catch((err) => {
+        console.error("Error fetching events:", err);
+        setEvents([]); // to avoid endless loading
+      });
   }, []);
 
-  // 2) Whenever location.state.selectedEvent changes, update local state
-  useEffect(() => {
-    if (location.state?.selectedEvent) {
-      setSelectedEvent(location.state.selectedEvent);
-    }
-  }, [location.state]);
-
-  if (!events.length) {
+  if (events.length === 0) {
     return <div className="events-page">Loading events...</div>;
   }
+
+  // Date helpers
   const today = new Date();
   const twoWeeksFromNow = new Date();
   twoWeeksFromNow.setDate(today.getDate() + 14);
 
-  const isSameDay = (d1, d2) =>
-    new Date(d1).toDateString() === new Date(d2).toDateString();
-
+  // Split into featured and upcoming
   const featuredEvents = events.slice(0, 3);
-
-  const upcomingEvents = events.filter((event) => {
-    const eventDate = new Date(event.date);
-    if (selectedDate) {
-      return isSameDay(eventDate, new Date(selectedDate));
-    }
-    return eventDate >= today && eventDate <= twoWeeksFromNow;
-  });
+  const upcomingEvents = events;
+  // const upcomingEvents = events.filter((evt) => {
+  //   const ed = new Date(evt.date);
+  //   if (selectedDate) {
+  //     return isSameDay(ed, new Date(selectedDate));
+  //   }
+  //   return ed >= today && ed <= twoWeeksFromNow;
+  // });
 
   return (
     <div className="events-page">
-      {/* Featured Events Section */}
+      {/* Featured / Registration Open */}
       <div className="featured-events-section">
         <div className="section-header">
           <i className="fas fa-bolt"></i>
           <h3>Registration Open!</h3>
         </div>
         <div className="featured-events">
-          {featuredEvents.map((event, idx) => (
+          {featuredEvents.map((evt) => (
             <div
-              key={idx}
+              key={evt.id}
               className="featured-event-card"
-              onClick={() => setSelectedEvent(event)}
-              style={{ cursor: "pointer" }}
+              onClick={() => setSelectedEvent(evt)}
             >
-              <img src={event.image} alt={event.title} />
+              <img src={evt.image} alt={evt.title} />
               <div className="event-info">
-                <h3>{event.title}</h3>
+                <h3>{evt.title}</h3>
                 <div className="event-meta-icons">
                   <p>
-                    <i className="fas fa-user"></i> {event.organizer}
+                    <i className="fas fa-user"></i> {evt.organizer}
                   </p>
                   <p>
-                    <i className="fas fa-calendar-alt"></i> {event.date}
+                    <i className="fas fa-calendar-alt"></i> {evt.date}
                   </p>
                 </div>
                 <button className="register-btn">Register</button>
@@ -79,16 +92,20 @@ const Events = () => {
         </div>
       </div>
 
-      {/* Upcoming Events Section */}
-
+      {/* Upcoming Events */}
       <div className="section-header">
         <i className="fas fa-calendar-alt"></i>
         <h3>Upcoming Events</h3>
       </div>
       <div className="upcoming-events-header">
         <div className="events-filter-bar">
-          <select>
-            <option value="">Select clubs</option>
+          <select
+            value=""
+            onChange={(e) => {
+              /* you can wire club filtering here */
+            }}
+          >
+            <option value="">All Clubs</option>
             <option value="Film Club">Film Club</option>
             <option value="Tech Club">Tech Club</option>
             <option value="Business Club">Business Club</option>
@@ -101,34 +118,32 @@ const Events = () => {
           />
         </div>
       </div>
-
-      {/* Upcoming Events Grid */}
       <div className="events-grid">
-        {upcomingEvents.map((event, idx) => (
+        {upcomingEvents.map((evt) => (
           <div
-            key={idx}
+            key={evt.id}
             className="event-card"
-            onClick={() => setSelectedEvent(event)}
-            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedEvent(evt)}
           >
-            <img src={event.image} alt={event.title} />
+            <img src={evt.image} alt={evt.title} />
             <div className="event-card-body">
-              <h4>{event.title}</h4>
+              <h4>{evt.title}</h4>
               <div className="event-meta-icons">
                 <p>
-                  <i className="fas fa-user"></i> {event.organizer}
+                  <i className="fas fa-user"></i> {evt.organizer}
                 </p>
                 <p>
-                  <i className="fas fa-calendar-alt"></i> {event.date}
+                  <i className="fas fa-calendar-alt"></i> {evt.date}
                 </p>
               </div>
-              <p className="event-desc">{event.description}</p>
+              {/* You can hide the description on featured */}
+              <p className="event-desc">{evt.description}</p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Detail Overlay (reusable) */}
+      {/* Detail overlay */}
       <EventDetail
         item={selectedEvent}
         onClose={() => setSelectedEvent(null)}

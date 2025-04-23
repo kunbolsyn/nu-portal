@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Add this import
 import "../../styles/News.css";
+import "../../styles/NewsCards.css";
 
 const News = () => {
   const [news, setNews] = useState([]);
