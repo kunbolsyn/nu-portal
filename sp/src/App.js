@@ -17,6 +17,8 @@ import Requests from "./components/pages/Requests";
 import Payments from "./components/pages/Payments";
 import Booking from "./components/pages/Booking";
 import NewsPage from "./components/pages/NewsPage";
+import EventManagement from "./components/pages/EventManagement";
+import NewsModeration from "./components/pages/NewsModeration";
 import "./styles/App.css";
 
 const App = () => {
@@ -53,6 +55,8 @@ const App = () => {
         <Route path="payments" element={<Payments />} />
         <Route path="booking" element={<Booking />} />
         <Route path="/news/:id" element={<NewsPage />} />
+        <Route path="event-management" element={<EventManagement />} />
+        <Route path="news-moderation" element={<NewsModeration />} />
       </Route>
     </Routes>
   );
