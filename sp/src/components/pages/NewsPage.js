@@ -30,8 +30,9 @@ const NewsPage = () => {
 
         <img
           src={
-            news.photos?.[0]?.filePath ||
-            `${process.env.PUBLIC_URL}/images/default-news.jpg`
+            news.photo?.filePath
+              ? news.photo.filePath
+              : `${process.env.PUBLIC_URL}/images/default-news.jpg`
           }
           alt={news.newsTitle}
           className="news-detail-image"
@@ -40,7 +41,7 @@ const NewsPage = () => {
 
       <h1>{news.newsTitle}</h1>
       <p className="meta">
-        <i className="fas fa-user"></i> {news.author} &nbsp;&nbsp;
+        <i className="fas fa-user"></i> {news.name} {news.surname} &nbsp;&nbsp;
         <i className="fas fa-calendar-alt"></i> {news.newsDatePosted}
       </p>
       <div className="news-detail-content">{news.text_content}</div>

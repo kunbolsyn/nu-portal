@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "homepage": "https://kunbolsyn.github.io/nu-portal",
   "private": true,
+  "proxy": "https://senior-project-java-backend.onrender.com",
   "dependencies": {
     "@fontsource/inter": "^5.1.1",
     "@fontsource/prata": "^5.1.1",

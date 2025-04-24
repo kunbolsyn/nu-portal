@@ -32,10 +32,9 @@ const DashboardStudent = () => {
           username: item.email,
           date: item.newsDatePosted,
           content: item.text_content,
-          image:
-            item.photos.length > 0
-              ? item.photos[0].filePath
-              : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
+          image: item.photo?.filePath
+            ? item.photo.filePath
+            : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
         }));
         setNews(transformed);
       })
