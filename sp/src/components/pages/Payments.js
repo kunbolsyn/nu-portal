@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Payments.css";
+import { FaMoneyBillWave, FaHistory } from "react-icons/fa";
 
 const Payments = () => {
   const [activeCategory, setActiveCategory] = useState("laundry");
@@ -283,10 +284,15 @@ const Payments = () => {
   };
 
   return (
-    <div className="payments-page">
-      <div className="payment-container">
+    <div className="payments-container">
+      {/* Make Payment Section */}
+      <div className="payments-header">
+        <FaMoneyBillWave className="payments-header-icon" />
+        <h1>Make Payment</h1>
+      </div>
+      
+      <div className="payment-content-container">
         <div className="payment-categories">
-          <h2>Make Payment</h2>
           <div className="category-list">
             {paymentCategories.map(category => (
               <div
@@ -303,110 +309,113 @@ const Payments = () => {
           </div>
         </div>
 
-        <div className="payment-main">
-          <div className="payment-form">
-            <h2>{paymentCategories.find(c => c.id === activeCategory)?.name}</h2>
-            {renderPaymentForm()}
-            
-            {activeCategory !== "dormitory" && (
-              <div className="payment-actions">
-                <div className="total-sum">Total Sum: {calculateTotal()} KZT</div>
-                <button className="pay-button" onClick={handlePayment}>
-                  {activeCategory === "fund" ? "Make Contribution" : "Pay Now"}
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="payment-form">
+          <h2>{paymentCategories.find(c => c.id === activeCategory)?.name}</h2>
+          {renderPaymentForm()}
+          
+          {activeCategory !== "dormitory" && (
+            <div className="payment-actions">
+              <div className="total-sum">Total Sum: {calculateTotal()} KZT</div>
+              <button className="pay-button" onClick={handlePayment}>
+                {activeCategory === "fund" ? "Make Contribution" : "Pay Now"}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
-          <div className="payment-history-section">
-            <h2>Payment History</h2>
-            <div className="history-controls">
-              <div className="search-box">
-                <input
-                  type="text"
-                  placeholder="Q. Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="filter-buttons">
-                <button 
-                  className={statusFilter === "All" ? "active" : ""}
-                  onClick={() => setStatusFilter("All")}
-                >
-                  All
-                </button>
-                <button
-                  className={statusFilter === "Unpaid" ? "active" : ""}
-                  onClick={() => setStatusFilter("Unpaid")}
-                >
-                  Unpaid
-                </button>
-                <button
-                  className={statusFilter === "Paid" ? "active" : ""}
-                  onClick={() => setStatusFilter("Paid")}
-                >
-                  Paid
-                </button>
-                <button
-                  className={statusFilter === "Pending" ? "active" : ""}
-                  onClick={() => setStatusFilter("Pending")}
-                >
-                  Pending
-                </button>
-              </div>
-              <div className="sort-options">
-                <select>
-                  <option>Sort</option>
-                  <option>Newest First</option>
-                  <option>Oldest First</option>
-                  <option>Highest Amount</option>
-                  <option>Lowest Amount</option>
-                </select>
-              </div>
-            </div>
-            
-            <table className="history-table">
-              <thead>
-                <tr>
-                  <th>Position ↓</th>
-                  <th>Payment ID ↓</th>
-                  <th>Category ↓</th>
-                  <th>Date ↓</th>
-                  <th>Time ↓</th>
-                  <th>Price ↓</th>
-                  <th>Status ↓</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredHistory.map((row, idx) => (
-                  <tr key={idx}>
-                    <td>{row.category}</td>
-                    <td>{row.id}</td>
-                    <td>{row.category}</td>
-                    <td>{row.date}</td>
-                    <td>{row.time}</td>
-                    <td>{row.price} KZT</td>
-                    <td className={`status ${row.status.toLowerCase()}`}>
-                      <span className="status-dot">▪</span> {row.status}
-                    </td>
-                    <td>
-                      {row.status === "Unpaid" ? (
-                        <button className="action-button pay">Pay</button>
-                      ) : (
-                        <button className="action-button view">View</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            
-            <div className="pagination">
-              <span>1-3 of 3</span>
-            </div>
+      {/* Payment History Section */}
+      <div className="payments-header" style={{ marginTop: '40px' }}>
+        <FaHistory className="payments-header-icon" />
+        <h1>Payment History</h1>
+      </div>
+
+      <div className="payment-history-section">
+        <div className="history-controls">
+          <div className="search-box-payments">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <div className="filter-buttons">
+            <button 
+              className={`filter-button ${statusFilter === "All" ? "active" : ""}`}
+              onClick={() => setStatusFilter("All")}
+            >
+              All
+            </button>
+            <button
+              className={`filter-button ${statusFilter === "Unpaid" ? "active" : ""}`}
+              onClick={() => setStatusFilter("Unpaid")}
+            >
+              Unpaid
+            </button>
+            <button
+              className={`filter-button ${statusFilter === "Paid" ? "active" : ""}`}
+              onClick={() => setStatusFilter("Paid")}
+            >
+              Paid
+            </button>
+            <button
+              className={`filter-button ${statusFilter === "Pending" ? "active" : ""}`}
+              onClick={() => setStatusFilter("Pending")}
+            >
+              Pending
+            </button>
+          </div>
+          <div className="sort-options">
+            <select>
+              <option>Sort</option>
+              <option>Newest First</option>
+              <option>Oldest First</option>
+              <option>Highest Amount</option>
+              <option>Lowest Amount</option>
+            </select>
+          </div>
+        </div>
+        
+        <table className="history-table">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Payment ID</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredHistory.map((row, idx) => (
+              <tr key={idx}>
+                <td>{row.category}</td>
+                <td>{row.id}</td>
+                <td>{row.category}</td>
+                <td>{row.date}</td>
+                <td>{row.time}</td>
+                <td>{row.price} KZT</td>
+                <td className={`status ${row.status.toLowerCase()}`}>
+                  <span className="status-dot">▪</span> {row.status}
+                </td>
+                <td>
+                  {row.status === "Unpaid" ? (
+                    <button className="action-button pay">Pay</button>
+                  ) : (
+                    <button className="action-button view">View</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        <div className="pagination">
+          <span>1-3 of 3</span>
         </div>
       </div>
     </div>
