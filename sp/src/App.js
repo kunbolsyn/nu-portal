@@ -21,6 +21,7 @@ import NewsPage from "./components/pages/NewsPage";
 import EventManagement from "./components/pages/EventManagement";
 import NewsModeration from "./components/pages/NewsModeration";
 import UniversityHistory from "./components/infocenter/UniversityHistory";
+import ArticleContent from "./components/infocenter/ArticleContent";
 import "./styles/App.css";
 
 const App = () => {
@@ -59,8 +60,28 @@ const App = () => {
         <Route path="/news/:id" element={<NewsPage />} />
         <Route path="event-management" element={<EventManagement />} />
         <Route path="news-moderation" element={<NewsModeration />} />
+        
         <Route path="infocenter" element={<Infocenter />} />
         <Route path="university-history" element={<UniversityHistory />} />
+        <Route path="mission-values" element={<ArticleContent />} />
+        <Route path="campus-map" element={<ArticleContent />} />
+        <Route path="leadership" element={<ArticleContent />} />
+        <Route path="accreditation" element={<ArticleContent />} />
+        <Route path="schools" element={<ArticleContent />} />
+        <Route path="library" element={<ArticleContent />} />
+        <Route path="registrar" element={<ArticleContent />} />
+        <Route path="career-center" element={<ArticleContent />} />
+        <Route path="academic-advising" element={<ArticleContent />} />
+        <Route path="student-organizations" element={<ArticleContent />} />
+        <Route path="sports-complex" element={<ArticleContent />} />
+        <Route path="department-of-student-services" element={<ArticleContent />} />
+        <Route path="health-wellness" element={<ArticleContent />} />
+        <Route path="student-government" element={<ArticleContent />} />
+        <Route path="residence-halls" element={<ArticleContent />} />
+        <Route path="housing-policies" element={<ArticleContent />} />
+        <Route path="housing-application" element={<ArticleContent />} />
+        <Route path="residential-life" element={<ArticleContent />} />
+        
       </Route>
     </Routes>
   );

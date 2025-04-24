@@ -25,7 +25,7 @@ const RightSidebar = () => {
         const now = new Date();
         const inTwoWeeks = new Date();
         inTwoWeeks.setDate(now.getDate() + 54);
-
+      
         const upcoming = data
           .map((item) => ({
             id: item.eventId,
@@ -40,8 +40,9 @@ const RightSidebar = () => {
           .filter((e) => {
             const eventDate = new Date(e.date);
             return eventDate >= now && eventDate <= inTwoWeeks;
-          });
-
+          })
+          .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date ascending
+      
         setUpcomingEvents(upcoming);
       })
       .catch((err) => console.error("Error fetching upcoming events:", err));

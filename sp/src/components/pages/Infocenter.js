@@ -86,16 +86,16 @@ const categories = [
         path: "/student-organizations"
       },
       { 
-        title: "Athletics", 
-        description: "Information about sports teams and recreational activities",
+        title: "Sports Complex", 
+        description: "Information about facilities, sports teams and recreational activities",
         icon: "fas fa-running",
-        path: "/athletics"
+        path: "/sports-complex"
       },
       { 
-        title: "Campus Events", 
-        description: "Stay updated with upcoming events and activities",
-        icon: "fas fa-calendar-alt",
-        path: "/campus-events"
+        title: "Department of Student Services", 
+        description: "Support in campus life and in navigating extracurricular and social life",
+        icon: "fas fa-hands-helping",
+        path: "/department-of-student-services"
       },
       { 
         title: "Health & Wellness", 
@@ -104,10 +104,10 @@ const categories = [
         path: "/health-wellness"
       },
       { 
-        title: "Dining Services", 
-        description: "Information about on-campus dining options and meal plans",
-        icon: "fas fa-utensils",
-        path: "/dining-services"
+        title: "Student Government", 
+        description: "Information About Ministries, Student Fund Budget and Students’ Rights Committee",
+        icon: "fas fa-fist-raised",
+        path: "/student-government"
       }
     ]
   },

@@ -1,3 +1,10 @@
+.right-sidebar {
+  width: 300px;
+  background-color: #EBEBEB;
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+}
+
 .calendar-card {
   background: white;
   border-radius: 8px;
@@ -10,14 +17,14 @@
 .events-card {
   border-radius: 8px;
   overflow: hidden;
+  margin-top: 5x;
 }
 
 .card-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #0E1C36;
-  color: #fff;
+  color: #0E1C36;
   padding: 8px 12px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -34,58 +41,88 @@
 }
 
 .mini-calendar .react-calendar__tile {
-  padding: 6px 0;
-  font-size: 0.7rem;
+  position: relative;
+  margin-top: 10px;
+  margin-top: 10;
+  height: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .mini-calendar .react-calendar__tile--now {
   background: #0E1C36 !important;
   color: #fff !important;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mini-calendar .react-calendar__tile--active {
   background: #4599ad !important;
   color: #fff !important;
-  border-radius: 100%;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: none !important; /* Prevents any weird transforms */
 }
 
-/* Weekday labels like Mon, Tue, Wed... */
+.react-calendar__tile abbr {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
 .react-calendar__month-view__weekdays__weekday {
-  font-size: 0.6rem; /* You can set this to any size you like */
-  font-weight: 600;
-  color: #0E1C36; /* Optional: style the color too */
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #0E1C36;
+  padding-bottom: 4px;
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
   text-transform: uppercase;
   display: block;
   text-align: center;
+  text-decoration: none;
 }
 
 .react-calendar__navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: -10px;
   margin-top: -10px;
 }
 
 .react-calendar__navigation button {
   background: none;
   border: none;
-  font-size: 0.9rem;
-  padding: 4px 0px;
+  font-size: 0.8rem;
+  padding: 4px 4px;
   color: #0E1C36;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .react-calendar__navigation__label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #0E1C36;   /* Optional: change text color */
-  text-transform: uppercase; /* Optional: uppercase the label */
+  color: #0E1C36;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .react-calendar__navigation__prev2-button,
