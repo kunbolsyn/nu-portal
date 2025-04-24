@@ -31,12 +31,13 @@ const EventManagement = () => {
           date: item.date,
           startTime: item.startTime || "--:--",
           endTime: item.endTime || "--:--",
-          status: item.status || "Pending",
+          status: item.status || "waiting",
           moderationNote: item.moderationNote || "",
           image: item.photos_link || [],
           organizer: item.organizer || "Unknown Organizer",
           capacity: item.venue?.capacity || "N/A",
           location: item.venue?.location || "N/A",
+          fullEventData: item, // Save original for PUT request
         }));
         setEvents(formatted);
       })
@@ -47,39 +48,72 @@ const EventManagement = () => {
   }, []);
 
   const filteredEvents = events
+    .filter((e) => {
+      const name = e.name || "";
+      const description = e.description || "";
+      return (
+        name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    })
     .filter(
       (e) =>
-        e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter(
-      (e) =>
-        selectedOrganization === "All" || e.organization === selectedOrganization
+        selectedOrganization === "All" ||
+        e.organization === selectedOrganization
     )
     .sort((a, b) => {
       if (sortOption === "venue") return a.room.localeCompare(b.room);
       if (sortOption === "status") return a.status.localeCompare(b.status);
-      if (sortOption === "organization") return a.organization.localeCompare(b.organization);
+      if (sortOption === "organization")
+        return a.organization.localeCompare(b.organization);
       if (sortOption === "date-asc") return a.date.localeCompare(b.date);
       if (sortOption === "date-desc") return b.date.localeCompare(a.date);
       return 0;
     });
 
-  const handleApprove = () => updateEventStatus("Accepted");
-  const handleReject = () => updateEventStatus("Rejected");
-  const handlePending = () => {
-    updateEventStatus("Pending");
-  };
-  
-
-  const updateEventStatus = (newStatus) => {
+  const updateEventStatus = async (newStatus) => {
     if (!selectedEvent) return;
-    const updated = events.map((e) =>
-      e.id === selectedEvent.id ? { ...e, status: newStatus, moderationNote } : e
-    );
-    setEvents(updated);
+    const token = localStorage.getItem("token");
+
+    const updatedEvent = {
+      ...selectedEvent.fullEventData,
+      status: newStatus,
+      moderationNote,
+    };
+
+    try {
+      const response = await fetch(
+        `https://senior-project-java-backend.onrender.com/api/events/${selectedEvent.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedEvent),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update event status");
+      }
+
+      const updated = events.map((e) =>
+        e.id === selectedEvent.id
+          ? { ...e, status: newStatus, moderationNote }
+          : e
+      );
+      setEvents(updated);
+    } catch (err) {
+      console.error("Error updating event:", err);
+    }
+
     closeModal();
   };
+
+  const handleApprove = () => updateEventStatus("accepted");
+  const handleReject = () => updateEventStatus("rejected");
+  const handlePending = () => updateEventStatus("waiting");
 
   const openModal = (event) => {
     setSelectedEvent(event);
@@ -91,12 +125,17 @@ const EventManagement = () => {
     setModerationNote("");
   };
 
-  const uniqueOrganizations = ["All", ...new Set(events.map((e) => e.organization))];
+  const uniqueOrganizations = [
+    "All",
+    ...new Set(events.map((e) => e.organization)),
+  ];
 
   return (
     <div className="event-management">
       <div className="header-section">
-        <h3><i className="fas fa-mail-bulk"></i> Event Requests</h3>
+        <h3>
+          <i className="fas fa-mail-bulk"></i> Event Requests
+        </h3>
         <div className="event-controls">
           <input
             type="text"
@@ -104,12 +143,20 @@ const EventManagement = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <select value={selectedOrganization} onChange={(e) => setSelectedOrganization(e.target.value)}>
+          <select
+            value={selectedOrganization}
+            onChange={(e) => setSelectedOrganization(e.target.value)}
+          >
             {uniqueOrganizations.map((org, i) => (
-              <option key={i} value={org}>{org}</option>
+              <option key={i} value={org}>
+                {org}
+              </option>
             ))}
           </select>
-          <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
             <option value="">Sort by</option>
             <option value="venue">Venue</option>
             <option value="status">Status</option>
@@ -135,14 +182,20 @@ const EventManagement = () => {
         </thead>
         <tbody>
           {filteredEvents.map((event, idx) => (
-            <tr key={idx} onClick={() => openModal(event)} style={{ cursor: "pointer" }}>
+            <tr
+              key={idx}
+              onClick={() => openModal(event)}
+              style={{ cursor: "pointer" }}
+            >
               <td>{event.name}</td>
               <td>{event.id}</td>
               <td>{event.organization}</td>
               <td>{event.description}</td>
               <td>{event.room}</td>
               <td>{event.date}</td>
-              <td>{event.startTime}–{event.endTime}</td>
+              <td>
+                {event.startTime}–{event.endTime}
+              </td>
               <td>
                 <span className={`status-badge ${event.status.toLowerCase()}`}>
                   {event.status}
