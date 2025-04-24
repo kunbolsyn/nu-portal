@@ -17,6 +17,7 @@
 .events-card {
   border-radius: 8px;
   overflow: hidden;
+  margin-top: 5x;
 }
 
 .card-header {
@@ -130,49 +131,27 @@
   display: none;
 }
 
-/* Event indicators positioning */
-.event-indicators {
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 0px;
-}
-
-.event-indicator {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #4599AD; /* NU cyan */
-}
-
 .upcoming-list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 8px 0;
 }
 
-.upcoming-item {
-  margin-bottom: 8px;
-}
-
-.upcoming-item:last-child {
-  margin-bottom: 0;
+.upcoming-item + .upcoming-item {
+  margin-top: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .upcoming-content {
   background: #ffffff;
   border-radius: 6px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   cursor: pointer;
   transition: background 0.2s;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .upcoming-content:hover {
-  background: rgba(69, 153, 173, 0.1);
+  background: rgba(69, 153, 173, 0.3);
 }
 
 .ue-title {
@@ -191,7 +170,7 @@
 }
 
 .ue-meta i {
-  font-size: 0.7rem;
+  color: #0E1C36;
 }
 
 .no-events {
@@ -199,16 +178,13 @@
   color: #888;
   text-align: center;
   padding: 12px 0;
-  background: white;
-  border-radius: 6px;
 }
 
-.day-header {
-  color: #4599AD; /* NU cyan */
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0 4px;
-  padding: 4px 0;
-  border-radius: 4px;
+.event-indicator {
+  width: 6px;
+  height: 6px;
+  background-color: #4599ad;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 0;
 }

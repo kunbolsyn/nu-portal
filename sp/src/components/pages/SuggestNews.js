@@ -61,6 +61,7 @@ const SuggestNews = () => {
             Accept: "application/json",
           },
         });
+
         if (res.status === 204) {
           setPosts([]);
           return;
@@ -69,6 +70,7 @@ const SuggestNews = () => {
           console.warn("Error loading posts:", await res.text());
           return;
         }
+
         const data = await res.json();
         setPosts(data.reverse());
       } catch (err) {
@@ -103,7 +105,6 @@ const SuggestNews = () => {
     const today = new Date().toISOString().split("T")[0];
     const formData = new FormData();
 
-    // Build the JSON part as a Blob with explicit Content-Type
     const newsData = {
       newsTitle: title,
       text_content: description,
@@ -122,7 +123,6 @@ const SuggestNews = () => {
     });
     formData.append("news", newsBlob);
 
-    // Append the image file (will have its own Content-Type automatically)
     if (image) {
       formData.append("file", image);
     }
@@ -133,7 +133,6 @@ const SuggestNews = () => {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          // Do NOT set the overall Content-Type; browser will add multipart/form-data with boundary
         },
         body: formData,
       });
@@ -155,6 +154,24 @@ const SuggestNews = () => {
     }
   };
 
+  // Delete a post
+  const handleDeletePost = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/news/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        console.error("Failed to delete post:", await res.text());
+        return;
+      }
+      setPosts((prev) => prev.filter((post) => post.news_id !== id));
+    } catch (err) {
+      console.error("Error deleting post:", err);
+    }
+  };
+
   return (
     <div className="suggest-news-container">
       {/* Create News */}
@@ -162,6 +179,7 @@ const SuggestNews = () => {
         <i className="fas fa-pen-nib" />
         <h3>Create News</h3>
       </div>
+
       <div className="create-post-section">
         <div
           className="upload-box"
@@ -191,6 +209,7 @@ const SuggestNews = () => {
             onChange={handleFileChange}
           />
         </div>
+
         <div className="news-fields">
           <label>Title</label>
           <div className="title-input-wrapper">
@@ -203,6 +222,7 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{180 - title.length}</span>
           </div>
+
           <label>Description</label>
           <div className="desc-input-wrapper">
             <textarea
@@ -213,6 +233,7 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{360 - description.length}</span>
           </div>
+
           <button
             onClick={handlePost}
             disabled={loading}
@@ -224,15 +245,16 @@ const SuggestNews = () => {
       </div>
 
       {/* Previous Posts */}
-      <div className="suggest-section-header">
+      <div className="suggest-section-header" style={{ marginTop: "2rem" }}>
         <i className="fas fa-history" />
         <h3>Previous Posts</h3>
       </div>
+
       <div className="previous-posts-section">
         {posts.length === 0 ? (
           <p className="no-posts-msg">No posts yet.</p>
         ) : (
-          <table className="posts-table">
+          <table className="event-table">
             <thead>
               <tr>
                 <th>Photo</th>
@@ -240,6 +262,7 @@ const SuggestNews = () => {
                 <th>Title</th>
                 <th>Date Requested</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -259,7 +282,20 @@ const SuggestNews = () => {
                   <td>{`${p.name} ${p.surname}`}</td>
                   <td>{p.newsTitle}</td>
                   <td>{p.newsDateRequestSent}</td>
-                  <td>{p.status}</td>
+                  <td>
+                    <span className={`status-badge ${p.status.toLowerCase()}`}>
+                      {p.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="delete-post-btn"
+                      title="Delete post"
+                      onClick={() => handleDeletePost(p.news_id)}
+                    >
+                      <i className="fas fa-trash-alt" />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

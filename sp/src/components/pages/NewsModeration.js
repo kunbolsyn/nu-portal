@@ -1,82 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/NewsModeration.css";
 
-const tabs = ["Unmoderated", "Moderated", "Deleted"];
-
 const NewsModeration = () => {
-  const [activeTab, setActiveTab] = useState("Unmoderated");
   const [news, setNews] = useState([]);
+  const [tab, setTab] = useState("unmoderated");
 
   useEffect(() => {
-    // Replace with actual fetch call
-    setNews([
-      {
-        id: 1,
-        title: "Student Film Festival to Showcase Local Talent",
-        author: "Alex Tinez",
-        date: "2024-11-20",
-        category: "Academic",
-        content:
-          "During the visit, NU presented its educational and research opportunities...",
-        image: "/images/filmfestival.jpg",
-        status: "Unmoderated",
+    const token = localStorage.getItem("token");
+
+    fetch("https://senior-project-java-backend.onrender.com/api/news/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    ]);
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch news");
+        return res.json();
+      })
+      .then((data) => {
+        const transformed = data.map((item) => ({
+          id: item.news_id,
+          title: item.newsTitle,
+          name: item.name || "Unknown",
+          surname: item.surname || "",
+          username: item.email,
+          date: item.newsDatePosted,
+          content: item.text_content,
+          image:
+            item.photos.length > 0
+              ? item.photos[0].filePath
+              : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
+          status: item.status || "unmoderated"
+        }));
+        setNews(transformed);
+      })
+      .catch((error) => console.error("Error fetching news:", error));
   }, []);
 
   const updateStatus = (id, newStatus) => {
     setNews((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, status: newStatus } : item
-      )
+      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
     );
   };
 
-  const filteredNews = news.filter((item) => item.status === activeTab);
+  const tabs = ["unmoderated", "moderated", "deleted"];
 
   return (
     <div className="news-moderation-container">
-      <div className="my-events-header">
-        <h3>
-          <i className="fas fa-newspaper"></i> News Moderation
-        </h3>
+      <div className="news-moderation-header">
+        <h3><i className="fas fa-check-double"></i> News Moderation</h3>
       </div>
-      <div className="tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={tab === activeTab ? "active-tab" : ""}
-            onClick={() => setActiveTab(tab)}
+
+      <div className="moderation-tabs">
+        {tabs.map((t) => (
+          <div
+            key={t}
+            className={`moderation-tab ${t} ${tab === t ? "active" : ""}`}
+            onClick={() => setTab(t)}
           >
-            {tab}
-          </button>
+            {t.charAt(0).toUpperCase() + t.slice(1)}
+            <span className="count">{news.filter((n) => n.status === t).length}</span>
+          </div>
         ))}
       </div>
-      <div className="news-cards">
-        {filteredNews.map((item) => (
+
+      <div className="news-card-grid">
+        {news.filter((item) => item.status === tab).map((item) => (
           <div key={item.id} className="news-card">
-            <img src={item.image} alt={item.title} />
-            <h4>{item.title}</h4>
-            <p><i className="fas fa-user"></i> {item.author}</p>
-            <p><i className="fas fa-calendar-alt"></i> {item.date}</p>
-            {activeTab === "Unmoderated" && (
-              <>
-                <p className="category">Category: {item.category}</p>
-                <p>{item.content}</p>
-              </>
-            )}
-            <div className="action-buttons">
-              {activeTab === "Unmoderated" && (
+            <img src={item.image} alt={item.title} className="news-image" />
+            <h4 className="news-title">{item.title}</h4>
+            <div className="news-meta">
+              <p><i className="fas fa-user"></i> {item.name} {item.surname}</p>
+              <p><i className="fas fa-calendar-alt"></i> {item.date}</p>
+            </div>
+            <p className="news-description">{item.content}</p>
+
+            <div className="news-actions">
+              {tab === "unmoderated" && (
                 <>
-                  <button className="approve-btn" onClick={() => updateStatus(item.id, "Moderated")}>Approve</button>
-                  <button className="delete-btn" onClick={() => updateStatus(item.id, "Deleted")}>Delete</button>
+                  <button className="approve-btn" onClick={() => updateStatus(item.id, "moderated")}>Approve</button>
+                  <button className="delete-btn" onClick={() => updateStatus(item.id, "deleted")}>Delete</button>
                 </>
               )}
-              {activeTab === "Moderated" && (
-                <button className="delete-btn" onClick={() => updateStatus(item.id, "Deleted")}>Delete</button>
+              {tab === "moderated" && (
+                <button className="delete-btn" onClick={() => updateStatus(item.id, "deleted")}>Delete</button>
               )}
-              {activeTab === "Deleted" && (
-                <button className="restore-btn" onClick={() => updateStatus(item.id, "Unmoderated")}>Restore</button>
+              {tab === "deleted" && (
+                <button className="restore-btn" onClick={() => updateStatus(item.id, "unmoderated")}>Restore</button>
               )}
             </div>
           </div>
