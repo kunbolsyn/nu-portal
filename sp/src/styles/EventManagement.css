@@ -1,69 +1,172 @@
-.event-management-page {
-    font-family: "Inter", sans-serif;
-    padding: 20px;
-  }
-  
-  .event-management-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .event-controls {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .event-controls input,
-  .event-controls select {
-    padding: 8px;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .event-management-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .event-management-table th,
-  .event-management-table td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-    font-size: 0.95rem;
-  }
-  
-  .hover-row {
-    cursor: pointer;
-    transition: background 0.15s ease-in-out;
-  }
-  .hover-row:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .status-badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-block;
-  }
-  
-  .status-badge.pending {
-    background-color: #fff3cd;
-    color: #856404;
-  }
-  
-  .status-badge.accepted {
-    background-color: #d4edda;
-    color: #155724;
-  }
-  
-  .status-badge.rejected {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
+/* EventManagement.css - styled like EventPlanning.css */
+
+.event-management {
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+  color: #161d35;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.header-section h3 {
+  font-size: 1.4rem;
+  color: #0d1b3e;
+  margin: 0;
+}
+
+.event-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.event-controls input,
+.event-controls select {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f4f4f4;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.event-table th,
+.event-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+
+.event-table th {
+  color: #0d1b3e;
+  font-weight: 600;
+}
+
+.event-table tr:hover {
+  background-color: #f8f8f8;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.accepted {
+  background-color: #0d1b3e;
+  color: white;
+}
+
+.status-badge.rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Consistent Modal Styling */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  font-family: "Inter", sans-serif;
+  color: #161d35;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.modal-detail label {
+  font-weight: 600;
+  color: #0d1b3e;
+  display: block;
+  margin-top: 10px;
+}
+
+.modal-detail p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.modal-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  margin-top: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions button,
+.submit-btn,
+.clear-btn,
+.close-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background-color: #0d1b3e;
+  color: white;
+}
+
+.clear-btn {
+  background-color: #831c2a;
+  color: white;
+}
+
+.close-btn {
+  background-color: #f4f4f4;
+  color: #0d1b3e;
+}
