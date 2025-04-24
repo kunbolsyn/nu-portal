@@ -33,10 +33,9 @@ const RightSidebar = () => {
             description: item.description,
             organizer: item.organizer,
             date: item.date,
-            image:
-              item.photos_link && item.photos_link !== "string"
-                ? item.photos_link
-                : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+            image: item.photo?.filePath
+              ? item.photo.filePath
+              : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
           }))
           .filter((e) => {
             const eventDate = new Date(e.date);
@@ -51,10 +50,10 @@ const RightSidebar = () => {
   return (
     <div className="right-sidebar">
       <div className="calendar-card">
-        <Calendar 
-          locale="en-US" 
-          onChange={setDate} 
-          value={date} 
+        <Calendar
+          locale="en-US"
+          onChange={setDate}
+          value={date}
           className="mini-calendar"
           tileContent={({ date, view }) =>
             view === "month" &&
@@ -63,7 +62,8 @@ const RightSidebar = () => {
             ) ? (
               <div className="event-indicator"></div>
             ) : null
-          }/>
+          }
+        />
       </div>
 
       <div className="card-header">

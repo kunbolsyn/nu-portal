@@ -37,9 +37,15 @@ const EventPlanning = () => {
   const [sortOption, setSortOption] = useState("");
 
   useEffect(() => {
-    fetch("/data/venues.json").then((res) => res.json()).then(setVenues);
-    fetch("/data/organizations.json").then((res) => res.json()).then(setOrganizations);
-    fetch("/data/events.json").then(res => res.json()).then(setExistingEvents);
+    fetch("/data/venues.json")
+      .then((res) => res.json())
+      .then(setVenues);
+    fetch("/data/organizations.json")
+      .then((res) => res.json())
+      .then(setOrganizations);
+    fetch("/data/events.json")
+      .then((res) => res.json())
+      .then(setExistingEvents);
   }, []);
 
   useEffect(() => {
@@ -47,19 +53,15 @@ const EventPlanning = () => {
       setAvailability("Unavailable");
       return;
     }
-  
-    const isConflict = existingEvents.some(event => {
+
+    const isConflict = existingEvents.some((event) => {
       // Direct string comparison, now both are in YYYY-MM-DD format
       if (event.venue !== room || event.date !== date) return false;
       return !(endTime <= event.startTime || startTime >= event.endTime);
     });
-  
+
     setAvailability(isConflict ? "Unavailable" : "Available");
   }, [room, date, startTime, endTime, existingEvents]);
-  
-  
-
-  
 
   const handleFileChange = (e) => {
     setAttachedFiles([...attachedFiles, ...Array.from(e.target.files)]);
@@ -121,25 +123,27 @@ const EventPlanning = () => {
   };
 
   const filteredEvents = submittedEvents
-  .filter(e =>
-    (e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      e.description.toLowerCase().includes(searchTerm.toLowerCase()))
-  )
-  .filter(e =>
-    selectedClub === "All" || e.organization === selectedClub
-  )
-  .sort((a, b) => {
-    if (sortOption === "venue") return a.room.localeCompare(b.room);
-    if (sortOption === "status") return a.status.localeCompare(b.status);
-    if (sortOption === "organization") return a.organization.localeCompare(b.organization);
-    if (sortOption === "date-asc") return a.date.localeCompare(b.date);
-    if (sortOption === "date-desc") return b.date.localeCompare(a.date);
-    return 0;
-  });
+    .filter(
+      (e) =>
+        e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        e.description.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((e) => selectedClub === "All" || e.organization === selectedClub)
+    .sort((a, b) => {
+      if (sortOption === "venue") return a.room.localeCompare(b.room);
+      if (sortOption === "status") return a.status.localeCompare(b.status);
+      if (sortOption === "organization")
+        return a.organization.localeCompare(b.organization);
+      if (sortOption === "date-asc") return a.date.localeCompare(b.date);
+      if (sortOption === "date-desc") return b.date.localeCompare(a.date);
+      return 0;
+    });
 
   return (
     <div className="event-planning-container">
-      <h2><i className="fas fa-calendar-plus"></i> Create Event</h2>
+      <h2>
+        <i className="fas fa-calendar-plus"></i> Create Event
+      </h2>
       <div className="event-form">
         <label>Organization name</label>
         <input
@@ -205,7 +209,9 @@ const EventPlanning = () => {
 
         <p>
           <strong>Status:</strong>{" "}
-          <span style={{ color: availability === "Available" ? "green" : "red" }}>
+          <span
+            style={{ color: availability === "Available" ? "green" : "red" }}
+          >
             {availability}
           </span>
         </p>
@@ -226,21 +232,29 @@ const EventPlanning = () => {
                 type="text"
                 placeholder="Name Surname"
                 value={personInput.name}
-                onChange={(e) => setPersonInput({ ...personInput, name: e.target.value })}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, name: e.target.value })
+                }
               />
               <input
                 type="number"
                 placeholder="Telephone Number"
                 value={personInput.phone}
-                onChange={(e) => setPersonInput({ ...personInput, phone: e.target.value })}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, phone: e.target.value })
+                }
               />
               <input
                 type="number"
                 placeholder="ID Number"
                 value={personInput.id}
-                onChange={(e) => setPersonInput({ ...personInput, id: e.target.value })}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, id: e.target.value })
+                }
               />
-              <button className="add-person-btn" onClick={addContactPerson}>Add Person</button>
+              <button className="add-person-btn" onClick={addContactPerson}>
+                Add Person
+              </button>
             </div>
             {contactPersons.length > 0 && (
               <div className="contact-list">
@@ -269,7 +283,9 @@ const EventPlanning = () => {
             list="equipment-options"
             placeholder="Category"
             value={equipmentInput.category}
-            onChange={(e) => setEquipmentInput({ ...equipmentInput, category: e.target.value })}
+            onChange={(e) =>
+              setEquipmentInput({ ...equipmentInput, category: e.target.value })
+            }
           />
           <datalist id="equipment-options">
             <option value="Projector" />
@@ -283,17 +299,23 @@ const EventPlanning = () => {
             placeholder="Amount"
             min="1"
             value={equipmentInput.amount}
-            onChange={(e) => setEquipmentInput({ ...equipmentInput, amount: e.target.value })}
+            onChange={(e) =>
+              setEquipmentInput({ ...equipmentInput, amount: e.target.value })
+            }
           />
           <input
             type="text"
             placeholder="Comments..."
             value={equipmentInput.comments}
-            onChange={(e) => setEquipmentInput({ ...equipmentInput, comments: e.target.value })}
+            onChange={(e) =>
+              setEquipmentInput({ ...equipmentInput, comments: e.target.value })
+            }
           />
         </div>
         <div className="equipment-button-wrapper">
-          <button className="add-person-btn" onClick={addEquipment}>Add Equipment</button>
+          <button className="add-person-btn" onClick={addEquipment}>
+            Add Equipment
+          </button>
         </div>
 
         {technicalEquipment.map((item, i) => (
@@ -311,20 +333,27 @@ const EventPlanning = () => {
           onChange={(e) => setAdditionalComments(e.target.value)}
         />
 
-        
-<div className="file-action-row">
-  <button className="attach-btn" onClick={() => fileInputRef.current.click()}>Attach files</button>
-  <button className="clear-btn" onClick={handleClear}>Clear</button>
-  <button className="submit-btn" onClick={handleSubmit}>Send a request</button>
-  <input
-    type="file"
-    ref={fileInputRef}
-    multiple
-    onChange={handleFileChange}
-    style={{ display: "none" }}
-  />
-</div>
-
+        <div className="file-action-row">
+          <button
+            className="attach-btn"
+            onClick={() => fileInputRef.current.click()}
+          >
+            Attach files
+          </button>
+          <button className="clear-btn" onClick={handleClear}>
+            Clear
+          </button>
+          <button className="submit-btn" onClick={handleSubmit}>
+            Send a request
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            multiple
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+        </div>
 
         {attachedFiles.length > 0 && (
           <ul className="attached-files">
@@ -333,14 +362,14 @@ const EventPlanning = () => {
             ))}
           </ul>
         )}
-
-
       </div>
 
-     {/* === MY EVENTS SECTION === */}
-     <div className="my-events-section">
+      {/* === MY EVENTS SECTION === */}
+      <div className="my-events-section">
         <div className="my-events-header">
-          <h3><i className="fas fa-calendar-alt"></i> My Events</h3>
+          <h3>
+            <i className="fas fa-calendar-alt"></i> My Events
+          </h3>
           <div className="event-controls">
             <input
               type="text"
@@ -348,13 +377,21 @@ const EventPlanning = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <select value={selectedClub} onChange={(e) => setSelectedClub(e.target.value)}>
+            <select
+              value={selectedClub}
+              onChange={(e) => setSelectedClub(e.target.value)}
+            >
               <option value="All">Select Clubs</option>
               {organizations.map((org, i) => (
-                <option key={i} value={org}>{org}</option>
+                <option key={i} value={org}>
+                  {org}
+                </option>
               ))}
             </select>
-            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
               <option value="">Sort by</option>
               <option value="venue">Venue</option>
               <option value="status">Status</option>
@@ -387,17 +424,22 @@ const EventPlanning = () => {
                 <td>{event.description}</td>
                 <td>{event.organization}</td>
                 <td>{event.date}</td>
-                <td>{event.startTime}–{event.endTime}</td>
+                <td>
+                  {event.startTime}–{event.endTime}
+                </td>
                 <td>{event.room}</td>
                 <td>
                   {event.technicalEquipment?.map((eq, i) => (
                     <div key={i}>
-                      {eq.category} ({eq.amount}){eq.comments ? ` - ${eq.comments}` : ""}
+                      {eq.category} ({eq.amount})
+                      {eq.comments ? ` - ${eq.comments}` : ""}
                     </div>
                   ))}
                 </td>
                 <td>
-                  <span className={`status-badge ${event.status.toLowerCase()}`}>
+                  <span
+                    className={`status-badge ${event.status.toLowerCase()}`}
+                  >
                     {event.status}
                   </span>
                 </td>
@@ -406,11 +448,7 @@ const EventPlanning = () => {
           </tbody>
         </table>
       </div>
-
     </div>
-
-
-
   );
 };
 

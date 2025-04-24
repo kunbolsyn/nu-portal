@@ -11,6 +11,10 @@ const ClubDetail = ({ item, onClose }) => {
 
   if (!item) return null;
 
+  const presidentName = item?.president
+    ? `${item.president.name || ""} ${item.president.surname || ""}`.trim()
+    : null;
+
   return createPortal(
     <div className="club-detail-backdrop" onClick={onClose}>
       <div className="club-detail-modal" onClick={(e) => e.stopPropagation()}>
@@ -20,7 +24,11 @@ const ClubDetail = ({ item, onClose }) => {
         <div className="club-detail-content">
           <div className="image-section">
             <img
-              src={`/images/${item.logo}`}
+              src={
+                item.logo?.startsWith("http")
+                  ? item.logo
+                  : `${process.env.PUBLIC_URL}/images/default-event.jpg`
+              }
               alt={item.name}
               className="club-detail-image"
             />
@@ -37,14 +45,15 @@ const ClubDetail = ({ item, onClose }) => {
               <p>
                 <i className="fas fa-tags"></i> Category: {item.category}
               </p>
-              {item.president && (
+              {presidentName && (
                 <p>
-                  <i className="fas fa-user-tie"></i> President: {item.president}
+                  <i className="fas fa-user-tie"></i> President: {presidentName}
                 </p>
               )}
               {item.foundingYear && (
                 <p>
-                  <i className="fas fa-history"></i> Founded: {item.foundingYear}
+                  <i className="fas fa-history"></i> Founded:{" "}
+                  {item.foundingYear}
                 </p>
               )}
               {item.instagram && (

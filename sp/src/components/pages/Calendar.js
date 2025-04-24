@@ -26,10 +26,9 @@ const Calendar = () => {
           description: item.description,
           organizer: item.organizer,
           date: item.date,
-          image:
-            item.photos_link && item.photos_link !== "string"
-              ? item.photos_link
-              : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+          image: item.photo?.filePath
+            ? item.photo.filePath
+            : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
         }));
         setEvents(transformed);
       })

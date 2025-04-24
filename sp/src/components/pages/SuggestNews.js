@@ -20,15 +20,15 @@ const SuggestNews = () => {
   const accountId = localStorage.getItem("accountId");
   const username = localStorage.getItem("username");
 
-  // Redirect to login if not authenticated
   useEffect(() => {
-    if (!token) navigate("/");
+    if (!token) {
+      navigate("/");
+    }
   }, [token, navigate]);
 
-  // Fetch user profile
   useEffect(() => {
     const fetchProfile = async () => {
-      let endpoint;
+      let endpoint = "";
       if (role === "student")
         endpoint = `/api/v1/student/accountid/${accountId}`;
       else if (role === "faculty")
@@ -50,7 +50,6 @@ const SuggestNews = () => {
     if (accountId && token) fetchProfile();
   }, [role, accountId, token]);
 
-  // Fetch user's posts
   useEffect(() => {
     const fetchPosts = async () => {
       const url = `${API_BASE}/api/news/email/${encodeURIComponent(username)}`;
@@ -61,6 +60,7 @@ const SuggestNews = () => {
             Accept: "application/json",
           },
         });
+
         if (res.status === 204) {
           setPosts([]);
           return;
@@ -69,6 +69,7 @@ const SuggestNews = () => {
           console.warn("Error loading posts:", await res.text());
           return;
         }
+
         const data = await res.json();
         setPosts(data.reverse());
       } catch (err) {
@@ -79,7 +80,6 @@ const SuggestNews = () => {
     if (username && token) fetchPosts();
   }, [username, token]);
 
-  // File handlers
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
@@ -91,7 +91,6 @@ const SuggestNews = () => {
     if (file) setImage(file);
   };
 
-  // Post new suggestion
   const handlePost = async () => {
     if (!title || !description) return;
     if (!token) {
@@ -103,7 +102,6 @@ const SuggestNews = () => {
     const today = new Date().toISOString().split("T")[0];
     const formData = new FormData();
 
-    // Build the JSON part as a Blob with explicit Content-Type
     const newsData = {
       newsTitle: title,
       text_content: description,
@@ -117,23 +115,19 @@ const SuggestNews = () => {
       videos: [],
       downloadable_files: [],
     };
-    const newsBlob = new Blob([JSON.stringify(newsData)], {
-      type: "application/json",
-    });
-    formData.append("news", newsBlob);
 
-    // Append the image file (will have its own Content-Type automatically)
+    formData.append("news", JSON.stringify(newsData));
     if (image) {
       formData.append("file", image);
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/news`, {
+      const url = `${API_BASE}/api/news`;
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          // Do NOT set the overall Content-Type; browser will add multipart/form-data with boundary
         },
         body: formData,
       });
@@ -157,7 +151,6 @@ const SuggestNews = () => {
 
   return (
     <div className="suggest-news-container">
-      {/* Create News */}
       <div className="suggest-section-header">
         <i className="fas fa-pen-nib" />
         <h3>Create News</h3>
@@ -223,7 +216,6 @@ const SuggestNews = () => {
         </div>
       </div>
 
-      {/* Previous Posts */}
       <div className="suggest-section-header">
         <i className="fas fa-history" />
         <h3>Previous Posts</h3>
