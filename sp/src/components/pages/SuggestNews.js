@@ -20,15 +20,15 @@ const SuggestNews = () => {
   const accountId = localStorage.getItem("accountId");
   const username = localStorage.getItem("username");
 
+  // Redirect to login if not authenticated
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
+    if (!token) navigate("/");
   }, [token, navigate]);
 
+  // Fetch user profile
   useEffect(() => {
     const fetchProfile = async () => {
-      let endpoint = "";
+      let endpoint;
       if (role === "student")
         endpoint = `/api/v1/student/accountid/${accountId}`;
       else if (role === "faculty")
@@ -50,6 +50,7 @@ const SuggestNews = () => {
     if (accountId && token) fetchProfile();
   }, [role, accountId, token]);
 
+  // Fetch user's posts
   useEffect(() => {
     const fetchPosts = async () => {
       const url = `${API_BASE}/api/news/email/${encodeURIComponent(username)}`;
@@ -80,6 +81,7 @@ const SuggestNews = () => {
     if (username && token) fetchPosts();
   }, [username, token]);
 
+  // File handlers
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
@@ -91,6 +93,7 @@ const SuggestNews = () => {
     if (file) setImage(file);
   };
 
+  // Post new suggestion
   const handlePost = async () => {
     if (!title || !description) return;
     if (!token) {
@@ -115,15 +118,17 @@ const SuggestNews = () => {
       videos: [],
       downloadable_files: [],
     };
+    const newsBlob = new Blob([JSON.stringify(newsData)], {
+      type: "application/json",
+    });
+    formData.append("news", newsBlob);
 
-    formData.append("news", JSON.stringify(newsData));
     if (image) {
       formData.append("file", image);
     }
 
     try {
-      const url = `${API_BASE}/api/news`;
-      const res = await fetch(url, {
+      const res = await fetch(`${API_BASE}/api/news`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -149,12 +154,32 @@ const SuggestNews = () => {
     }
   };
 
+  // Delete a post
+  const handleDeletePost = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/news/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        console.error("Failed to delete post:", await res.text());
+        return;
+      }
+      setPosts((prev) => prev.filter((post) => post.news_id !== id));
+    } catch (err) {
+      console.error("Error deleting post:", err);
+    }
+  };
+
   return (
     <div className="suggest-news-container">
+      {/* Create News */}
       <div className="suggest-section-header">
         <i className="fas fa-pen-nib" />
         <h3>Create News</h3>
       </div>
+
       <div className="create-post-section">
         <div
           className="upload-box"
@@ -184,6 +209,7 @@ const SuggestNews = () => {
             onChange={handleFileChange}
           />
         </div>
+
         <div className="news-fields">
           <label>Title</label>
           <div className="title-input-wrapper">
@@ -196,6 +222,7 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{180 - title.length}</span>
           </div>
+
           <label>Description</label>
           <div className="desc-input-wrapper">
             <textarea
@@ -206,6 +233,7 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{360 - description.length}</span>
           </div>
+
           <button
             onClick={handlePost}
             disabled={loading}
@@ -216,15 +244,17 @@ const SuggestNews = () => {
         </div>
       </div>
 
-      <div className="suggest-section-header">
+      {/* Previous Posts */}
+      <div className="suggest-section-header" style={{ marginTop: "2rem" }}>
         <i className="fas fa-history" />
         <h3>Previous Posts</h3>
       </div>
+
       <div className="previous-posts-section">
         {posts.length === 0 ? (
           <p className="no-posts-msg">No posts yet.</p>
         ) : (
-          <table className="posts-table">
+          <table className="event-table">
             <thead>
               <tr>
                 <th>Photo</th>
@@ -232,6 +262,7 @@ const SuggestNews = () => {
                 <th>Title</th>
                 <th>Date Requested</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -251,7 +282,20 @@ const SuggestNews = () => {
                   <td>{`${p.name} ${p.surname}`}</td>
                   <td>{p.newsTitle}</td>
                   <td>{p.newsDateRequestSent}</td>
-                  <td>{p.status}</td>
+                  <td>
+                    <span className={`status-badge ${p.status.toLowerCase()}`}>
+                      {p.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="delete-post-btn"
+                      title="Delete post"
+                      onClick={() => handleDeletePost(p.news_id)}
+                    >
+                      <i className="fas fa-trash-alt" />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

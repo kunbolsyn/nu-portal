@@ -1,10 +1,21 @@
+// src/components/pages/EventPlanning.js
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/EventPlanning.css";
 
+const API_BASE = "https://senior-project-java-backend.onrender.com";
+
 const EventPlanning = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+
+  const [events, setEvents] = useState([]);
+
+  // Form state
   const [organization, setOrganization] = useState("");
   const [eventName, setEventName] = useState("");
-  const [room, setRoom] = useState("");
+  const [venueId, setVenueId] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("00:00");
   const [endTime, setEndTime] = useState("00:00");
@@ -23,190 +34,245 @@ const EventPlanning = () => {
     id: "",
   });
   const [additionalComments, setAdditionalComments] = useState("");
-  const [attachedFiles, setAttachedFiles] = useState([]);
+
+  // Image upload state
+  const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  // Backend-driven state
   const [venues, setVenues] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
-  const [availability, setAvailability] = useState("Available");
-  const [existingEvents, setExistingEvents] = useState([]);
-  const [submittedEvents, setSubmittedEvents] = useState([]);
+  const [reservations, setReservations] = useState([]);
+  const [availability, setAvailability] = useState("Unavailable");
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedClub, setSelectedClub] = useState("All");
-  const [sortOption, setSortOption] = useState("");
-
+  // Fetch my events
   useEffect(() => {
-    fetch("/data/venues.json")
-      .then((res) => res.json())
-      .then(setVenues);
-    fetch("/data/organizations.json")
-      .then((res) => res.json())
-      .then(setOrganizations);
-    fetch("/data/events.json")
-      .then((res) => res.json())
-      .then(setExistingEvents);
-  }, []);
+    if (!username || !token) return;
 
+    fetch(`${API_BASE}/api/events/email/${encodeURIComponent(username)}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch events");
+        return res.json();
+      })
+      .then((data) => setEvents(data))
+      .catch((err) => console.error("Error loading events:", err));
+  }, [username, token]);
+
+  //Delete event
+  // DELETE an event by its ID
+  const handleDeleteEvent = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/events/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        console.error("Failed to delete event:", await res.text());
+        return;
+      }
+      // Remove from state
+      setEvents((prev) => prev.filter((e) => e.eventId !== id));
+    } catch (err) {
+      console.error("Error deleting event:", err);
+    }
+  };
+
+  // Fetch all venues
   useEffect(() => {
-    if (!room || !date || !startTime || !endTime) {
+    fetch(`${API_BASE}/api/venues/all`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then(setVenues)
+      .catch(console.error);
+  }, [token]);
+
+  // Fetch reservations for selected venue
+  useEffect(() => {
+    if (!venueId) return;
+    fetch(`${API_BASE}/api/venue-reservations/${venueId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then(setReservations)
+      .catch(console.error);
+  }, [venueId, token]);
+
+  // Recalculate availability
+  useEffect(() => {
+    if (!venueId || !date || !startTime || !endTime) {
       setAvailability("Unavailable");
       return;
     }
-
-    const isConflict = existingEvents.some((event) => {
-      // Direct string comparison, now both are in YYYY-MM-DD format
-      if (event.venue !== room || event.date !== date) return false;
-      return !(endTime <= event.startTime || startTime >= event.endTime);
+    const conflict = reservations.some((r) => {
+      const from = `${String(r.time_from.hour).padStart(2, "0")}:${String(
+        r.time_from.minute
+      ).padStart(2, "0")}`;
+      const to = `${String(r.time_to.hour).padStart(2, "0")}:${String(
+        r.time_to.minute
+      ).padStart(2, "0")}`;
+      return !(endTime <= from || startTime >= to);
     });
+    setAvailability(conflict ? "Unavailable" : "Available");
+  }, [venueId, date, startTime, endTime, reservations]);
 
-    setAvailability(isConflict ? "Unavailable" : "Available");
-  }, [room, date, startTime, endTime, existingEvents]);
-
+  // File handlers
   const handleFileChange = (e) => {
-    setAttachedFiles([...attachedFiles, ...Array.from(e.target.files)]);
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
+  const handleDragOver = (e) => e.preventDefault();
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) setImage(file);
   };
 
-  const handleClear = () => {
-    if (!window.confirm("Are you sure you want to clear the form?")) return;
-    setOrganization("");
-    setEventName("");
-    setRoom("");
-    setDate("");
-    setStartTime("00:00");
-    setEndTime("00:00");
-    setDescription("");
-    setInventory("");
-    setContactPersons([]);
-    setPersonInput({ name: "", phone: "", id: "" });
-    setTechnicalEquipment([]);
-    setEquipmentInput({ category: "", amount: "", comments: "" });
-    setAdditionalComments("");
-    setAttachedFiles([]);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const handleSubmit = () => {
-    if (!eventName || !organization || !room || !date) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    const newEvent = {
-      id: (submittedEvents.length + 1).toString().padStart(5, "0"),
-      name: eventName,
-      description,
-      organization,
-      date,
-      startTime,
-      endTime,
-      room,
-      technicalEquipment,
-      status: "Pending",
-    };
-
-    setSubmittedEvents([...submittedEvents, newEvent]);
-    alert("Request sent successfully!");
-    handleClear();
-  };
-
+  // Add contact person
   const addContactPerson = () => {
     if (!personInput.name || !personInput.phone || !personInput.id) return;
     setContactPersons([...contactPersons, personInput]);
     setPersonInput({ name: "", phone: "", id: "" });
   };
 
+  // Add technical equipment
   const addEquipment = () => {
     if (!equipmentInput.category || Number(equipmentInput.amount) < 1) return;
     setTechnicalEquipment([...technicalEquipment, equipmentInput]);
     setEquipmentInput({ category: "", amount: "", comments: "" });
   };
 
-  const filteredEvents = submittedEvents
-    .filter(
-      (e) =>
-        e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((e) => selectedClub === "All" || e.organization === selectedClub)
-    .sort((a, b) => {
-      if (sortOption === "venue") return a.room.localeCompare(b.room);
-      if (sortOption === "status") return a.status.localeCompare(b.status);
-      if (sortOption === "organization")
-        return a.organization.localeCompare(b.organization);
-      if (sortOption === "date-asc") return a.date.localeCompare(b.date);
-      if (sortOption === "date-desc") return b.date.localeCompare(a.date);
-      return 0;
+  // Submit handler
+  const handleSubmit = async () => {
+    if (availability !== "Available") {
+      alert("Selected venue/time is unavailable.");
+      return;
+    }
+    if (!eventName || !organization || !venueId || !date) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Build time string: HH:mm:ss
+    const [h, m] = startTime.split(":");
+    const timeString = `${h.padStart(2, "0")}:${m.padStart(2, "0")}:00`;
+
+    // Assemble event JSON
+    const today = new Date().toISOString().split("T")[0];
+    const eventData = {
+      eventTitle: eventName,
+      description,
+      organizer: organization,
+      organizer_type: "organization",
+      time: timeString,
+      date,
+      date_request_sent: today,
+      venue: { venue_id: parseInt(venueId, 10) },
+      participants_number: contactPersons.length,
+      material_support: inventory,
+      technical_support: JSON.stringify(technicalEquipment),
+      type: "general",
+      comment: additionalComments,
+      email: username,
+    };
+
+    // Build FormData with JSON Blob
+    const formData = new FormData();
+    const eventBlob = new Blob([JSON.stringify(eventData)], {
+      type: "application/json",
     });
+    formData.append("event", eventBlob);
+    if (image) formData.append("file", image);
+
+    // POST to backend
+    try {
+      const res = await fetch(`${API_BASE}/api/events`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+      if (res.ok) {
+        alert("Event request submitted!");
+        navigate("/events");
+      } else {
+        const txt = await res.text();
+        alert("Error submitting event: " + txt);
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Network error submitting event");
+    }
+  };
 
   return (
     <div className="event-planning-container">
-      <h2>
-        <i className="fas fa-calendar-plus"></i> Create Event
-      </h2>
+      <div className="section-header">
+        <i className="fas fa-calendar-plus"></i>
+        <h3>Create Event</h3>
+      </div>
+
       <div className="event-form">
-        <label>Organization name</label>
+        {/* Organization */}
+        <label>Organization Name</label>
         <input
-          list="organization-options"
-          placeholder="Search organization..."
+          type="text"
+          placeholder="Organization..."
           value={organization}
           onChange={(e) => setOrganization(e.target.value)}
         />
-        <datalist id="organization-options">
-          {organizations.map((org, idx) => (
-            <option key={idx} value={org} />
-          ))}
-        </datalist>
 
+        {/* Event Name */}
         <label>Event Name</label>
         <input
           type="text"
-          placeholder="Event Name"
+          placeholder="Event Name..."
           value={eventName}
           onChange={(e) => setEventName(e.target.value)}
         />
 
-        <div className="event-row">
-          <div>
-            <label>Venue</label>
-            <input
-              list="venue-options"
-              placeholder="Search venue..."
-              value={room}
-              onChange={(e) => setRoom(e.target.value)}
-            />
-            <datalist id="venue-options">
-              {venues.map((venue, idx) => (
-                <option key={idx} value={venue} />
-              ))}
-            </datalist>
-          </div>
-          <div>
-            <label>Date</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Time</label>
-            <div className="time-range">
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-              <span>–</span>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Venue */}
+        <label>Venue</label>
+        <select value={venueId} onChange={(e) => setVenueId(e.target.value)}>
+          <option value="">Select venue…</option>
+          {venues.map((v) => (
+            <option key={v.venue_id} value={v.venue_id}>
+              {v.venueTitle}
+            </option>
+          ))}
+        </select>
 
+        {/* Date */}
+        <label>Date</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
+        {/* Time Range */}
+        <label>Time</label>
+        <div className="time-range">
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+          />
+          <span>–</span>
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+          />
+        </div>
         <p>
           <strong>Status:</strong>{" "}
           <span
@@ -216,88 +282,77 @@ const EventPlanning = () => {
           </span>
         </p>
 
-        <div className="event-row">
-          <div className="description-block">
-            <label>Short Description of Event</label>
-            <textarea
-              placeholder="Type here..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="contact-block">
-            <label>Contact Information of Responsible People</label>
-            <div className="event-row contact-inputs">
-              <input
-                type="text"
-                placeholder="Name Surname"
-                value={personInput.name}
-                onChange={(e) =>
-                  setPersonInput({ ...personInput, name: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="Telephone Number"
-                value={personInput.phone}
-                onChange={(e) =>
-                  setPersonInput({ ...personInput, phone: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="ID Number"
-                value={personInput.id}
-                onChange={(e) =>
-                  setPersonInput({ ...personInput, id: e.target.value })
-                }
-              />
-              <button className="add-person-btn" onClick={addContactPerson}>
-                Add Person
-              </button>
-            </div>
-            {contactPersons.length > 0 && (
-              <div className="contact-list">
-                {contactPersons.map((person, i) => (
-                  <div key={i} className="contact-item">
-                    <div>{person.name}</div>
-                    <div>{person.phone}</div>
-                    <div>{person.id}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <label>Required Inventory (Furniture)</label>
+        {/* Description */}
+        <label>Short Description</label>
         <textarea
-          placeholder="Type here..."
+          placeholder="Description..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        {/* Contacts */}
+        <label>Contact Persons</label>
+        <div className="contact-inputs">
+          <input
+            type="text"
+            placeholder="Name"
+            value={personInput.name}
+            onChange={(e) =>
+              setPersonInput({ ...personInput, name: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Phone"
+            value={personInput.phone}
+            onChange={(e) =>
+              setPersonInput({ ...personInput, phone: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="ID Number"
+            value={personInput.id}
+            onChange={(e) =>
+              setPersonInput({ ...personInput, id: e.target.value })
+            }
+          />
+          <button onClick={addContactPerson}>Add</button>
+        </div>
+        {contactPersons.map((p, i) => (
+          <div key={i}>
+            {p.name} - {p.phone} - {p.id}
+          </div>
+        ))}
+
+        {/* Inventory */}
+        <label>Required Inventory</label>
+        <textarea
+          placeholder="Furniture..."
           value={inventory}
           onChange={(e) => setInventory(e.target.value)}
         />
 
+        {/* Equipment */}
         <label>Technical Equipment</label>
-        <div className="event-row contact-inputs">
+        <div className="equipment-inputs">
           <input
-            list="equipment-options"
+            list="eq-options"
             placeholder="Category"
             value={equipmentInput.category}
             onChange={(e) =>
               setEquipmentInput({ ...equipmentInput, category: e.target.value })
             }
           />
-          <datalist id="equipment-options">
-            <option value="Projector" />
-            <option value="Projector Screen" />
-            <option value="Presenter" />
-            <option value="Microphone" />
-            <option value="Acoustic System" />
+          <datalist id="eq-options">
+            <option>Projector</option>
+            <option>Microphone</option>
+            <option>Speaker</option>
           </datalist>
           <input
             type="number"
-            placeholder="Amount"
             min="1"
+            placeholder="Amount"
             value={equipmentInput.amount}
             onChange={(e) =>
               setEquipmentInput({ ...equipmentInput, amount: e.target.value })
@@ -305,146 +360,119 @@ const EventPlanning = () => {
           />
           <input
             type="text"
-            placeholder="Comments..."
+            placeholder="Comments"
             value={equipmentInput.comments}
             onChange={(e) =>
               setEquipmentInput({ ...equipmentInput, comments: e.target.value })
             }
           />
+          <button onClick={addEquipment}>Add</button>
         </div>
-        <div className="equipment-button-wrapper">
-          <button className="add-person-btn" onClick={addEquipment}>
-            Add Equipment
-          </button>
-        </div>
-
-        {technicalEquipment.map((item, i) => (
-          <div key={i} className="equipment-item">
-            {item.category} — {item.amount} {item.amount > 1 ? "items" : "item"}
-            {item.comments ? ` (${item.comments})` : ""}
+        {technicalEquipment.map((eq, i) => (
+          <div key={i}>
+            {eq.category} ({eq.amount}) {eq.comments}
           </div>
         ))}
 
+        {/* Additional Comments */}
         <label>Additional Comments</label>
         <textarea
-          className="additional-comments"
-          placeholder="Write here..."
+          placeholder="Anything else..."
           value={additionalComments}
           onChange={(e) => setAdditionalComments(e.target.value)}
         />
 
-        <div className="file-action-row">
-          <button
-            className="attach-btn"
-            onClick={() => fileInputRef.current.click()}
-          >
-            Attach files
-          </button>
-          <button className="clear-btn" onClick={handleClear}>
-            Clear
-          </button>
-          <button className="submit-btn" onClick={handleSubmit}>
-            Send a request
-          </button>
+        {/* Image Upload */}
+        <label>Event Photo</label>
+        <div
+          className="upload-box"
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current.click()}
+        >
+          {image ? (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+              className="preview-img"
+            />
+          ) : (
+            <div className="upload-placeholder">
+              <div className="upload-icon">+</div>
+              <p>
+                Drop image or <span>browse</span>
+              </p>
+            </div>
+          )}
           <input
             type="file"
             ref={fileInputRef}
-            multiple
-            onChange={handleFileChange}
+            accept="image/*"
             style={{ display: "none" }}
+            onChange={handleFileChange}
           />
         </div>
 
-        {attachedFiles.length > 0 && (
-          <ul className="attached-files">
-            {attachedFiles.map((file, i) => (
-              <li key={i}>{file.name}</li>
-            ))}
-          </ul>
-        )}
+        {/* Submit */}
+        <button className="submit-btn" onClick={handleSubmit}>
+          Send a request
+        </button>
       </div>
 
-      {/* === MY EVENTS SECTION === */}
-      <div className="my-events-section">
-        <div className="my-events-header">
-          <h3>
-            <i className="fas fa-calendar-alt"></i> My Events
-          </h3>
-          <div className="event-controls">
-            <input
-              type="text"
-              placeholder="🔍 Key words..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <select
-              value={selectedClub}
-              onChange={(e) => setSelectedClub(e.target.value)}
-            >
-              <option value="All">Select Clubs</option>
-              {organizations.map((org, i) => (
-                <option key={i} value={org}>
-                  {org}
-                </option>
-              ))}
-            </select>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value="">Sort by</option>
-              <option value="venue">Venue</option>
-              <option value="status">Status</option>
-              <option value="organization">Organization</option>
-              <option value="date-asc">Date ↑</option>
-              <option value="date-desc">Date ↓</option>
-            </select>
-          </div>
-        </div>
-
+      <div className="my-events">
         <table className="event-table">
           <thead>
             <tr>
-              <th>Event Name</th>
-              <th>Event ID</th>
-              <th>Description</th>
-              <th>Organization</th>
+              <th>Title</th>
+              <th>ID</th>
               <th>Date</th>
               <th>Time</th>
-              <th>Room</th>
-              <th>Equipment</th>
+              <th>Venue</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            {filteredEvents.map((event, idx) => (
-              <tr key={idx}>
-                <td>{event.name}</td>
-                <td>{event.id}</td>
-                <td>{event.description}</td>
-                <td>{event.organization}</td>
-                <td>{event.date}</td>
-                <td>
-                  {event.startTime}–{event.endTime}
-                </td>
-                <td>{event.room}</td>
-                <td>
-                  {event.technicalEquipment?.map((eq, i) => (
-                    <div key={i}>
-                      {eq.category} ({eq.amount})
-                      {eq.comments ? ` - ${eq.comments}` : ""}
-                    </div>
-                  ))}
-                </td>
-                <td>
-                  <span
-                    className={`status-badge ${event.status.toLowerCase()}`}
-                  >
-                    {event.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {events.map((evt) => {
+              // Format time whether it's a string or object
+              let timeDisplay = "-";
+              if (typeof evt.time === "string") {
+                timeDisplay = evt.time; // e.g. "14:30:00"
+              } else if (evt.time?.hour != null) {
+                const h = String(evt.time.hour).padStart(2, "0");
+                const m = String(evt.time.minute).padStart(2, "0");
+                timeDisplay = `${h}:${m}`;
+              }
+
+              return (
+                <tr key={evt.eventId}>
+                  <td>{evt.eventTitle}</td>
+                  <td>{evt.eventId}</td>
+                  <td>{evt.date}</td>
+                  <td>{timeDisplay}</td>
+                  <td>{evt.venue?.venueTitle || "-"}</td>
+                  <td>
+                    <span
+                      className={`status-badge ${
+                        evt.status?.toLowerCase() || "pending"
+                      }`}
+                    >
+                      {evt.status || "Pending"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="delete-event-btn"
+                      title="Delete event"
+                      onClick={() => handleDeleteEvent(evt.eventId)}
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
