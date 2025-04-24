@@ -1,0 +1,30 @@
+.moderation-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .moderation-tab {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    border-bottom: 4px solid transparent;
+  }
+  
+  .moderation-tab.unmoderated {
+    background-color: #fffaf0;
+    border-color: #dbb939;
+  }
+  
+  .moderation-tab.moderated {
+    background-color: #f8f2f2;
+    border-color: #7a1620;
+  }
+  
+  .moderation-tab.deleted {
+    background-color: #e2e2e2;
+    border-color: #555;
+  }

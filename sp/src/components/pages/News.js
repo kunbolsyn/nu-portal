@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Add this import
+import React, { useEffect, useState } from "react";
 import "../../styles/News.css";
 import "../../styles/NewsCards.css";
 
-const News = () => {
+const NewsModeration = () => {
   const [news, setNews] = useState([]);
-  const navigate = useNavigate(); // ✅ Use navigate
+  const [tab, setTab] = useState("unmoderated");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,67 +31,42 @@ const News = () => {
             item.photos.length > 0
               ? item.photos[0].filePath
               : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
+          status: item.status || "unmoderated"
         }));
         setNews(transformed);
       })
       .catch((error) => console.error("Error fetching news:", error));
   }, []);
 
-  if (news.length === 0) {
-    return <div className="news-page">Loading news...</div>;
-  }
+  const updateStatus = (id, newStatus) => {
+    setNews((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
+    );
+  };
 
-  const featured = news[0];
-  const sideNews = news.slice(1, 3);
+  const tabs = ["unmoderated", "moderated", "deleted"];
 
   return (
     <div className="news-page">
-      <section className="news-hero">
-        <div
-          className="featured-news"
-          onClick={() => navigate(`/news/${featured.id}`)} // ✅ Navigate to new page
-          style={{ cursor: "pointer" }}
-        >
-          <img src={featured.image} alt={featured.title} />
-          <div className="overlay">
-            <p className="author">
-              <i className="fas fa-user"></i> {featured.name} {featured.surname}
-            </p>
-            <p className="date">
-              <i className="fas fa-calendar-alt"></i> {featured.date}
-            </p>
-            <h2 className="title">{featured.title}</h2>
+      <div className="my-events-header">
+        <h3><i className="fas fa-check-double"></i> News Moderation</h3>
+      </div>
+
+      <div className="moderation-tabs">
+        {tabs.map((t) => (
+          <div
+            key={t}
+            className={`moderation-tab ${t} ${tab === t ? "active" : ""}`}
+            onClick={() => setTab(t)}
+          >
+            {t.charAt(0).toUpperCase() + t.slice(1)} {news.filter(n => n.status === t).length}
           </div>
-        </div>
-
-        <div className="side-news">
-          {sideNews.map((item, index) => (
-            <div
-              key={index}
-              className="side-news-card"
-              onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
-              style={{ cursor: "pointer" }}
-            >
-              <img src={item.image} alt={item.title} />
-              <h3>{item.title}</h3>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="section-header">
-        <i className="fas fa-newspaper"></i>
-        <h3>University News</h3>
+        ))}
       </div>
 
       <div className="news-grid">
-        {news.map((item) => (
-          <div
-            key={item.id}
-            className="news-card"
-            onClick={() => navigate(`/news/${item.id}`)} // ✅ Navigate
-            style={{ cursor: "pointer" }}
-          >
+        {news.filter((item) => item.status === tab).map((item) => (
+          <div key={item.id} className="news-card">
             <img src={item.image} alt={item.title} />
             <h4>{item.title}</h4>
             <div className="meta">
@@ -104,6 +78,20 @@ const News = () => {
               </p>
             </div>
             <p className="description">{item.content}</p>
+            <div className="news-actions">
+              {tab === "unmoderated" && (
+                <>
+                  <button className="submit-btn" onClick={() => updateStatus(item.id, "moderated")}>Approve</button>
+                  <button className="clear-btn" onClick={() => updateStatus(item.id, "deleted")}>Delete</button>
+                </>
+              )}
+              {tab === "moderated" && (
+                <button className="clear-btn" onClick={() => updateStatus(item.id, "deleted")}>Delete</button>
+              )}
+              {tab === "deleted" && (
+                <button className="submit-btn" onClick={() => updateStatus(item.id, "unmoderated")}>Restore</button>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -111,4 +99,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default NewsModeration;
