@@ -166,15 +166,6 @@ const LeftSidebar = ({ isOpen, onClose }) => {
 
         <Nav.Link
           as={Link}
-          to="/requests"
-          className={isActive("/requests")}
-          onClick={onClose}
-        >
-          <i className="fas fa-edit"></i> Requests
-        </Nav.Link>
-
-        <Nav.Link
-          as={Link}
           to="/booking"
           className={isActive("/booking")}
           onClick={onClose}

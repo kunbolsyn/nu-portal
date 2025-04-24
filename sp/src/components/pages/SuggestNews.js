@@ -1,5 +1,6 @@
 // src/components/pages/SuggestNews.js
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/SuggestNews.css";
 
 const API_BASE = "https://senior-project-java-backend.onrender.com";
@@ -10,68 +11,68 @@ const SuggestNews = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("userRole");
   const accountId = localStorage.getItem("accountId");
   const username = localStorage.getItem("username");
 
-  // 1) Fetch user profile for name/surname
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!token) navigate("/");
+  }, [token, navigate]);
+
+  // Fetch user profile
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        let endpoint = "";
-        if (role === "student") {
-          endpoint = `/api/v1/student/accountid/${accountId}`;
-        } else if (role === "faculty") {
-          endpoint = `/api/v1/teachingstaff/accountid/${accountId}`;
-        } else {
-          endpoint = `/api/v1/staff/accountid/${accountId}`;
-        }
+      let endpoint;
+      if (role === "student")
+        endpoint = `/api/v1/student/accountid/${accountId}`;
+      else if (role === "faculty")
+        endpoint = `/api/v1/teachingstaff/accountid/${accountId}`;
+      else endpoint = `/api/v1/staff/accountid/${accountId}`;
 
+      try {
         const res = await fetch(`${API_BASE}${endpoint}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) return;
-        setProfile(await res.json());
-      } catch {
-        // silently fail
+        const data = await res.json();
+        setProfile(data);
+      } catch (err) {
+        console.error("Error fetching profile:", err);
       }
     };
+
     if (accountId && token) fetchProfile();
   }, [role, accountId, token]);
 
-  // 2) Fetch all posts by this user
+  // Fetch user's posts
   useEffect(() => {
     const fetchPosts = async () => {
+      const url = `${API_BASE}/api/news/email/${encodeURIComponent(username)}`;
       try {
-        const url = `${API_BASE}/api/news/email/${encodeURIComponent(
-          username
-        )}`;
         const res = await fetch(url, {
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
         });
-
-        // No content? just clear posts.
         if (res.status === 204) {
           setPosts([]);
           return;
         }
         if (!res.ok) {
-          // non-OK (404, etc) → treat as no posts
-          setPosts([]);
+          console.warn("Error loading posts:", await res.text());
           return;
         }
-
         const data = await res.json();
         setPosts(data.reverse());
-      } catch {
-        // network error → do nothing
+      } catch (err) {
+        console.error("Error loading posts:", err);
       }
     };
 
@@ -81,60 +82,82 @@ const SuggestNews = () => {
   // File handlers
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImage(reader.result);
-    reader.readAsDataURL(file);
+    if (file) setImage(file);
   };
   const handleDragOver = (e) => e.preventDefault();
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImage(reader.result);
-    reader.readAsDataURL(file);
+    if (file) setImage(file);
   };
 
-  // 3) Post new suggestion
+  // Post new suggestion
   const handlePost = async () => {
     if (!title || !description) return;
+    if (!token) {
+      console.warn("No token—cannot post news.");
+      return;
+    }
+
+    setLoading(true);
     const today = new Date().toISOString().split("T")[0];
-    const payload = {
+    const formData = new FormData();
+
+    // Build the JSON part as a Blob with explicit Content-Type
+    const newsData = {
       newsTitle: title,
       text_content: description,
       email: username,
       newsDateRequestSent: today,
+      newsDatePosted: today,
       status: "waiting",
       name: profile?.name,
       surname: profile?.surname,
-      photos: image ? [{ filePath: image }] : [],
+      photo: null,
       videos: [],
       downloadable_files: [],
     };
+    const newsBlob = new Blob([JSON.stringify(newsData)], {
+      type: "application/json",
+    });
+    formData.append("news", newsBlob);
+
+    // Append the image file (will have its own Content-Type automatically)
+    if (image) {
+      formData.append("file", image);
+    }
+
     try {
       const res = await fetch(`${API_BASE}/api/news`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          // Do NOT set the overall Content-Type; browser will add multipart/form-data with boundary
         },
-        body: JSON.stringify(payload),
+        body: formData,
       });
-      if (!res.ok) return;
+
+      if (!res.ok) {
+        console.warn("Failed to post news:", await res.text());
+        return;
+      }
+
       const saved = await res.json();
-      setPosts((p) => [saved, ...p]);
+      setPosts((prev) => [saved, ...prev]);
       setTitle("");
       setDescription("");
       setImage(null);
-    } catch {
-      // silently fail
+    } catch (err) {
+      console.error("Network error posting news:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="suggest-news-container">
-      {/* Create News Section */}
+      {/* Create News */}
       <div className="suggest-section-header">
         <i className="fas fa-pen-nib" />
         <h3>Create News</h3>
@@ -147,7 +170,11 @@ const SuggestNews = () => {
           onClick={() => fileInputRef.current.click()}
         >
           {image ? (
-            <img src={image} alt="Preview" className="preview-img" />
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+              className="preview-img"
+            />
           ) : (
             <div className="upload-placeholder">
               <div className="upload-icon">+</div>
@@ -164,7 +191,6 @@ const SuggestNews = () => {
             onChange={handleFileChange}
           />
         </div>
-
         <div className="news-fields">
           <label>Title</label>
           <div className="title-input-wrapper">
@@ -177,7 +203,6 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{180 - title.length}</span>
           </div>
-
           <label>Description</label>
           <div className="desc-input-wrapper">
             <textarea
@@ -188,12 +213,17 @@ const SuggestNews = () => {
             />
             <span className="char-counter">{360 - description.length}</span>
           </div>
-
-          <button onClick={handlePost}>Post</button>
+          <button
+            onClick={handlePost}
+            disabled={loading}
+            style={{ backgroundColor: loading ? "#ccc" : undefined }}
+          >
+            {loading ? "Posting..." : "Post"}
+          </button>
         </div>
       </div>
 
-      {/* Previous Posts Section */}
+      {/* Previous Posts */}
       <div className="suggest-section-header">
         <i className="fas fa-history" />
         <h3>Previous Posts</h3>
@@ -216,9 +246,9 @@ const SuggestNews = () => {
               {posts.map((p) => (
                 <tr key={p.news_id}>
                   <td>
-                    {p.photos?.[0]?.filePath ? (
+                    {p.photo?.filePath ? (
                       <img
-                        src={p.photos[0].filePath}
+                        src={p.photo.filePath}
                         alt=""
                         className="post-thumb"
                       />
