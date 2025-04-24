@@ -1,24 +1,43 @@
+/* Use same section header styles */
+.event-planning-container .section-header i {
+  font-size: 1.3rem;
+  color: #161d35;
+}
+.event-planning-container .section-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #161d35;
+}
+
 .event-planning-container {
   padding: 20px;
   font-family: "Inter", sans-serif;
   color: #161d35;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-form {
   background: #fff;
   border-radius: 8px;
-  padding: 30px;
+  padding: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
+/* Form labels & inputs */
 .event-form label {
   font-weight: 600;
   display: block;
   margin-bottom: 6px;
   color: #0d1b3e;
 }
-
 .event-form input,
+.event-form select,
 .event-form textarea {
   width: 100%;
   padding: 10px;
@@ -26,262 +45,72 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
-  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
 }
 
-.event-form input[type="time"],
-.event-form input[type="date"] {
-  background-color: #fff;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.event-form textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.event-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.event-row > div {
-  flex: 1;
-  min-width: 200px;
-}
-
-.description-block {
-  flex: 2;
-}
-
-.contact-block {
-  flex: 1;
-}
-
-.contact-inputs {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.contact-inputs input {
-  flex: 1;
-  min-width: 150px;
-}
-
-.add-person-btn {
-  background-color: #0d1b3e;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.contact-list {
-  margin-top: 15px;
-}
-
-.contact-item {
-  display: flex;
-  gap: 20px;
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 0.95rem;
-}
-
+/* Time range */
 .time-range {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.time-range span {
+  gap: 5px;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
-
-
-.file-action-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-
-.file-action-row button {
+.time-range input {
   flex: 1;
-  padding: 10px 20px;
-  font-size: 1rem;
+  min-width: 120px;
+  margin-bottom: 0px;
+}
+
+/* Availability banner */
+.availability {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px;
   border-radius: 6px;
-  cursor: pointer;
-  border: none;
-}
-
-/* Style the 'Attach files' label to look like a button */
-.file-upload-btn {
-  background-color: #f4f4f4;
-  color: #0d1b3e;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  display: inline-block;
-}
-
-/* Make sure attached file names are styled consistently */
-.attached-files {
-  list-style-type: disc;
-  margin-left: 20px;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
-}
-
-.attach-btn {
-  background-color: #f4f4f4;
-  color: #0d1b3e;
   font-weight: 600;
-}
-
-.event-buttons button,
-.submit-btn,
-.clear-btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.clear-btn {
-  background-color: #831c2a;
-  color: white;
-}
-
-.submit-btn {
-  background-color: #0d1b3e;
-  color: white;
-}
-
-ul {
-  list-style-type: disc;
-  margin-left: 20px;
   margin-bottom: 20px;
-}
-
-ul li {
-  font-size: 0.95rem;
-}
-
-.equipment-item {
-  margin-bottom: 10px;
-  font-size: 0.95rem;
-  padding: 4px 0;
-}
-
-.equipment-button-wrapper {
-  margin-bottom: 20px;
-}
-
-.event-form textarea.additional-comments {
-  min-height: 30px;
-}
-
-
-
-/* === MY EVENTS SECTION === */
-.my-events-section {
-  margin-top: 40px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.my-events-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.my-events-header h3 {
-  font-size: 1.4rem;
-  color: #0d1b3e;
-  margin: 0;
-}
-
-.event-controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.event-controls input,
-.event-controls select {
-  padding: 8px 12px;
-  font-size: 0.95rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f4f4f4;
-}
-
-.event-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.event-table th,
-.event-table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
-  font-size: 0.95rem;
-  vertical-align: top;
-}
-
-.event-table th {
-  color: #0d1b3e;
-  font-weight: 600;
-}
-
-.event-table tr:hover {
-  background-color: #f8f8f8;
-}
-
-.status-badge {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
   text-align: center;
 }
 
-.status-badge.pending {
-  background-color: #fff3cd;
-  color: #856404;
+/* Buttons row */
+.buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-primary {
+  background-color: #0d1b3e;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #0b1630;
+}
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+.btn-secondary:hover {
+  background-color: #5a6268;
 }
 
-.status-badge.approved {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.status-badge.rejected {
-  background-color: #f8d7da;
-  color: #721c24;
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .time-range {
+    flex-direction: column;
+  }
+  .buttons-row {
+    justify-content: center;
+  }
 }
