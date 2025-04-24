@@ -1,3 +1,10 @@
+.right-sidebar {
+  width: 300px;
+  background-color: #EBEBEB;
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+}
+
 .calendar-card {
   background: white;
   border-radius: 8px;
@@ -34,58 +41,88 @@
 }
 
 .mini-calendar .react-calendar__tile {
-  padding: 6px 0;
-  font-size: 0.7rem;
+  position: relative;
+  margin-top: 10px;
+  margin-top: 10;
+  height: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .mini-calendar .react-calendar__tile--now {
   background: #0E1C36 !important;
   color: #fff !important;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mini-calendar .react-calendar__tile--active {
   background: #4599ad !important;
   color: #fff !important;
-  border-radius: 100%;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: none !important; /* Prevents any weird transforms */
 }
 
-/* Weekday labels like Mon, Tue, Wed... */
+.react-calendar__tile abbr {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
 .react-calendar__month-view__weekdays__weekday {
-  font-size: 0.6rem; /* You can set this to any size you like */
-  font-weight: 600;
-  color: #0E1C36; /* Optional: style the color too */
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #0E1C36;
+  padding-bottom: 4px;
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
   text-transform: uppercase;
   display: block;
   text-align: center;
+  text-decoration: none;
 }
 
 .react-calendar__navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: -10px;
   margin-top: -10px;
 }
 
 .react-calendar__navigation button {
   background: none;
   border: none;
-  font-size: 0.9rem;
-  padding: 4px 0px;
+  font-size: 0.8rem;
+  padding: 4px 4px;
   color: #0E1C36;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .react-calendar__navigation__label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #0E1C36;   /* Optional: change text color */
-  text-transform: uppercase; /* Optional: uppercase the label */
+  color: #0E1C36;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .react-calendar__navigation__prev2-button,
@@ -93,27 +130,49 @@
   display: none;
 }
 
+/* Event indicators positioning */
+.event-indicators {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0px;
+}
+
+.event-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #4599AD; /* NU cyan */
+}
+
 .upcoming-list {
   list-style: none;
   margin: 0;
-  padding: 8px 0;
+  padding: 0;
 }
 
-.upcoming-item + .upcoming-item {
-  margin-top: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+.upcoming-item {
+  margin-bottom: 8px;
+}
+
+.upcoming-item:last-child {
+  margin-bottom: 0;
 }
 
 .upcoming-content {
   background: #ffffff;
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   cursor: pointer;
   transition: background 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .upcoming-content:hover {
-  background: rgba(69, 153, 173, 0.3);
+  background: rgba(69, 153, 173, 0.1);
 }
 
 .ue-title {
@@ -132,7 +191,7 @@
 }
 
 .ue-meta i {
-  color: #0E1C36;
+  font-size: 0.7rem;
 }
 
 .no-events {
@@ -140,13 +199,16 @@
   color: #888;
   text-align: center;
   padding: 12px 0;
+  background: white;
+  border-radius: 6px;
 }
 
-.event-indicator {
-  width: 6px;
-  height: 6px;
-  background-color: #4599ad;
-  border-radius: 50%;
-  margin: 0 auto;
-  margin-top: 0;
+.day-header {
+  color: #4599AD; /* NU cyan */
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0 4px;
+  padding: 4px 0;
+  border-radius: 4px;
 }
