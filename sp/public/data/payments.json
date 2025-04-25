@@ -5,56 +5,49 @@
         "id": 12880,
         "amount": 1500.00,
         "date": "2024-01-15",
-        "time": "10:00",
-        "paymentMethod": "Visa: ..0179"
+        "time": "10:00"
       },
       {
         "type": "ID Recovery",
         "id": 28099,
         "amount": 2600.00,
         "date": "2024-01-10",
-        "time": "20:00",
-        "paymentMethod": "Mastercard: ..0179"
+        "time": "20:00"
       },
       {
         "type": "Laundry Fee",
         "id": 38530,
         "amount": 1000.00,
         "date": "2024-01-05",
-        "time": "10:00",
-        "paymentMethod": "Visa: ..0179"
+        "time": "10:00"
       },
       {
         "type": "Sport Complex Membership",
         "id": 59398,
         "amount": 12000.00,
         "date": "2023-12-15",
-        "time": "10:00",
-        "paymentMethod": "Mastercard: ..0179"
+        "time": "10:00"
       },
       {
         "type": "ID Recovery",
         "id": 48079,
         "amount": 2600.00,
         "date": "2023-12-20",
-        "time": "10:00",
-        "paymentMethod": "Mastercard: ..0179"
+        "time": "10:00"
       },
       {
         "type": "Student Fund",
         "id": 65669,
         "amount": 5000.00,
         "date": "2024-05-15",
-        "time": "10:00",
-        "paymentMethod": "Visa: ..0179"
+        "time": "10:00"
       },
       {
         "type": "Dormitory Fee",
         "id": 77509,
         "amount": 500.00,
         "date": "2024-02-05",
-        "time": "10:00",
-        "paymentMethod": "Mastercard: ..0179"
+        "time": "10:00"
       }
     ]
   } 

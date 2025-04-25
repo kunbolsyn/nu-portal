@@ -57,10 +57,7 @@ const App = () => {
         <Route path="academic-advising" element={<ArticleContent />} />
         <Route path="student-organizations" element={<ArticleContent />} />
         <Route path="sports-complex" element={<ArticleContent />} />
-        <Route
-          path="department-of-student-services"
-          element={<ArticleContent />}
-        />
+        <Route path="department-of-student-services" element={<ArticleContent />} />
         <Route path="health-wellness" element={<ArticleContent />} />
         <Route path="student-government" element={<ArticleContent />} />
         <Route path="residence-halls" element={<ArticleContent />} />
