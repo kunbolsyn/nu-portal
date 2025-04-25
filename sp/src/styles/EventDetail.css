@@ -103,8 +103,8 @@
 .scrollable-content::-webkit-scrollbar {
   display: none;
 }
+
 .detail-description {
-  margin: 0;
   line-height: 1.6;
   color: #333;
 }
@@ -112,4 +112,14 @@
 /* ── LOCK BACKGROUND SCROLL ── */
 body.modal-open {
   overflow: hidden;
+}
+
+.qr-code-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.qr-code-img {
+  max-width: 150px;
+  height: auto;
 }

@@ -27,10 +27,17 @@ const Events = () => {
           title: item.eventTitle,
           description: item.description,
           organizer: item.organizer,
+          organizerType: item.organizer_type,
           date: item.date,
+          time: `${String(item.time.hour).padStart(2, "0")}:${String(
+            item.time.minute
+          ).padStart(2, "0")}`,
+          venue: item.venue?.venueTitle || "Unknown Venue",
+          participants: item.participants_number || 0,
           image: item.photo?.filePath
             ? item.photo.filePath
             : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+          qr_code: item.qr_code,
         }));
         setEvents(transformed);
       })
@@ -49,16 +56,9 @@ const Events = () => {
   const twoWeeksFromNow = new Date();
   twoWeeksFromNow.setDate(today.getDate() + 14);
 
-  // Split into featured and upcoming
+  // For now, show all upcoming
   const featuredEvents = events.slice(0, 3);
   const upcomingEvents = events;
-  // const upcomingEvents = events.filter((evt) => {
-  //   const ed = new Date(evt.date);
-  //   if (selectedDate) {
-  //     return isSameDay(ed, new Date(selectedDate));
-  //   }
-  //   return ed >= today && ed <= twoWeeksFromNow;
-  // });
 
   return (
     <div className="events-page">
@@ -85,7 +85,11 @@ const Events = () => {
                   <p>
                     <i className="fas fa-calendar-alt"></i> {evt.date}
                   </p>
+                  <p className="event-venue">
+                    <i className="fas fa-map-marker-alt"></i> {evt.venue}
+                  </p>
                 </div>
+
                 <button className="register-btn">Register</button>
               </div>
             </div>
@@ -136,8 +140,11 @@ const Events = () => {
                 <p>
                   <i className="fas fa-calendar-alt"></i> {evt.date}
                 </p>
+                <p className="event-venue">
+                  <i className="fas fa-map-marker-alt"></i> {evt.venue}
+                </p>
               </div>
-              {/* You can hide the description on featured */}
+
               <p className="event-desc">{evt.description}</p>
             </div>
           </div>
