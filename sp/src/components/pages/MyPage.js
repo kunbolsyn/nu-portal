@@ -7,10 +7,7 @@ const MyPage = () => {
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const [activeVacationTab, setActiveVacationTab] = useState(null);
-  const [newVacationPeriod, setNewVacationPeriod] = useState({
-    startDate: "",
-    endDate: "",
-  });
+  const [newVacationPeriod, setNewVacationPeriod] = useState({ startDate: '', endDate: '' });
 
   const role = localStorage.getItem("userRole");
   const accountId = localStorage.getItem("accountId");
@@ -27,12 +24,11 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 },
-        ],
+          { startDate: "22/08/2019", endDate: "15/09/2019", days: 25 },
+          { startDate: "15/10/2019", endDate: "01/11/2019", days: 18 },
+          { startDate: "17/12/2019", endDate: "29/12/2019", days: 13 }
+        ]
       },
-      // ... other years as in your original data
       {
         beginDate: "01/01/2020",
         endDate: "31/12/2020",
@@ -40,10 +36,11 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 },
-        ],
+          { startDate: "10/02/2020", endDate: "20/02/2020", days: 11 },
+          { startDate: "15/06/2020", endDate: "05/07/2020", days: 21 },
+          { startDate: "01/10/2020", endDate: "15/10/2020", days: 15 },
+          { startDate: "20/12/2020", endDate: "28/12/2020", days: 9 }
+        ]
       },
       {
         beginDate: "01/01/2021",
@@ -52,10 +49,11 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 },
-        ],
+          { startDate: "05/03/2021", endDate: "15/03/2021", days: 11 },
+          { startDate: "10/06/2021", endDate: "30/06/2021", days: 21 },
+          { startDate: "20/08/2021", endDate: "30/08/2021", days: 11 },
+          { startDate: "10/12/2021", endDate: "23/12/2021", days: 13 }
+        ]
       },
       {
         beginDate: "01/01/2022",
@@ -64,10 +62,11 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 },
-        ],
+          { startDate: "01/02/2022", endDate: "10/02/2022", days: 10 },
+          { startDate: "05/05/2022", endDate: "20/05/2022", days: 16 },
+          { startDate: "01/08/2022", endDate: "20/08/2022", days: 20 },
+          { startDate: "15/12/2022", endDate: "25/12/2022", days: 10 }
+        ]
       },
       {
         beginDate: "01/01/2023",
@@ -76,12 +75,40 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 },
-        ],
+          { startDate: "20/01/2023", endDate: "30/01/2023", days: 11 },
+          { startDate: "15/04/2023", endDate: "30/04/2023", days: 16 },
+          { startDate: "10/07/2023", endDate: "30/07/2023", days: 21 },
+          { startDate: "01/12/2023", endDate: "08/12/2023", days: 8 }
+        ]
       },
-    ],
+      {
+        beginDate: "01/01/2024",
+        endDate: "31/12/2024",
+        usedDays: 56,
+        remainingDays: 0,
+        totalDays: 56,
+        periods: [
+          { startDate: "10/02/2024", endDate: "20/02/2024", days: 11 },
+          { startDate: "01/06/2024", endDate: "20/06/2024", days: 20 },
+          { startDate: "10/09/2024", endDate: "25/09/2024", days: 16 },
+          { startDate: "10/12/2024", endDate: "19/12/2024", days: 9 }
+        ]
+      },
+      {
+        beginDate: "01/01/2025",
+        endDate: "31/12/2025",
+        usedDays: 54,
+        remainingDays: 2,
+        totalDays: 56,
+        periods: [
+          { startDate: "05/03/2025", endDate: "15/03/2025", days: 11 },
+          { startDate: "01/07/2025", endDate: "20/07/2025", days: 20 },
+          { startDate: "05/10/2025", endDate: "20/10/2025", days: 16 },
+          { startDate: "10/12/2025", endDate: "19/12/2025", days: 7 }
+        ]
+      }
+      
+    ]
   });
 
   // Load saved contacts from localStorage
@@ -131,14 +158,14 @@ const MyPage = () => {
 
   // Vacation Manager Functions
   const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const [day, month, year] = dateStr.split("/");
-    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`;
+    if (!dateStr) return '';
+    const [day, month, year] = dateStr.split('/');
+    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
   };
 
   const parseDateInput = (dateStr) => {
     if (!dateStr) return null;
-    const [year, month, day] = dateStr.split("-");
+    const [year, month, day] = dateStr.split('-');
     return new Date(year, month - 1, day);
   };
 
@@ -150,46 +177,40 @@ const MyPage = () => {
   const handleAddVacationPeriod = (yearIndex) => {
     const startDate = parseDateInput(newVacationPeriod.startDate);
     const endDate = parseDateInput(newVacationPeriod.endDate);
-
+    
     if (startDate && endDate && startDate <= endDate) {
       const days = calculateVacationDays(startDate, endDate);
       const updatedData = JSON.parse(JSON.stringify(vacationData));
       const year = updatedData.vacationYears[yearIndex];
-
+      
       if (days <= year.remainingDays) {
         year.periods.push({
-          startDate: formatDate(
-            newVacationPeriod.startDate.split("-").reverse().join("/")
-          ),
-          endDate: formatDate(
-            newVacationPeriod.endDate.split("-").reverse().join("/")
-          ),
-          days,
+          startDate: formatDate(newVacationPeriod.startDate.split('-').reverse().join('/')),
+          endDate: formatDate(newVacationPeriod.endDate.split('-').reverse().join('/')),
+          days
         });
-
+        
         year.usedDays += days;
         year.remainingDays -= days;
-
+        
         if (yearIndex < updatedData.vacationYears.length - 1) {
           const nextYear = updatedData.vacationYears[yearIndex + 1];
           nextYear.totalDays += year.remainingDays;
           nextYear.remainingDays += year.remainingDays;
           year.remainingDays = 0;
         }
-
+        
         setVacationData(updatedData);
-        setNewVacationPeriod({ startDate: "", endDate: "" });
+        setNewVacationPeriod({ startDate: '', endDate: '' });
         setActiveVacationTab(null);
       } else {
-        alert(
-          `Not enough remaining days (${year.remainingDays} left, ${days} requested)`
-        );
+        alert(`Not enough remaining days (${year.remainingDays} left, ${days} requested)`);
       }
     }
   };
 
   const getYearFromDate = (dateStr) => {
-    const [day, month, year] = dateStr.split("/");
+    const [day, month, year] = dateStr.split('/');
     return parseInt(year);
   };
 
@@ -286,152 +307,7 @@ const MyPage = () => {
         </div>
         {renderProfileInfo()}
       </section>
-
-      {/* Vacation Management */}
-      <section className="vacation-section">
-        <div className="section-header">
-          <i className="fas fa-calendar-alt"></i>
-          <h3>Vacation Management</h3>
-        </div>
-
-        <div className="vacation-table-container">
-          <table className="vacation-table">
-            <thead>
-              <tr>
-                <th>Begin Date</th>
-                <th>End Date</th>
-                <th>Used Days</th>
-                <th>Remaining Days</th>
-                <th>Total Days</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vacationData.vacationYears.map((year, index) => {
-                const yearValue = getYearFromDate(year.beginDate);
-                return (
-                  <tr key={index}>
-                    <td>{year.beginDate}</td>
-                    <td>{year.endDate}</td>
-                    <td>{year.usedDays}</td>
-                    <td>{year.remainingDays}</td>
-                    <td>{year.totalDays}</td>
-                    <td>
-                      {isPastYear(yearValue) ? (
-                        <button
-                          className="calendar-icon past"
-                          onClick={() =>
-                            setActiveVacationTab(
-                              activeVacationTab === index ? null : index
-                            )
-                          }
-                        >
-                          📅
-                        </button>
-                      ) : (
-                        <button
-                          className={`calendar-icon ${
-                            isCurrentYear(yearValue) ? "current" : "future"
-                          }`}
-                          onClick={() => setActiveVacationTab(index)}
-                        >
-                          📅
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        {activeVacationTab !== null && (
-          <div className="vacation-modal">
-            <div className="vacation-modal-content">
-              {isPastYear(
-                getYearFromDate(
-                  vacationData.vacationYears[activeVacationTab].beginDate
-                )
-              ) ? (
-                <>
-                  <h4>
-                    Vacation Periods for{" "}
-                    {vacationData.vacationYears[activeVacationTab].beginDate} -{" "}
-                    {vacationData.vacationYears[activeVacationTab].endDate}
-                  </h4>
-                  {vacationData.vacationYears[activeVacationTab].periods
-                    .length > 0 ? (
-                    <ul className="vacation-periods-list">
-                      {vacationData.vacationYears[
-                        activeVacationTab
-                      ].periods.map((period, i) => (
-                        <li key={i}>
-                          {period.startDate} - {period.endDate} ({period.days}{" "}
-                          days)
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No vacation periods recorded.</p>
-                  )}
-                </>
-              ) : (
-                <>
-                  <h4>
-                    Add Vacation Period for{" "}
-                    {vacationData.vacationYears[activeVacationTab].beginDate} -{" "}
-                    {vacationData.vacationYears[activeVacationTab].endDate}
-                  </h4>
-                  <div className="vacation-date-inputs">
-                    <div>
-                      <label>Start Date:</label>
-                      <input
-                        type="date"
-                        value={newVacationPeriod.startDate}
-                        onChange={(e) =>
-                          setNewVacationPeriod({
-                            ...newVacationPeriod,
-                            startDate: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <label>End Date:</label>
-                      <input
-                        type="date"
-                        value={newVacationPeriod.endDate}
-                        onChange={(e) =>
-                          setNewVacationPeriod({
-                            ...newVacationPeriod,
-                            endDate: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="vacation-modal-actions">
-                    <button
-                      className="vacation-add-btn"
-                      onClick={() => handleAddVacationPeriod(activeVacationTab)}
-                    >
-                      Add Period
-                    </button>
-                  </div>
-                </>
-              )}
-              <button
-                className="vacation-close-btn"
-                onClick={() => setActiveVacationTab(null)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-      </section>
-
+      
       {/* Saved Contacts */}
       <section className="contacts-section">
         <div className="section-header">
@@ -495,6 +371,122 @@ const MyPage = () => {
           </table>
         </div>
       </section>
+
+      {/* Vacation Management */}
+      <section className="vacation-section">
+        <div className="section-header">
+          <i className="fas fa-calendar-alt"></i>
+          <h3>Vacation Management</h3>
+        </div>
+        
+        <div className="vacation-table-container">
+          <table className="vacation-table">
+            <thead>
+              <tr>
+                <th>Begin Date</th>
+                <th>End Date</th>
+                <th>Used Days</th>
+                <th>Remaining Days</th>
+                <th>Total Days</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vacationData.vacationYears.map((year, index) => {
+                const yearValue = getYearFromDate(year.beginDate);
+                return (
+                  <tr key={index}>
+                    <td>{year.beginDate}</td>
+                    <td>{year.endDate}</td>
+                    <td>{year.usedDays}</td>
+                    <td>{year.remainingDays}</td>
+                    <td>{year.totalDays}</td>
+                    <td>
+                      {isPastYear(yearValue) ? (
+                        <button 
+                          className="calendar-icon past" 
+                          onClick={() => setActiveVacationTab(activeVacationTab === index ? null : index)}
+                        >
+                          📅
+                        </button>
+                      ) : (
+                        <button 
+                          className={`calendar-icon ${isCurrentYear(yearValue) ? 'current' : 'future'}`} 
+                          onClick={() => setActiveVacationTab(index)}
+                        >
+                          📅
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {activeVacationTab !== null && (
+          <div className="vacation-modal">
+            <div className="vacation-modal-content">
+              {isPastYear(getYearFromDate(vacationData.vacationYears[activeVacationTab].beginDate)) ? (
+                <>
+                  <h4>Vacation Periods for {vacationData.vacationYears[activeVacationTab].beginDate} - {vacationData.vacationYears[activeVacationTab].endDate}</h4>
+                  {vacationData.vacationYears[activeVacationTab].periods.length > 0 ? (
+                    <ul className="vacation-periods-list">
+                      {vacationData.vacationYears[activeVacationTab].periods.map((period, i) => (
+                        <li key={i}>
+                          {period.startDate} - {period.endDate} ({period.days} days)
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No vacation periods recorded.</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h4>Add Vacation Period for {vacationData.vacationYears[activeVacationTab].beginDate} - {vacationData.vacationYears[activeVacationTab].endDate}</h4>
+                  <div className="vacation-date-inputs">
+                    <div>
+                      <label>Start Date:</label>
+                      <input 
+                        type="date" 
+                        value={newVacationPeriod.startDate}
+                        onChange={(e) => setNewVacationPeriod({...newVacationPeriod, startDate: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label>End Date:</label>
+                      <input 
+                        type="date" 
+                        value={newVacationPeriod.endDate}
+                        onChange={(e) => setNewVacationPeriod({...newVacationPeriod, endDate: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                  <div className="vacation-modal-actions">
+                    <button 
+                      className="vacation-add-btn"
+                      onClick={() => handleAddVacationPeriod(activeVacationTab)}
+                    >
+                      Add Period
+                    </button>
+                  </div>
+                </>
+              )}
+              <button 
+                className="vacation-close-btn" 
+                onClick={() => setActiveVacationTab(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </section>
+
+
+    
     </div>
   );
 };
