@@ -70,11 +70,12 @@
 }
 
 .detail-title {
-  margin: 0 0 12px;
+  margin: 20px 0px 20px;
   font-size: 1.4rem;
   color: #161d35;
   max-width: calc(100% - 40px);
   word-wrap: break-word;
+  font-weight: bold;
 }
 
 .detail-meta {
@@ -83,7 +84,7 @@
   gap: 8px;
   font-size: 0.95rem;
   color: #555;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .detail-meta i {
   color: #161d35;

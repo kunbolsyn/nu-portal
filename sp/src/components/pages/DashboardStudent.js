@@ -6,7 +6,6 @@ import "../../styles/NewsCards.css";
 
 const DashboardStudent = () => {
   const [news, setNews] = useState([]);
-  const [updates, setUpdates] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,12 +42,6 @@ const DashboardStudent = () => {
         setNews(transformed);
       })
       .catch((err) => console.error("Error fetching news:", err));
-
-    // Fetch your updates (still local or your updates endpoint)
-    fetch("/data/updates.json")
-      .then((res) => res.json())
-      .then((data) => setUpdates(data))
-      .catch((err) => console.error("Error fetching updates:", err));
   }, []);
 
   if (news.length === 0) {
@@ -93,23 +86,6 @@ const DashboardStudent = () => {
                 </p>
               </div>
               <p className="description">{item.content}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* My Updates */}
-      <div className="updates-section">
-        <div className="section-header">
-          <i className="fas fa-bell"></i>
-          <h3>My Updates</h3>
-        </div>
-        <div className="updates-list">
-          {updates.map((update, idx) => (
-            <div key={idx} className="update-item">
-              <h3>{update.title}</h3>
-              <p>{update.content}</p>
-              <span className="update-date">{update.date}</span>
             </div>
           ))}
         </div>

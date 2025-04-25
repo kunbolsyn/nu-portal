@@ -475,7 +475,6 @@ const EventPlanning = () => {
           <thead>
             <tr>
               <th>Title</th>
-              <th>ID</th>
               <th>Date</th>
               <th>Venue</th>
               <th>Status</th>
@@ -490,16 +489,11 @@ const EventPlanning = () => {
               return (
                 <tr key={evt.eventId}>
                   <td>{evt.eventTitle}</td>
-                  <td>{evt.eventId}</td>
                   <td>{evt.date}</td>
                   <td>{evt.venue?.venueTitle || "-"}</td>
                   <td>
-                    <span
-                      className={`status-badge ${
-                        evt.status?.toLowerCase() || "pending"
-                      }`}
-                    >
-                      {evt.status || "Pending"}
+                    <span className={`status-badge ${evt.type.toLowerCase()}`}>
+                      {evt.type}
                     </span>
                   </td>
                   <td>
