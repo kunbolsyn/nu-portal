@@ -7,7 +7,6 @@ const Payments = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [sportMembership, setSportMembership] = useState("multi");
-  const [semester, setSemester] = useState("spring2025");
   const [sortOption, setSortOption] = useState("newest");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,11 +82,6 @@ const Payments = () => {
     { id: "no4", name: "Membership No.4 (6 months)", price: 22000 }
   ];
 
-  const semesters = [
-    { id: "spring2025", name: "Spring 2025", period: "From 10.01.2025 to 15.06.2025", price: 5000 },
-    { id: "fall2025", name: "Fall 2025", period: "From 01.09.2025 to 20.12.2025", price: 5000 }
-  ];
-
   const toggleItem = (label) => {
     setSelectedItems((prev) =>
       prev.includes(label)
@@ -106,7 +100,7 @@ const Payments = () => {
       case "sport":
         return sportMemberships.find(m => m.id === sportMembership)?.price || 0;
       case "fund":
-        return semesters.find(s => s.id === semester)?.price || 0;
+        return 5000; // Fixed amount for Student Fund
       case "id":
         return 2600;
       default:
@@ -125,8 +119,7 @@ const Payments = () => {
         status: "Completed",
         details: {
           items: activeCategory === "laundry" ? selectedItems : [],
-          membershipType: activeCategory === "sport" ? sportMembership : null,
-          semester: activeCategory === "fund" ? semester : null
+          membershipType: activeCategory === "sport" ? sportMembership : null
         }
       };
 
@@ -147,7 +140,7 @@ const Payments = () => {
       }
 
       const result = await response.json();
-      alert(`Payment of ${calculateTotal()} KZT for ${activeCategory} submitted successfully!`);
+      alert(`Payment of ${calculateTotal()} KZT submitted successfully!`);
       
       // Refresh payment history
       const historyResponse = await fetch(
@@ -169,7 +162,6 @@ const Payments = () => {
     }
   };
 
-  // Rest of your renderPaymentForm function remains the same...
   const renderPaymentForm = () => {
     switch(activeCategory) {
       case "laundry":
@@ -201,7 +193,6 @@ const Payments = () => {
             </div>
           </div>
         );
-      // Other cases remain the same...
       case "sport":
         return (
           <div className="payment-content">
@@ -310,29 +301,9 @@ const Payments = () => {
               <p>Student life in Nazarbayev University – it is not just a study process and practice, but a creative self-realization in more than 100 student clubs and organizations, covering various spheres of intellectual development, scientific research, creativity, entertainment, culture, art and sports. Students' ideas and projects implementation is possible by the resources of the Student fund created to raise funds for the development and support of student life at the University and finance student activities at the expense of the received funds.</p>
               <p><strong>HOW TO MAKE A CONTRIBUTION ON THE DEVELOPMENT OF STUDENT LIFE?</strong></p>
               <p>The students' contributions can be listed only through the website www.my.nu.edu.kz/</p>
-              <div className="location-hours">
-                <p><strong>DISCOUNT TERMS</strong></p>
-                <p>The dormitory discount is granted If the student fee is paid to The Student Fund before the 1st day of reservation. The size of the student fee is approved each semester by the decision of The Student Fund Budget Committee.</p>
-                <p>The approved student fee amount is indicated in your personal account.</p>
-              </div>
             </div>
-            <div className="semester-options">
-              <label>
-                <span>Payment semester:</span>
-                <select 
-                  value={semester} 
-                  onChange={(e) => setSemester(e.target.value)}
-                >
-                  {semesters.map(sem => (
-                    <option key={sem.id} value={sem.id}>
-                      {sem.name} {sem.period}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className="fixed-price">
-                <p>Sum - 5000 KZT</p>
-              </div>
+            <div className="fixed-price">
+              <p>Sum - 5000 KZT</p>
             </div>
           </div>
         );
