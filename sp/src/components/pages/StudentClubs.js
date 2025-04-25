@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const StudentClubs = () => {
   const [clubs, setClubs] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterStatus, setFilterStatus] = useState("All");
+  const [filterStatus] = useState("All");
   const [filterCategory, setFilterCategory] = useState("");
 
   const location = useLocation();
@@ -81,15 +81,6 @@ const StudentClubs = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="student-clubs-search"
         />
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="student-clubs-status"
-        >
-          <option value="All">All Status</option>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
