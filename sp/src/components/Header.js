@@ -67,7 +67,6 @@ const Header = ({ onToggleSidebar }) => {
         {menuOpen && (
           <div className="context-menu">
             <Link to="/mypage">My Page</Link>
-            <Link to="/settings">Settings</Link>
             <button onClick={handleLogout} className="logout-btn">
               Log Out
             </button>

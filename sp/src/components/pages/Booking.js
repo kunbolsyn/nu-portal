@@ -56,15 +56,23 @@ const Booking = () => {
   }, [token]);
 
   useEffect(() => {
-    setMyBookings([]);
-    myBookingIds.forEach((id) => {
-      fetch(`${API_BASE}/api/venue-reservations/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => setMyBookings((prev) => [...prev, data]))
-        .catch(console.error);
-    });
+    const uniqueIds = [...new Set(myBookingIds)];
+    const fetchBookings = async () => {
+      try {
+        const responses = await Promise.all(
+          uniqueIds.map((id) =>
+            fetch(`${API_BASE}/api/venue-reservations/${id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            }).then((res) => res.json())
+          )
+        );
+        setMyBookings(responses);
+      } catch (err) {
+        console.error("Error fetching bookings:", err);
+      }
+    };
+
+    fetchBookings();
   }, [myBookingIds, token]);
 
   useEffect(() => {

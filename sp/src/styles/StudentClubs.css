@@ -13,19 +13,18 @@
   display: flex;
   align-items: center;
   padding: 0.7rem 0;
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .section-header i {
   font-size: 25px;
-  color: #0E1C36;
+  color: #0e1c36;
   margin-right: -5px;
 }
 
 .section-header h1 {
   font-size: 20px;
-  font-weight: bold;
-  color: #0E1C36;
+  color: #0e1c36;
   margin: 10px;
 }
 
@@ -33,7 +32,7 @@
 .student-clubs-title {
   font-size: 17px;
   font-weight: bold;
-  color: #0E1C36;
+  color: #0e1c36;
   margin: 0;
 }
 
