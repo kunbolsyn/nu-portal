@@ -2,27 +2,105 @@ import React, { useState, useEffect } from "react";
 import "../../styles/Payments.css";
 import { FaMoneyBillWave, FaHistory } from "react-icons/fa";
 
+// Mock data
+const paymentsData = {
+  payments: [
+    {
+      type: "Laundry Fee",
+      id: 12880,
+      amount: 1500.00,
+      date: "2024-01-15",
+      time: "10:00",
+      paymentMethod: "Visa: ..0179"
+    },
+    {
+      type: "ID Recovery",
+      id: 28099,
+      amount: 2600.00,
+      date: "2024-01-10",
+      time: "20:00",
+      paymentMethod: "Mastercard: ..0179"
+    },
+    {
+      type: "Laundry Fee",
+      id: 38530,
+      amount: 1000.00,
+      date: "2024-01-05",
+      time: "10:00",
+      paymentMethod: "Visa: ..0179"
+    },
+    {
+      type: "Sport Complex Membership",
+      id: 59398,
+      amount: 12000.00,
+      date: "2023-12-15",
+      time: "10:00",
+      paymentMethod: "Mastercard: ..0179"
+    },
+    {
+      type: "ID Recovery",
+      id: 48079,
+      amount: 2600.00,
+      date: "2023-12-20",
+      time: "10:00",
+      paymentMethod: "Mastercard: ..0179"
+    },
+    {
+      type: "Student Fund",
+      id: 65669,
+      amount: 5000.00,
+      date: "2024-05-15",
+      time: "10:00",
+      paymentMethod: "Visa: ..0179"
+    },
+    {
+      type: "Dormitory Fee",
+      id: 77509,
+      amount: 500.00,
+      date: "2024-02-05",
+      time: "10:00",
+      paymentMethod: "Mastercard: ..0179"
+    }
+  ]
+};
+
 const Payments = () => {
   const [activeCategory, setActiveCategory] = useState("laundry");
   const [selectedItems, setSelectedItems] = useState([]);
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [sportMembership, setSportMembership] = useState("multi");
   const [semester, setSemester] = useState("spring2025");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [sortOption, setSortOption] = useState("newest");
 
-  // Fetch payment history from API
+  // Load payment history from mock data
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch("https://senior-project-java-backend.onrender.com/api/payments/history", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(res => res.json())
-      .then(data => setPaymentHistory(data))
-      .catch(err => console.error("Error fetching payment history:", err));
+    const formattedPayments = paymentsData.payments.map(payment => ({
+      id: payment.id,
+      category: payment.type,
+      date: payment.date,
+      time: payment.time,
+      price: payment.amount,
+      paymentMethod: payment.paymentMethod
+    }));
+    
+    setPaymentHistory(formattedPayments);
   }, []);
+
+  // Sort payments based on selected option
+  const sortedPayments = [...paymentHistory].sort((a, b) => {
+    switch(sortOption) {
+      case "newest":
+        return new Date(b.date) - new Date(a.date);
+      case "oldest":
+        return new Date(a.date) - new Date(b.date);
+      case "highest":
+        return b.price - a.price;
+      case "lowest":
+        return a.price - b.price;
+      default:
+        return 0;
+    }
+  });
 
   const paymentCategories = [
     { id: "laundry", name: "Laundry Fee" },
@@ -76,15 +154,7 @@ const Payments = () => {
     }
   };
 
-  const filteredHistory = paymentHistory.filter(item => {
-    const matchesSearch = item.category.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         item.id.toString().includes(searchQuery);
-    const matchesStatus = statusFilter === "All" || item.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
-
   const handlePayment = () => {
-    const token = localStorage.getItem("token");
     const paymentData = {
       category: activeCategory,
       amount: calculateTotal(),
@@ -93,26 +163,23 @@ const Payments = () => {
       semester: activeCategory === "fund" ? semester : null
     };
 
-    fetch("https://senior-project-java-backend.onrender.com/api/payments/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(paymentData)
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert("Payment successful!");
-      return fetch("https://senior-project-java-backend.onrender.com/api/payments/history", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-    })
-    .then(res => res.json())
-    .then(data => setPaymentHistory(data))
-    .catch(err => console.error("Payment error:", err));
+    console.log("Payment data:", paymentData);
+    alert(`Payment of ${calculateTotal()} KZT for ${activeCategory} submitted!`);
+    
+    // Add to history (mock implementation)
+    const newPayment = {
+      id: Math.floor(Math.random() * 100000),
+      category: paymentCategories.find(c => c.id === activeCategory)?.name,
+      date: new Date().toISOString().split('T')[0],
+      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+      price: calculateTotal(),
+      paymentMethod: "Visa: .." + Math.floor(Math.random() * 10000).toString().padStart(4, '0')
+    };
+    
+    setPaymentHistory(prev => [newPayment, ...prev]);
   };
 
+  // Rest of your renderPaymentForm function remains the same...
   const renderPaymentForm = () => {
     switch(activeCategory) {
       case "laundry":
@@ -144,6 +211,7 @@ const Payments = () => {
             </div>
           </div>
         );
+      // Other cases remain the same...
       case "sport":
         return (
           <div className="payment-content">
@@ -332,47 +400,15 @@ const Payments = () => {
 
       <div className="payment-history-section">
         <div className="history-controls">
-          <div className="search-box-payments">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="filter-buttons">
-            <button 
-              className={`filter-button ${statusFilter === "All" ? "active" : ""}`}
-              onClick={() => setStatusFilter("All")}
-            >
-              All
-            </button>
-            <button
-              className={`filter-button ${statusFilter === "Unpaid" ? "active" : ""}`}
-              onClick={() => setStatusFilter("Unpaid")}
-            >
-              Unpaid
-            </button>
-            <button
-              className={`filter-button ${statusFilter === "Paid" ? "active" : ""}`}
-              onClick={() => setStatusFilter("Paid")}
-            >
-              Paid
-            </button>
-            <button
-              className={`filter-button ${statusFilter === "Pending" ? "active" : ""}`}
-              onClick={() => setStatusFilter("Pending")}
-            >
-              Pending
-            </button>
-          </div>
           <div className="sort-options">
-            <select>
-              <option>Sort</option>
-              <option>Newest First</option>
-              <option>Oldest First</option>
-              <option>Highest Amount</option>
-              <option>Lowest Amount</option>
+            <select 
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="highest">Highest Amount</option>
+              <option value="lowest">Lowest Amount</option>
             </select>
           </div>
         </div>
@@ -386,12 +422,11 @@ const Payments = () => {
               <th>Date</th>
               <th>Time</th>
               <th>Price</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Payment Method</th>
             </tr>
           </thead>
           <tbody>
-            {filteredHistory.map((row, idx) => (
+            {sortedPayments.map((row, idx) => (
               <tr key={idx}>
                 <td>{row.category}</td>
                 <td>{row.id}</td>
@@ -399,23 +434,14 @@ const Payments = () => {
                 <td>{row.date}</td>
                 <td>{row.time}</td>
                 <td>{row.price} KZT</td>
-                <td className={`status ${row.status.toLowerCase()}`}>
-                  <span className="status-dot">▪</span> {row.status}
-                </td>
-                <td>
-                  {row.status === "Unpaid" ? (
-                    <button className="action-button pay">Pay</button>
-                  ) : (
-                    <button className="action-button view">View</button>
-                  )}
-                </td>
+                <td>{row.paymentMethod}</td>
               </tr>
             ))}
           </tbody>
         </table>
         
         <div className="pagination">
-          <span>1-3 of 3</span>
+          <span>1-{sortedPayments.length} of {sortedPayments.length}</span>
         </div>
       </div>
     </div>
