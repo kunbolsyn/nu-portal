@@ -24,7 +24,7 @@ const RightSidebar = () => {
       .then((data) => {
         const now = new Date();
         const inTwoWeeks = new Date();
-        inTwoWeeks.setDate(now.getDate() + 54);
+        inTwoWeeks.setDate(now.getDate() + 14);
 
         const acceptedEvents = data.filter((item) => item.type === "accepted");
         const upcoming = acceptedEvents
