@@ -1,12 +1,11 @@
 // src/components/pages/EventPlanning.js
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/EventPlanning.css";
 
 const API_BASE = "https://senior-project-java-backend.onrender.com";
 
 const EventPlanning = () => {
-  const navigate = useNavigate();
+  
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
 
@@ -158,13 +157,11 @@ const EventPlanning = () => {
       alert("Please fill in all required fields.");
       return;
     }
-
-    // Build time string: HH:mm:ss
+  
     const [h, m] = startTime.split(":");
     const timeString = `${h.padStart(2, "0")}:${m.padStart(2, "0")}:00`;
-
-    // Assemble event JSON
     const today = new Date().toISOString().split("T")[0];
+  
     const eventData = {
       eventTitle: eventName,
       description,
@@ -181,16 +178,14 @@ const EventPlanning = () => {
       comment: additionalComments,
       email: username,
     };
-
-    // Build FormData with JSON Blob
+  
     const formData = new FormData();
     const eventBlob = new Blob([JSON.stringify(eventData)], {
       type: "application/json",
     });
     formData.append("event", eventBlob);
     if (image) formData.append("file", image);
-
-    // POST to backend
+  
     try {
       const res = await fetch(`${API_BASE}/api/events`, {
         method: "POST",
@@ -200,9 +195,28 @@ const EventPlanning = () => {
         },
         body: formData,
       });
+  
       if (res.ok) {
+        // ✅ Create venue reservation after event is submitted
+        const reservationPayload = {
+          venue: { venue_id: Number(venueId) },
+          date,
+          time_from: `${startTime}:00`,
+          time_to: `${endTime}:00`,
+          date_request_sent: today,
+        };
+  
+        await fetch(`${API_BASE}/api/venue-reservations`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(reservationPayload),
+        });
+  
         alert("Event request submitted!");
-        navigate("/events");
+        
       } else {
         const txt = await res.text();
         alert("Error submitting event: " + txt);
@@ -212,6 +226,7 @@ const EventPlanning = () => {
       alert("Network error submitting event");
     }
   };
+  
 
   return (
     <div className="event-planning-container">
@@ -475,8 +490,8 @@ const EventPlanning = () => {
           <thead>
             <tr>
               <th>Title</th>
+              <th>ID</th>
               <th>Date</th>
-              <th>Time</th>
               <th>Venue</th>
               <th>Status</th>
               <th>Actions</th>
@@ -490,12 +505,16 @@ const EventPlanning = () => {
               return (
                 <tr key={evt.eventId}>
                   <td>{evt.eventTitle}</td>
+                  <td>{evt.eventId}</td>
                   <td>{evt.date}</td>
-                  <td>{evt.time}</td>
                   <td>{evt.venue?.venueTitle || "-"}</td>
                   <td>
-                    <span className={`status-badge ${evt.type.toLowerCase()}`}>
-                      {evt.type}
+                    <span
+                      className={`status-badge ${
+                        evt.status?.toLowerCase() || "pending"
+                      }`}
+                    >
+                      {evt.status || "Pending"}
                     </span>
                   </td>
                   <td>
