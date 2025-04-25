@@ -213,6 +213,14 @@ const EventPlanning = () => {
     }
   };
 
+  const formatEventTime = (t) => {
+    if (!t) return "-";
+    if (typeof t === "string") return t;
+    const h = String(t.hour).padStart(2, "0");
+    const m = String(t.minute).padStart(2, "0");
+    return `${h}:${m}:00`;
+  };
+
   return (
     <div className="event-planning-container">
       <div className="section-header">
@@ -494,12 +502,8 @@ const EventPlanning = () => {
                   <td>{evt.date}</td>
                   <td>{evt.venue?.venueTitle || "-"}</td>
                   <td>
-                    <span
-                      className={`status-badge ${
-                        evt.status?.toLowerCase() || "pending"
-                      }`}
-                    >
-                      {evt.status || "Pending"}
+                    <span className={`status-badge ${evt.type.toLowerCase()}`}>
+                      {evt.type}
                     </span>
                   </td>
                   <td>
