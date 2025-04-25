@@ -61,7 +61,7 @@ const Events = () => {
   return (
     <div className="events-page">
       {/* Featured / Registration Open */}
-      <div className="featured-events-section">
+      {/* <div className="featured-events-section">
         <div className="section-header">
           <i className="fas fa-bolt"></i>
           <h3>Registration Open!</h3>
@@ -93,7 +93,7 @@ const Events = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Upcoming Events */}
       <div className="section-header">
