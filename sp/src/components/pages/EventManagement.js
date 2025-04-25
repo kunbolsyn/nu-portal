@@ -25,7 +25,7 @@ const EventManagement = () => {
           eventId: item.eventId,
           eventTitle: item.eventTitle,
           description: item.description,
-          organization: item.club || "Unknown Club",
+          organization: item.organizer || "Unknown Club",
           venue: item.venue?.venueTitle || "TBD",
           date: item.date,
           time: item.time, // Could be string "HH:mm:ss" or object
@@ -121,6 +121,24 @@ const EventManagement = () => {
     ...new Set(events.map((e) => e.organization)),
   ];
 
+  // inside EventManagement, alongside updateEventStatus
+  const handleDelete = async (eventId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `https://senior-project-java-backend.onrender.com/api/events/${eventId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!res.ok) throw new Error("Failed to delete event");
+      setEvents((prev) => prev.filter((e) => e.eventId !== eventId));
+    } catch (err) {
+      console.error("Error deleting event:", err);
+    }
+  };
+
   return (
     <div className="event-management">
       <div className="header-section">
@@ -162,26 +180,17 @@ const EventManagement = () => {
         <thead>
           <tr>
             <th>Event Name</th>
-            <th>Event ID</th>
             <th>Organization</th>
             <th>Description</th>
             <th>Venue</th>
             <th>Date</th>
-            <th>Time</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {filteredEvents.map((evt) => {
             // Determine display string for time
-            let timeDisplay = "-";
-            if (typeof evt.time === "string") {
-              timeDisplay = evt.time; // e.g. "14:30:00"
-            } else if (evt.time?.hour != null) {
-              const h = String(evt.time.hour).padStart(2, "0");
-              const m = String(evt.time.minute).padStart(2, "0");
-              timeDisplay = `${h}:${m}`;
-            }
 
             return (
               <tr
@@ -190,16 +199,32 @@ const EventManagement = () => {
                 style={{ cursor: "pointer" }}
               >
                 <td>{evt.eventTitle}</td>
-                <td>{evt.eventId}</td>
                 <td>{evt.organization}</td>
                 <td>{evt.description}</td>
                 <td>{evt.venue}</td>
                 <td>{evt.date}</td>
-                <td>{timeDisplay}</td>
                 <td>
                   <span className={`status-badge ${evt.type.toLowerCase()}`}>
                     {evt.type}
                   </span>
+                </td>
+                <td>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // ← prevent opening the modal
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this event permanently?"
+                        )
+                      ) {
+                        handleDelete(evt.eventId);
+                      }
+                    }}
+                    className="delete-icon-btn"
+                    title="Delete Event"
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button>
                 </td>
               </tr>
             );

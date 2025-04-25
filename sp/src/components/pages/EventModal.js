@@ -89,6 +89,18 @@ const EventModal = ({
             <p>{data.material_support}</p>
 
             <label>
+              <strong>Technical Support:</strong>
+            </label>
+            {Array.isArray(JSON.parse(data.technical_support)) &&
+              JSON.parse(data.technical_support).map((item, index) => (
+                <div key={index}>
+                  <p>Category: {item.category}</p>
+                  <p>Amount: {item.amount}</p>
+                  <p>Comments: {item.comments}</p>
+                </div>
+              ))}
+
+            <label>
               <strong>Moderation Note:</strong>
             </label>
             <textarea

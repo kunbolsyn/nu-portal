@@ -10,8 +10,6 @@ import SuggestNews from "./components/pages/SuggestNews";
 import Phonebook from "./components/pages/Phonebook";
 import EventPlanning from "./components/pages/EventPlanning";
 import DashboardStudent from "./components/pages/DashboardStudent";
-import DashboardDSS from "./components/pages/DashboardDSS";
-import DashboardStaff from "./components/pages/DashboardStaff";
 import MyPage from "./components/pages/MyPage";
 import Requests from "./components/pages/Requests";
 import Payments from "./components/pages/Payments";
@@ -25,26 +23,11 @@ import ArticleContent from "./components/infocenter/ArticleContent";
 import "./styles/App.css";
 
 const App = () => {
-  const userRole = localStorage.getItem("userRole");
-
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
-
       <Route path="/" element={<ProtectedLayout />}>
-        <Route
-          path="dashboard"
-          element={
-            userRole === "dss" ? (
-              <DashboardDSS />
-            ) : userRole === "staff" ? (
-              <DashboardStaff />
-            ) : (
-              <DashboardStudent />
-            )
-          }
-        />
-
+        <Route path="dashboard" element={<DashboardStudent />} />
         <Route path="mypage" element={<MyPage />} />
         <Route path="news" element={<News />} />
         <Route path="events" element={<Events />} />
@@ -60,7 +43,7 @@ const App = () => {
         <Route path="/news/:id" element={<NewsPage />} />
         <Route path="event-management" element={<EventManagement />} />
         <Route path="news-moderation" element={<NewsModeration />} />
-        
+
         <Route path="infocenter" element={<Infocenter />} />
         <Route path="university-history" element={<UniversityHistory />} />
         <Route path="mission-values" element={<ArticleContent />} />
@@ -74,14 +57,16 @@ const App = () => {
         <Route path="academic-advising" element={<ArticleContent />} />
         <Route path="student-organizations" element={<ArticleContent />} />
         <Route path="sports-complex" element={<ArticleContent />} />
-        <Route path="department-of-student-services" element={<ArticleContent />} />
+        <Route
+          path="department-of-student-services"
+          element={<ArticleContent />}
+        />
         <Route path="health-wellness" element={<ArticleContent />} />
         <Route path="student-government" element={<ArticleContent />} />
         <Route path="residence-halls" element={<ArticleContent />} />
         <Route path="housing-policies" element={<ArticleContent />} />
         <Route path="housing-application" element={<ArticleContent />} />
         <Route path="residential-life" element={<ArticleContent />} />
-        
       </Route>
     </Routes>
   );

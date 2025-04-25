@@ -20,7 +20,8 @@ const News = () => {
         return res.json();
       })
       .then((data) => {
-        const transformed = data.map((item) => ({
+        const acceptedNews = data.filter((item) => item.status === "accepted");
+        const transformed = acceptedNews.map((item) => ({
           id: item.news_id,
           title: item.newsTitle,
           name: item.name || "Unknown",
