@@ -177,7 +177,7 @@ const EventPlanning = () => {
       participants_number: contactPersons.length,
       material_support: inventory,
       technical_support: JSON.stringify(technicalEquipment),
-      type: "general",
+      type: "waiting",
       comment: additionalComments,
       email: username,
     };
@@ -220,105 +220,102 @@ const EventPlanning = () => {
         <h3>Create Event</h3>
       </div>
 
-
-
       <div className="event-form">
+        <div className="photo-info-row">
+          {/* Image Upload */}
+          <div className="photo-section">
+            <div
+              className="upload-box"
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current.click()}
+            >
+              {image ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Preview"
+                  className="preview-img"
+                />
+              ) : (
+                <div className="upload-placeholder">
+                  <div className="upload-icon">+</div>
+                  <p>
+                    Drop image or <span>browse</span>
+                  </p>
+                </div>
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
 
+          {/* Right side inputs */}
+          <div className="event-info-fields">
+            <label>Organization Name</label>
+            <input
+              type="text"
+              placeholder="Organization..."
+              value={organization}
+              onChange={(e) => setOrganization(e.target.value)}
+            />
 
-      <div className="photo-info-row">
-  {/* Image Upload */}
-  <div className="photo-section">
-    <div
-      className="upload-box"
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      onClick={() => fileInputRef.current.click()}
-    >
-      {image ? (
-        <img
-          src={URL.createObjectURL(image)}
-          alt="Preview"
-          className="preview-img"
-        />
-      ) : (
-        <div className="upload-placeholder">
-          <div className="upload-icon">+</div>
-          <p>
-            Drop image or <span>browse</span>
-          </p>
+            <label>Event Name</label>
+            <input
+              type="text"
+              placeholder="Event Name..."
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
+            />
+          </div>
         </div>
-      )}
-      <input
-        type="file"
-        ref={fileInputRef}
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
-    </div>
-  </div>
 
-  {/* Right side inputs */}
-  <div className="event-info-fields">
-    <label>Organization Name</label>
-    <input
-      type="text"
-      placeholder="Organization..."
-      value={organization}
-      onChange={(e) => setOrganization(e.target.value)}
-    />
+        <div className="event-row-group">
+          <div className="event-field">
+            <label>Venue</label>
+            <select
+              value={venueId}
+              onChange={(e) => setVenueId(e.target.value)}
+            >
+              <option value="">Select venue…</option>
+              {venues.map((v) => (
+                <option key={v.venue_id} value={v.venue_id}>
+                  {v.venueTitle}
+                </option>
+              ))}
+            </select>
+          </div>
 
-    <label>Event Name</label>
-    <input
-      type="text"
-      placeholder="Event Name..."
-      value={eventName}
-      onChange={(e) => setEventName(e.target.value)}
-    />
-  </div>
-</div>
+          <div className="event-field">
+            <label>Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
 
-
-<div className="event-row-group">
-  <div className="event-field">
-    <label>Venue</label>
-    <select value={venueId} onChange={(e) => setVenueId(e.target.value)}>
-      <option value="">Select venue…</option>
-      {venues.map((v) => (
-        <option key={v.venue_id} value={v.venue_id}>
-          {v.venueTitle}
-        </option>
-      ))}
-    </select>
-  </div>
-
-  <div className="event-field">
-    <label>Date</label>
-    <input
-      type="date"
-      value={date}
-      onChange={(e) => setDate(e.target.value)}
-    />
-  </div>
-
-  <div className="event-field">
-    <label>Time</label>
-    <div className="time-range">
-      <input
-        type="time"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-      />
-      <span>–</span>
-      <input
-        type="time"
-        value={endTime}
-        onChange={(e) => setEndTime(e.target.value)}
-      />
-    </div>
-  </div>
-</div>
-
+          <div className="event-field">
+            <label>Time</label>
+            <div className="time-range">
+              <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+              <span>–</span>
+              <input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Description */}
         <label>Short Description</label>
@@ -330,59 +327,58 @@ const EventPlanning = () => {
 
         {/* Contacts */}
         <div className="contact-group">
-  <label>Contact Persons</label>
+          <label>Contact Persons</label>
 
-  <div className="contact-row-group">
-    <div className="contact-field">
-      <input
-        type="text"
-        placeholder="Name"
-        value={personInput.name}
-        onChange={(e) =>
-          setPersonInput({ ...personInput, name: e.target.value })
-        }
-      />
-    </div>
+          <div className="contact-row-group">
+            <div className="contact-field">
+              <input
+                type="text"
+                placeholder="Name"
+                value={personInput.name}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, name: e.target.value })
+                }
+              />
+            </div>
 
-    <div className="contact-field">
-      <input
-        type="text"
-        placeholder="Phone"
-        value={personInput.phone}
-        onChange={(e) =>
-          setPersonInput({ ...personInput, phone: e.target.value })
-        }
-      />
-    </div>
+            <div className="contact-field">
+              <input
+                type="text"
+                placeholder="Phone"
+                value={personInput.phone}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, phone: e.target.value })
+                }
+              />
+            </div>
 
-    <div className="contact-field">
-      <input
-        type="text"
-        placeholder="ID Number"
-        value={personInput.id}
-        onChange={(e) =>
-          setPersonInput({ ...personInput, id: e.target.value })
-        }
-      />
-    </div>
-  </div>
+            <div className="contact-field">
+              <input
+                type="text"
+                placeholder="ID Number"
+                value={personInput.id}
+                onChange={(e) =>
+                  setPersonInput({ ...personInput, id: e.target.value })
+                }
+              />
+            </div>
+          </div>
 
-  <div className="contact-button-row">
-    <button onClick={addContactPerson}>Add</button>
-  </div>
-</div>
+          <div className="contact-button-row">
+            <button onClick={addContactPerson}>Add</button>
+          </div>
+        </div>
 
-{/* List added contacts */}
-{contactPersons.length > 0 && (
-  <div className="contact-list">
-    {contactPersons.map((p, i) => (
-      <div key={i}>
-        {p.name} – {p.phone} – {p.id}
-      </div>
-    ))}
-  </div>
-)}
-
+        {/* List added contacts */}
+        {contactPersons.length > 0 && (
+          <div className="contact-list">
+            {contactPersons.map((p, i) => (
+              <div key={i}>
+                {p.name} – {p.phone} – {p.id}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Inventory */}
         <label>Required Inventory</label>
@@ -394,61 +390,69 @@ const EventPlanning = () => {
 
         {/* Equipment */}
         <div className="equipment-group">
-  <label>Technical Equipment</label>
+          <label>Technical Equipment</label>
 
-  <div className="equipment-row-group">
-    <div className="equipment-field">
-      <input
-        list="eq-options"
-        placeholder="Category"
-        value={equipmentInput.category}
-        onChange={(e) =>
-          setEquipmentInput({ ...equipmentInput, category: e.target.value })
-        }
-      />
-      <datalist id="eq-options">
-        <option>Projector</option>
-        <option>Microphone</option>
-        <option>Speaker</option>
-      </datalist>
-    </div>
+          <div className="equipment-row-group">
+            <div className="equipment-field">
+              <input
+                list="eq-options"
+                placeholder="Category"
+                value={equipmentInput.category}
+                onChange={(e) =>
+                  setEquipmentInput({
+                    ...equipmentInput,
+                    category: e.target.value,
+                  })
+                }
+              />
+              <datalist id="eq-options">
+                <option>Projector</option>
+                <option>Microphone</option>
+                <option>Speaker</option>
+              </datalist>
+            </div>
 
-    <div className="equipment-field">
-      <input
-        type="number"
-        min="1"
-        placeholder="Amount"
-        value={equipmentInput.amount}
-        onChange={(e) =>
-          setEquipmentInput({ ...equipmentInput, amount: e.target.value })
-        }
-      />
-    </div>
+            <div className="equipment-field">
+              <input
+                type="number"
+                min="1"
+                placeholder="Amount"
+                value={equipmentInput.amount}
+                onChange={(e) =>
+                  setEquipmentInput({
+                    ...equipmentInput,
+                    amount: e.target.value,
+                  })
+                }
+              />
+            </div>
 
-    <div className="equipment-field">
-      <input
-        type="text"
-        placeholder="Comments"
-        value={equipmentInput.comments}
-        onChange={(e) =>
-          setEquipmentInput({ ...equipmentInput, comments: e.target.value })
-        }
-      />
-    </div>
-  </div>
+            <div className="equipment-field">
+              <input
+                type="text"
+                placeholder="Comments"
+                value={equipmentInput.comments}
+                onChange={(e) =>
+                  setEquipmentInput({
+                    ...equipmentInput,
+                    comments: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
 
-  <div className="equipment-button-row">
-    <button onClick={addEquipment}>Add</button>
-  </div>
-</div>
+          <div className="equipment-button-row">
+            <button onClick={addEquipment}>Add</button>
+          </div>
+        </div>
 
-{/* List added equipment */}
-{technicalEquipment.map((eq, i) => (
-  <div key={i} className="equipment-item">
-    {eq.category} ({eq.amount}) {eq.comments}
-  </div>
-))}
-
+        {/* List added equipment */}
+        {technicalEquipment.map((eq, i) => (
+          <div key={i} className="equipment-item">
+            {eq.category} ({eq.amount}) {eq.comments}
+          </div>
+        ))}
 
         {/* Additional Comments */}
         <label>Additional Comments</label>
@@ -459,7 +463,6 @@ const EventPlanning = () => {
         />
 
         {/* Image Upload */}
-        
 
         {/* Submit */}
         <button className="submit-btn" onClick={handleSubmit}>
@@ -474,7 +477,6 @@ const EventPlanning = () => {
               <th>Title</th>
               <th>ID</th>
               <th>Date</th>
-              <th>Time</th>
               <th>Venue</th>
               <th>Status</th>
               <th>Actions</th>
@@ -484,21 +486,12 @@ const EventPlanning = () => {
           <tbody>
             {events.map((evt) => {
               // Format time whether it's a string or object
-              let timeDisplay = "-";
-              if (typeof evt.time === "string") {
-                timeDisplay = evt.time; // e.g. "14:30:00"
-              } else if (evt.time?.hour != null) {
-                const h = String(evt.time.hour).padStart(2, "0");
-                const m = String(evt.time.minute).padStart(2, "0");
-                timeDisplay = `${h}:${m}`;
-              }
 
               return (
                 <tr key={evt.eventId}>
                   <td>{evt.eventTitle}</td>
                   <td>{evt.eventId}</td>
                   <td>{evt.date}</td>
-                  <td>{timeDisplay}</td>
                   <td>{evt.venue?.venueTitle || "-"}</td>
                   <td>
                     <span

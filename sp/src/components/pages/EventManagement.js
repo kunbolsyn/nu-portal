@@ -10,12 +10,11 @@ const EventManagement = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [moderationNote, setModerationNote] = useState("");
 
+  // Fetch and format events on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch events");
@@ -23,21 +22,16 @@ const EventManagement = () => {
       })
       .then((data) => {
         const formatted = data.map((item) => ({
-          id: item.eventId,
-          name: item.eventTitle,
+          eventId: item.eventId,
+          eventTitle: item.eventTitle,
           description: item.description,
           organization: item.club || "Unknown Club",
-          room: item.venue?.venueTitle || "TBD",
+          venue: item.venue?.venueTitle || "TBD",
           date: item.date,
-          startTime: item.startTime || "--:--",
-          endTime: item.endTime || "--:--",
-          status: item.status || "waiting",
-          moderationNote: item.moderationNote || "",
-          image: item.photos_link || [],
-          organizer: item.organizer || "Unknown Organizer",
-          capacity: item.venue?.capacity || "N/A",
-          location: item.venue?.location || "N/A",
-          fullEventData: item, // Save original for PUT request
+          time: item.time, // Could be string "HH:mm:ss" or object
+          type: item.type || "waiting", // Status stored in type
+          moderationNote: item.comment || "",
+          fullEventData: item,
         }));
         setEvents(formatted);
       })
@@ -47,23 +41,22 @@ const EventManagement = () => {
       });
   }, []);
 
+  // Filter and sort logic
   const filteredEvents = events
-    .filter((e) => {
-      const name = e.name || "";
-      const description = e.description || "";
-      return (
-        name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        description.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    })
+    .filter((e) =>
+      [e.eventTitle, e.description]
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
     .filter(
       (e) =>
         selectedOrganization === "All" ||
         e.organization === selectedOrganization
     )
     .sort((a, b) => {
-      if (sortOption === "venue") return a.room.localeCompare(b.room);
-      if (sortOption === "status") return a.status.localeCompare(b.status);
+      if (sortOption === "venue") return a.venue.localeCompare(b.venue);
+      if (sortOption === "status") return a.type.localeCompare(b.type);
       if (sortOption === "organization")
         return a.organization.localeCompare(b.organization);
       if (sortOption === "date-asc") return a.date.localeCompare(b.date);
@@ -71,55 +64,53 @@ const EventManagement = () => {
       return 0;
     });
 
-  const updateEventStatus = async (newStatus) => {
+  // Update event status (type) and comment
+  const updateEventStatus = async (newType) => {
     if (!selectedEvent) return;
     const token = localStorage.getItem("token");
+    const { fullEventData, eventId } = selectedEvent;
 
-    const updatedEvent = {
-      ...selectedEvent.fullEventData,
-      status: newStatus,
-      moderationNote,
+    const payload = {
+      ...fullEventData,
+      type: newType,
+      comment: moderationNote,
     };
 
     try {
       const response = await fetch(
-        `https://senior-project-java-backend.onrender.com/api/events/${selectedEvent.id}`,
+        `https://senior-project-java-backend.onrender.com/api/events/${eventId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(updatedEvent),
+          body: JSON.stringify(payload),
         }
       );
+      if (!response.ok) throw new Error("Failed to update event status");
 
-      if (!response.ok) {
-        throw new Error("Failed to update event status");
-      }
-
-      const updated = events.map((e) =>
-        e.id === selectedEvent.id
-          ? { ...e, status: newStatus, moderationNote }
-          : e
+      setEvents((evts) =>
+        evts.map((e) =>
+          e.eventId === eventId ? { ...e, type: newType, moderationNote } : e
+        )
       );
-      setEvents(updated);
     } catch (err) {
       console.error("Error updating event:", err);
+    } finally {
+      closeModal();
     }
-
-    closeModal();
   };
 
   const handleApprove = () => updateEventStatus("accepted");
   const handleReject = () => updateEventStatus("rejected");
   const handlePending = () => updateEventStatus("waiting");
 
-  const openModal = (event) => {
-    setSelectedEvent(event);
-    setModerationNote(event.moderationNote || "");
+  // Modal control
+  const openModal = (e) => {
+    setSelectedEvent(e);
+    setModerationNote(e.moderationNote || "");
   };
-
   const closeModal = () => {
     setSelectedEvent(null);
     setModerationNote("");
@@ -181,28 +172,38 @@ const EventManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredEvents.map((event, idx) => (
-            <tr
-              key={idx}
-              onClick={() => openModal(event)}
-              style={{ cursor: "pointer" }}
-            >
-              <td>{event.name}</td>
-              <td>{event.id}</td>
-              <td>{event.organization}</td>
-              <td>{event.description}</td>
-              <td>{event.room}</td>
-              <td>{event.date}</td>
-              <td>
-                {event.startTime}–{event.endTime}
-              </td>
-              <td>
-                <span className={`status-badge ${event.status.toLowerCase()}`}>
-                  {event.status}
-                </span>
-              </td>
-            </tr>
-          ))}
+          {filteredEvents.map((evt) => {
+            // Determine display string for time
+            let timeDisplay = "-";
+            if (typeof evt.time === "string") {
+              timeDisplay = evt.time; // e.g. "14:30:00"
+            } else if (evt.time?.hour != null) {
+              const h = String(evt.time.hour).padStart(2, "0");
+              const m = String(evt.time.minute).padStart(2, "0");
+              timeDisplay = `${h}:${m}`;
+            }
+
+            return (
+              <tr
+                key={evt.eventId}
+                onClick={() => openModal(evt)}
+                style={{ cursor: "pointer" }}
+              >
+                <td>{evt.eventTitle}</td>
+                <td>{evt.eventId}</td>
+                <td>{evt.organization}</td>
+                <td>{evt.description}</td>
+                <td>{evt.venue}</td>
+                <td>{evt.date}</td>
+                <td>{timeDisplay}</td>
+                <td>
+                  <span className={`status-badge ${evt.type.toLowerCase()}`}>
+                    {evt.type}
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
@@ -212,8 +213,8 @@ const EventManagement = () => {
         onChangeNote={setModerationNote}
         onApprove={handleApprove}
         onReject={handleReject}
-        onClose={closeModal}
         onPending={handlePending}
+        onClose={closeModal}
       />
     </div>
   );
