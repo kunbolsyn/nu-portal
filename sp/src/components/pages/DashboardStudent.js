@@ -24,18 +24,21 @@ const DashboardStudent = () => {
       })
       .then((data) => {
         // transform to your frontend shape
-        const transformed = data.map((item) => ({
-          id: item.news_id,
-          title: item.newsTitle,
-          name: item.name || "Unknown",
-          surname: item.surname || "",
-          username: item.email,
-          date: item.newsDatePosted,
-          content: item.text_content,
-          image: item.photo?.filePath
-            ? item.photo.filePath
-            : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
-        }));
+        const transformed = data
+          .map((item) => ({
+            id: item.news_id,
+            title: item.newsTitle,
+            name: item.name || "Unknown",
+            surname: item.surname || "",
+            username: item.email,
+            date: item.newsDatePosted,
+            content: item.text_content,
+            image: item.photo?.filePath
+              ? item.photo.filePath
+              : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
+          }))
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 4);
         setNews(transformed);
       })
       .catch((err) => console.error("Error fetching news:", err));
@@ -67,7 +70,7 @@ const DashboardStudent = () => {
       <div className="news-section">
         <div className="section-header">
           <i className="fas fa-newspaper"></i>
-          <h3>University News</h3>
+          <h3>Last News</h3>
         </div>
 
         <div className="news-grid">

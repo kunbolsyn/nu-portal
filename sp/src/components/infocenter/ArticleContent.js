@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/infocenter/ArticleContent.css";
+import "../../styles/ArticleContent.css";
 
 const ArticleContent = () => {
   return (

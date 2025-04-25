@@ -1,6 +1,6 @@
 // UniversityHistory.js
 import React from "react";
-import "../../styles/infocenter/UniversityHistory.css";
+import "../../styles/UniversityHistory.css";
 
 const UniversityHistory = () => {
   return (
