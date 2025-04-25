@@ -124,7 +124,6 @@ const Header = ({ onToggleSidebar }) => {
             className="fas fa-bell notification-icon"
             onClick={() => setNotifOpen(!notifOpen)}
           ></i>
-          {hasNotifications && <span className="notif-dot" />}
 
           {notifOpen && hasNotifications && (
             <div className="notif-dropdown">
@@ -132,7 +131,8 @@ const Header = ({ onToggleSidebar }) => {
               <ul className="notif-list">
                 {events.slice(0, 3).map((ev) => (
                   <li key={ev.eventId}>
-                    📅 <b>{ev.eventTitle}</b>
+                    <i className="fas fa-calendar-alt"></i>{" "}
+                    <b>{ev.eventTitle}</b>
                     <br />
                     <small>{ev.date}</small>
                     <span className="status">{ev.type}</span>
@@ -140,12 +140,12 @@ const Header = ({ onToggleSidebar }) => {
                 ))}
                 {posts.slice(0, 3).map((post) => (
                   <li key={post.newsTitle + post.newsDatePosted}>
-                    📰 <b>{post.newsTitle}</b>
+                    <i className="fas fa-newspaper"></i> <b>{post.newsTitle}</b>
                     <br />
                     <small>
                       {post.newsDatePosted || post.newsDateRequestSent}
                     </small>
-                    <span className="status">{post.status}</span>
+                    <small className="status">{post.status}</small>
                   </li>
                 ))}
               </ul>
@@ -155,30 +155,34 @@ const Header = ({ onToggleSidebar }) => {
 
         {/* Profile & Dropdown */}
         <div
-          className={`profile-wrapper ${menuOpen ? "active" : ""}`}
-          onClick={() => setMenuOpen(!menuOpen)}
+          className="profile-container" // ← wrapper around both profile and menu
           ref={menuRef}
         >
-          <img
-            src={`${process.env.PUBLIC_URL}/images/profile.jpg`}
-            alt="Profile"
-            className="profile-pic"
-          />
-          <i
-            className={`fas fa-chevron-${
-              menuOpen ? "up" : "down"
-            } dropdown-icon`}
-          ></i>
-        </div>
-
-        {menuOpen && (
-          <div className="context-menu">
-            <Link to="/mypage">My Page</Link>
-            <button onClick={handleLogout} className="logout-btn">
-              Log Out
-            </button>
+          <div
+            className={`profile-wrapper ${menuOpen ? "active" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <img
+              src={`${process.env.PUBLIC_URL}/images/profile.jpg`}
+              alt="Profile"
+              className="profile-pic"
+            />
+            <i
+              className={`fas fa-chevron-${
+                menuOpen ? "up" : "down"
+              } dropdown-icon`}
+            ></i>
           </div>
-        )}
+
+          {menuOpen && (
+            <div className="context-menu">
+              <Link to="/mypage">My Page</Link>
+              <button onClick={handleLogout} className="logout-btn">
+                Log Out
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
