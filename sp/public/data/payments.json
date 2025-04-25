@@ -1,0 +1,67 @@
+{
+    "payments": [
+      {
+        "id": 1,
+        "studentId": "2023-1234",
+        "amount": 1500.00,
+        "type": "Laundry Fee",
+        "date": "2024-01-15",
+        "status": "Completed",
+        "paymentMethod": "Credit Card"
+      },
+      {
+        "id": 2,
+        "studentId": "2023-1234",
+        "amount": 2600.00,
+        "type": "ID Recovery",
+        "date": "2024-01-10",
+        "status": "Completed",
+        "paymentMethod": "Debit Card"
+      },
+      {
+        "id": 3,
+        "studentId": "2023-1234",
+        "amount": 1000.00,
+        "type": "Laundry Fee",
+        "date": "2024-01-05",
+        "status": "Completed",
+        "paymentMethod": "Bank Transfer"
+      },
+      {
+        "id": 5,
+        "studentId": "2023-1234",
+        "amount": 12000.00,
+        "type": "Sport Complex Membership",
+        "date": "2023-12-15",
+        "status": "Completed",
+        "paymentMethod": "Debit Card"
+      },
+      {
+        "id": 4,
+        "studentId": "2023-1234",
+        "amount": 2600.00,
+        "type": "ID Recovery",
+        "date": "2023-12-20",
+        "status": "Completed",
+        "paymentMethod": "Credit Card"
+      }
+    ],
+    "pendingPayments": [
+      {
+        "id": 6,
+        "studentId": "2023-1234",
+        "amount": 1500.00,
+        "type": "Student Fund",
+        "dueDate": "2024-05-15",
+        "status": "Pending"
+      },
+      {
+        "id": 7,
+        "studentId": "2023-1234",
+        "amount": 500.00,
+        "type": "Dormitory Fee",
+        "dueDate": "2024-02-05",
+        "status": "Pending"
+      }
+    ]
+  } 
