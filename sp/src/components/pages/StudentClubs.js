@@ -27,17 +27,15 @@ const StudentClubs = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        // Adapt backend data to match UI format
         const mappedClubs = data.map((club) => ({
           name: club.title,
           description: club.description,
           category: club.category,
           aims: club.aims,
-          members: "N/A", // You can replace this if you have member count
-          status: "Active", // If API doesn't return status, default to Active
+          corpEmail: club.corpEmail,
           logo: club.logo?.filePath
             ? club.logo.filePath
-            : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
+            : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
           fullData: club,
         }));
         setClubs(mappedClubs);
@@ -114,25 +112,13 @@ const StudentClubs = () => {
             onClick={() => setSelectedClub(club.fullData)}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src={
-                club.logo?.filePath
-                  ? club.logo.filePath
-                  : `${process.env.PUBLIC_URL}/images/default-news.jpg`
-              }
-              alt={club.name}
-              className="student-club-img"
-            />
+            <img src={club.logo} alt={club.name} className="student-club-img" />
             <div className="student-club-info">
               <h3 className="club-name">
                 <strong>{club.name.toUpperCase()}</strong>
               </h3>
-              <p className="club-status">{club.status}</p>
               <p className="club-category">
                 <strong>Category:</strong> {club.category}
-              </p>
-              <p className="club-members">
-                <strong>Members:</strong> {club.members}
               </p>
               <p className="club-description">{club.description}</p>
             </div>

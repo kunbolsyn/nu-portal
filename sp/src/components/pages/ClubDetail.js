@@ -44,27 +44,17 @@ const ClubDetail = ({ item, onClose }) => {
                   <i className="fas fa-user-tie"></i> President: {presidentName}
                 </p>
               )}
-              {item.foundingYear && (
-                <p>
-                  <i className="fas fa-history"></i> Founded:{" "}
-                  {item.foundingYear}
-                </p>
-              )}
-              {item.instagram && (
-                <p>
-                  <i className="fab fa-instagram"></i>{" "}
-                  <a
-                    href={item.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Instagram
-                  </a>
-                </p>
-              )}
+              <p>
+                <i className="fas fa-envelope"></i> Email: {item.corpEmail}
+              </p>
             </div>
             <div className="scrollable-content">
-              <p className="detail-description">{item.description}</p>
+              <p className="detail-aims">
+                <strong>Aim:</strong> {item.aims}
+              </p>
+              <p className="detail-description">
+                <strong>Description:</strong> {item.description}
+              </p>
             </div>
           </div>
         </div>
