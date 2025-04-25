@@ -24,12 +24,11 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 }
+          { startDate: "22/08/2019", endDate: "15/09/2019", days: 25 },
+          { startDate: "15/10/2019", endDate: "01/11/2019", days: 18 },
+          { startDate: "17/12/2019", endDate: "29/12/2019", days: 13 }
         ]
       },
-      // ... other years as in your original data
       {
         beginDate: "01/01/2020",
         endDate: "31/12/2020",
@@ -37,44 +36,78 @@ const MyPage = () => {
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 }
+          { startDate: "10/02/2020", endDate: "20/02/2020", days: 11 },
+          { startDate: "15/06/2020", endDate: "05/07/2020", days: 21 },
+          { startDate: "01/10/2020", endDate: "15/10/2020", days: 15 },
+          { startDate: "20/12/2020", endDate: "28/12/2020", days: 9 }
         ]
-      },{
+      },
+      {
         beginDate: "01/01/2021",
         endDate: "31/12/2021",
         usedDays: 56,
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 }
+          { startDate: "05/03/2021", endDate: "15/03/2021", days: 11 },
+          { startDate: "10/06/2021", endDate: "30/06/2021", days: 21 },
+          { startDate: "20/08/2021", endDate: "30/08/2021", days: 11 },
+          { startDate: "10/12/2021", endDate: "23/12/2021", days: 13 }
         ]
-      },{
+      },
+      {
         beginDate: "01/01/2022",
         endDate: "31/12/2022",
         usedDays: 56,
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 }
+          { startDate: "01/02/2022", endDate: "10/02/2022", days: 10 },
+          { startDate: "05/05/2022", endDate: "20/05/2022", days: 16 },
+          { startDate: "01/08/2022", endDate: "20/08/2022", days: 20 },
+          { startDate: "15/12/2022", endDate: "25/12/2022", days: 10 }
         ]
-      },{
+      },
+      {
         beginDate: "01/01/2023",
         endDate: "31/12/2023",
         usedDays: 56,
         remainingDays: 0,
         totalDays: 56,
         periods: [
-          { startDate: "22/08/2019", endDate: "15/09/2019", days: 26 },
-          { startDate: "15/10/2019", endDate: "01/11/2019", days: 16 },
-          { startDate: "23/12/2019", endDate: "29/12/2019", days: 7 }
+          { startDate: "20/01/2023", endDate: "30/01/2023", days: 11 },
+          { startDate: "15/04/2023", endDate: "30/04/2023", days: 16 },
+          { startDate: "10/07/2023", endDate: "30/07/2023", days: 21 },
+          { startDate: "01/12/2023", endDate: "08/12/2023", days: 8 }
         ]
       },
+      {
+        beginDate: "01/01/2024",
+        endDate: "31/12/2024",
+        usedDays: 56,
+        remainingDays: 0,
+        totalDays: 56,
+        periods: [
+          { startDate: "10/02/2024", endDate: "20/02/2024", days: 11 },
+          { startDate: "01/06/2024", endDate: "20/06/2024", days: 20 },
+          { startDate: "10/09/2024", endDate: "25/09/2024", days: 16 },
+          { startDate: "10/12/2024", endDate: "19/12/2024", days: 9 }
+        ]
+      },
+      {
+        beginDate: "01/01/2025",
+        endDate: "31/12/2025",
+        usedDays: 54,
+        remainingDays: 2,
+        totalDays: 56,
+        periods: [
+          { startDate: "05/03/2025", endDate: "15/03/2025", days: 11 },
+          { startDate: "01/07/2025", endDate: "20/07/2025", days: 20 },
+          { startDate: "05/10/2025", endDate: "20/10/2025", days: 16 },
+          { startDate: "10/12/2025", endDate: "19/12/2025", days: 7 }
+        ]
+      }
+      
     ]
   });
 
@@ -274,6 +307,70 @@ const MyPage = () => {
         </div>
         {renderProfileInfo()}
       </section>
+      
+      {/* Saved Contacts */}
+      <section className="contacts-section">
+        <div className="section-header">
+          <i className="fas fa-star"></i>
+          <h3>Saved Contacts</h3>
+        </div>
+
+        <div className="contacts-search">
+          <input
+            type="text"
+            placeholder="Search contacts..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <div className="saved-contacts-table-wrapper">
+          <table className="phonebook-table">
+            <thead>
+              <tr>
+                <th style={{ width: 60 }} />
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>School</th>
+                <th>Department</th>
+                <th style={{ width: 60 }}>Unstar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredContacts.map((c) => (
+                <tr key={c.id}>
+                  <td style={{ width: 60 }}>
+                    <img
+                      src={c.image}
+                      alt={c.name}
+                      className="phonebook-profile-pic"
+                      style={{ width: 50, height: 50, objectFit: "cover" }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "images/profile.jpg";
+                      }}
+                    />
+                  </td>
+                  <td>{c.name}</td>
+                  <td>{c.email}</td>
+                  <td>{c.phone}</td>
+                  <td>{c.school || "-"}</td>
+                  <td>{c.department || "-"}</td>
+                  <td style={{ textAlign: "center", width: 60 }}>
+                    <button
+                      className="star-btn"
+                      onClick={() => removeContact(c.id)}
+                    >
+                      <i className="fas fa-star saved"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {/* Vacation Management */}
       <section className="vacation-section">
@@ -388,69 +485,8 @@ const MyPage = () => {
         )}
       </section>
 
-      {/* Saved Contacts */}
-      <section className="contacts-section">
-        <div className="section-header">
-          <i className="fas fa-star"></i>
-          <h3>Saved Contacts</h3>
-        </div>
 
-        <div className="contacts-search">
-          <input
-            type="text"
-            placeholder="Search contacts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        <div className="saved-contacts-table-wrapper">
-          <table className="phonebook-table">
-            <thead>
-              <tr>
-                <th style={{ width: 60 }} />
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>School</th>
-                <th>Department</th>
-                <th style={{ width: 60 }}>Unstar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredContacts.map((c) => (
-                <tr key={c.id}>
-                  <td style={{ width: 60 }}>
-                    <img
-                      src={c.image}
-                      alt={c.name}
-                      className="phonebook-profile-pic"
-                      style={{ width: 50, height: 50, objectFit: "cover" }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "images/profile.jpg";
-                      }}
-                    />
-                  </td>
-                  <td>{c.name}</td>
-                  <td>{c.email}</td>
-                  <td>{c.phone}</td>
-                  <td>{c.school || "-"}</td>
-                  <td>{c.department || "-"}</td>
-                  <td style={{ textAlign: "center", width: 60 }}>
-                    <button
-                      className="star-btn"
-                      onClick={() => removeContact(c.id)}
-                    >
-                      <i className="fas fa-star saved"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+    
     </div>
   );
 };
