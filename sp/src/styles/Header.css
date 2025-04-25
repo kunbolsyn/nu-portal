@@ -81,7 +81,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 20px;
 }
 
 .notification-icon:hover {
@@ -98,6 +97,7 @@
   margin: 0; /* remove extra right margin */
   height: 28px; /* match profile-pic size */
   width: 28px;
+  padding-right: 20px;
 }
 
 /* ── UPDATED: dropdown styles ── */
@@ -130,7 +130,6 @@
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: background-color 0.2s;
 }
 
@@ -142,6 +141,8 @@
 .status {
   font-weight: 600;
   text-transform: capitalize;
+  padding: 0px;
+  margin: 0px;
 }
 
 /* ─────────────────────────────────────── */
