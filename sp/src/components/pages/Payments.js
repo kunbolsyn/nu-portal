@@ -21,7 +21,7 @@ const Payments = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://senior-project-java-backend.onrender.com/api/v1/payments/user/${accountId}`,
+          `https://senior-project-java-backend.onrender.com/api/v1/payment/account/${accountId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ const Payments = () => {
       };
 
       const response = await fetch(
-        "https://senior-project-java-backend.onrender.com/api/v1/payments",
+        "https://senior-project-java-backend.onrender.com/api/v1/payment",
         {
           method: "POST",
           headers: {
@@ -151,7 +151,7 @@ const Payments = () => {
       
       // Refresh payment history
       const historyResponse = await fetch(
-        `https://senior-project-java-backend.onrender.com/api/v1/payments/user/${accountId}`,
+        `https://senior-project-java-backend.onrender.com/api/v1/payment/account/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -414,10 +414,9 @@ const Payments = () => {
                 <tr>
                   <th>Category</th>
                   <th>Payment ID</th>
-                  <th>Date</th>
                   <th>Amount</th>
-                  <th>Status</th>
-                  <th>Payment Method</th>
+                  <th>Date</th>
+                  <th>Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -425,14 +424,9 @@ const Payments = () => {
                   <tr key={idx}>
                     <td>{payment.type}</td>
                     <td>{payment.id}</td>
-                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
                     <td>{payment.amount} KZT</td>
-                    <td>
-                      <span className={`status ${payment.status.toLowerCase()}`}>
-                        {payment.status}
-                      </span>
-                    </td>
-                    <td>{payment.paymentMethod}</td>
+                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                    <td>{payment.time}</td>
                   </tr>
                 ))}
               </tbody>
