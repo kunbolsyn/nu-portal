@@ -87,10 +87,10 @@ const StudentClubs = () => {
           className="student-clubs-category"
         >
           <option value="">All Categories</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Sports">Sports</option>
-          <option value="Recreation">Recreation</option>
-          <option value="Arts">Arts</option>
+          <option value="Entertainment">Social (including SG)</option>
+          <option value="Sports">Sport and Dance</option>
+          <option value="Recreation">Academic and Professional</option>
+          <option value="Arts">Art, Entertainment, and Culture</option>
         </select>
         <button className="student-clubs-filter-button">Filter</button>
       </div>
