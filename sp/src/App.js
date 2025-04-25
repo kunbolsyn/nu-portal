@@ -20,7 +20,6 @@ import EventManagement from "./components/pages/EventManagement";
 import NewsModeration from "./components/pages/NewsModeration";
 import UniversityHistory from "./components/infocenter/UniversityHistory";
 import ArticleContent from "./components/infocenter/ArticleContent";
-import VacationManager from "./components/pages/VacationManager";
 import "./styles/App.css";
 
 const App = () => {
@@ -65,8 +64,6 @@ const App = () => {
         <Route path="housing-policies" element={<ArticleContent />} />
         <Route path="housing-application" element={<ArticleContent />} />
         <Route path="residential-life" element={<ArticleContent />} />
-
-        <Route path="vacation-manager" element={<VacationManager />} />
       </Route>
     </Routes>
   );
