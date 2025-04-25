@@ -184,6 +184,7 @@ const EventManagement = () => {
             <th>Description</th>
             <th>Venue</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -203,6 +204,7 @@ const EventManagement = () => {
                 <td>{evt.description}</td>
                 <td>{evt.venue}</td>
                 <td>{evt.date}</td>
+                <td>{evt.time}</td>
                 <td>
                   <span className={`status-badge ${evt.type.toLowerCase()}`}>
                     {evt.type}

@@ -1,3 +1,4 @@
+// src/components/pages/Calendar.js
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "../../styles/Calendar.css";
@@ -8,12 +9,11 @@ const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  // 1) Fetch & transform events
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch events");
@@ -26,16 +26,24 @@ const Calendar = () => {
           title: item.eventTitle,
           description: item.description,
           organizer: item.organizer,
+          organizerType: item.organizer_type,
           date: item.date,
+          time: `${String(item.time.hour).padStart(2, "0")}:${String(
+            item.time.minute
+          ).padStart(2, "0")}`,
+          venue: item.venue?.venueTitle || "Unknown Venue",
+          participants: item.participants_number || 0,
           image: item.photo?.filePath
             ? item.photo.filePath
             : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+          qr_code: item.qr_code,
         }));
         setEvents(transformed);
       })
       .catch((err) => console.error("Error fetching events:", err));
   }, []);
 
+  // 2) Build calendar grid
   const year = currentMonth.year();
   const month = currentMonth.month();
   const startOfMonth = dayjs(new Date(year, month, 1));
@@ -59,7 +67,7 @@ const Calendar = () => {
 
   return (
     <div className="calendar-page">
-      {/* header/nav */}
+      {/* Month Navigation */}
       <div className="calendar-header">
         <button onClick={goToPreviousMonth} className="nav-arrow">
           <i className="fas fa-chevron-left"></i>
@@ -73,23 +81,23 @@ const Calendar = () => {
         </button>
       </div>
 
-      {/* day labels */}
+      {/* Day Labels */}
       <div className="calendar-grid day-labels">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
 
-      {/* days */}
+      {/* Date Cells */}
       <div className="calendar-grid calendar-days">
         {calendarCells.map((dayNumber, idx) => {
           const dayEvents = getEventsForDay(dayNumber);
           return (
             <div key={idx} className="calendar-cell">
               {dayNumber && <div className="day-number">{dayNumber}</div>}
-              {dayEvents.map((evt, i) => (
+              {dayEvents.map((evt) => (
                 <button
-                  key={i}
+                  key={evt.id}
                   className="event-tag clickable"
                   title={evt.title}
                   onClick={() => setSelectedEvent(evt)}
@@ -102,7 +110,7 @@ const Calendar = () => {
         })}
       </div>
 
-      {/* Reusable detail overlay */}
+      {/* Event Detail Modal */}
       <EventDetail
         item={selectedEvent}
         onClose={() => setSelectedEvent(null)}

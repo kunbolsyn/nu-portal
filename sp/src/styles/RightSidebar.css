@@ -1,6 +1,6 @@
 .right-sidebar {
   width: 300px;
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
   padding: 16px;
   font-family: "Inter", sans-serif;
 }
@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #0E1C36;
+  color: #0e1c36;
   padding: 8px 12px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -52,7 +52,7 @@
 }
 
 .mini-calendar .react-calendar__tile--now {
-  background: #0E1C36 !important;
+  background: #0e1c36 !important;
   color: #fff !important;
   border-radius: 50%;
   width: 28px;
@@ -83,7 +83,7 @@
 .react-calendar__month-view__weekdays__weekday {
   font-size: 0.6rem;
   font-weight: bold;
-  color: #0E1C36;
+  color: #0e1c36;
   padding-bottom: 4px;
 }
 
@@ -107,7 +107,7 @@
   border: none;
   font-size: 0.8rem;
   padding: 4px 4px;
-  color: #0E1C36;
+  color: #0e1c36;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.2s;
@@ -117,7 +117,7 @@
 .react-calendar__navigation__label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #0E1C36;
+  color: #0e1c36;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
@@ -157,26 +157,27 @@
   margin: 0 0 4px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #0E1C36;
+  color: #0e1c36;
 }
 
 .ue-meta {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: 7px;
   font-size: 0.8rem;
   color: #555;
 }
 
 .ue-meta i {
-  color: #0E1C36;
+  color: #0e1c36;
 }
 
-.no-events {
-  font-size: 0.9rem;
-  color: #888;
-  text-align: center;
-  padding: 12px 0;
+.ue-date {
+  font-size: 0.8rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .event-indicator {

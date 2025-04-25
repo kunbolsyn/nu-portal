@@ -55,7 +55,7 @@ const DashboardStudent = () => {
         <div className="banner-text">
           <h1>Tech Talk 2024</h1>
           <p>Join us for a face-to-face talk with AI innovators!</p>
-          <p className="banner-date">January 20-21, 2024 | NU Campus</p>
+          <p className="banner-date">August 20-21, 2025 | NU Campus</p>
           <button className="learn-more-btn">Learn More</button>
         </div>
       </div>

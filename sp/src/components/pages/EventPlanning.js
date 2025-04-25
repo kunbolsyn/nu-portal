@@ -476,6 +476,7 @@ const EventPlanning = () => {
             <tr>
               <th>Title</th>
               <th>Date</th>
+              <th>Time</th>
               <th>Venue</th>
               <th>Status</th>
               <th>Actions</th>
@@ -490,6 +491,7 @@ const EventPlanning = () => {
                 <tr key={evt.eventId}>
                   <td>{evt.eventTitle}</td>
                   <td>{evt.date}</td>
+                  <td>{evt.time}</td>
                   <td>{evt.venue?.venueTitle || "-"}</td>
                   <td>
                     <span className={`status-badge ${evt.type.toLowerCase()}`}>

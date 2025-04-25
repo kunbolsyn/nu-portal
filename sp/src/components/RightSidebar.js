@@ -1,3 +1,4 @@
+// src/components/RightSidebar.js
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -33,16 +34,23 @@ const RightSidebar = () => {
             title: item.eventTitle,
             description: item.description,
             organizer: item.organizer,
+            organizerType: item.organizer_type,
             date: item.date,
+            time: `${String(item.time.hour).padStart(2, "0")}:${String(
+              item.time.minute
+            ).padStart(2, "0")}`,
+            venue: item.venue?.venueTitle || "Unknown Venue",
+            participants: item.participants_number || 0,
             image: item.photo?.filePath
               ? item.photo.filePath
               : `${process.env.PUBLIC_URL}/images/default-event.jpg`,
+            qr_code: item.qr_code,
           }))
           .filter((e) => {
             const eventDate = new Date(e.date);
             return eventDate >= now && eventDate <= inTwoWeeks;
           })
-          .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date ascending
+          .sort((a, b) => new Date(a.date) - new Date(b.date));
 
         setUpcomingEvents(upcoming);
       })
@@ -57,10 +65,10 @@ const RightSidebar = () => {
           onChange={setDate}
           value={date}
           className="mini-calendar"
-          tileContent={({ date, view }) =>
+          tileContent={({ date: d, view }) =>
             view === "month" &&
             upcomingEvents.some(
-              (evt) => new Date(evt.date).toDateString() === date.toDateString()
+              (evt) => new Date(evt.date).toDateString() === d.toDateString()
             ) ? (
               <div className="event-indicator"></div>
             ) : null
@@ -78,21 +86,26 @@ const RightSidebar = () => {
           {upcomingEvents.length === 0 ? (
             <li className="no-events">No upcoming events</li>
           ) : (
-            upcomingEvents.map((evt, i) => (
-              <li key={i} className="upcoming-item">
+            upcomingEvents.map((evt) => (
+              <li key={evt.id} className="upcoming-item">
                 <div
                   className="upcoming-content"
                   onClick={() => setSelectedEvent(evt)}
                 >
                   <h5 className="ue-title">{evt.title}</h5>
                   <div className="ue-meta">
-                    <i className="fas fa-calendar-check"></i>
-                    <span>
-                      {new Date(evt.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </span>
+                    <div className="ue-date">
+                      <i className="fas fa-calendar-check"></i>
+                      <span>
+                        {new Date(evt.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <div className="ue-venue">
+                      <i className="fas fa-map-marker-alt"></i> {evt.venue}
+                    </div>
                   </div>
                 </div>
               </li>
@@ -101,7 +114,7 @@ const RightSidebar = () => {
         </ul>
       </div>
 
-      {/* Overlay Detail */}
+      {/* Detail overlay */}
       <EventDetail
         item={selectedEvent}
         onClose={() => setSelectedEvent(null)}
