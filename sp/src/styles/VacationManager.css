@@ -1,0 +1,141 @@
+.vacation-manager {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .acceptance-date {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .vacation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .vacation-table th, .vacation-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .vacation-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .vacation-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .calendar-icon {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .calendar-icon.past {
+    color: #999;
+  }
+  
+  .calendar-icon.current {
+    color: #4CAF50;
+  }
+  
+  .calendar-widget-container {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .date-inputs {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+  }
+  
+  .date-inputs label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .date-inputs input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .add-period-btn, .cancel-btn, .close-btn {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-period-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .add-period-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .cancel-btn, .close-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancel-btn:hover, .close-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .vacation-periods-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .vacation-periods-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .vacation-periods-content h3 {
+    margin-top: 0;
+  }
+  
+  .vacation-periods-content ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .vacation-periods-content li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .vacation-periods-content li:last-child {
+    border-bottom: none;
+  }
