@@ -108,6 +108,28 @@ const NewsModeration = () => {
       return 0;
     });
 
+  const deleteNews = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `https://senior-project-java-backend.onrender.com/api/news/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        console.error("Failed to delete news permanently:", await res.text());
+        return;
+      }
+      setNews((prev) => prev.filter((n) => n.id !== id));
+    } catch (err) {
+      console.error("Network error during permanent delete:", err);
+    }
+  };
+
   return (
     <div className="news-moderation-container">
       <div className="news-moderation-header">
@@ -202,12 +224,20 @@ const NewsModeration = () => {
                 </button>
               )}
               {tab === "deleted" && (
-                <button
-                  className="restore-btn"
-                  onClick={() => patchStatus(n.id, "unmoderated")}
-                >
-                  Restore
-                </button>
+                <>
+                  <button
+                    className="restore-btn"
+                    onClick={() => patchStatus(n.id, "unmoderated")}
+                  >
+                    Restore
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteNews(n.id)}
+                  >
+                    Delete Permanently
+                  </button>
+                </>
               )}
             </div>
           </div>

@@ -23,8 +23,9 @@ const DashboardStudent = () => {
         return res.json();
       })
       .then((data) => {
-        // transform to your frontend shape
-        const transformed = data
+        const acceptedNews = data.filter((item) => item.status === "accepted");
+
+        const transformed = acceptedNews
           .map((item) => ({
             id: item.news_id,
             title: item.newsTitle,

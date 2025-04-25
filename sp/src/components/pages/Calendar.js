@@ -20,7 +20,8 @@ const Calendar = () => {
         return res.json();
       })
       .then((data) => {
-        const transformed = data.map((item) => ({
+        const acceptedEvents = data.filter((item) => item.type === "accepted");
+        const transformed = acceptedEvents.map((item) => ({
           id: item.eventId,
           title: item.eventTitle,
           description: item.description,

@@ -71,5 +71,3 @@
   text-overflow: ellipsis;
   max-height: calc(1.4em * 2);
 }
-
-/* If you have a button at the bottom (e.g. Register), it will sit nicely after the description */
