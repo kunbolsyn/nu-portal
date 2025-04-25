@@ -25,8 +25,8 @@ const ClubDetail = ({ item, onClose }) => {
           <div className="image-section">
             <img
               src={
-                item.logo?.startsWith("http")
-                  ? item.logo
+                item.logo?.filePath
+                  ? item.logo.filePath
                   : `${process.env.PUBLIC_URL}/images/default-event.jpg`
               }
               alt={item.name}
@@ -34,14 +34,8 @@ const ClubDetail = ({ item, onClose }) => {
             />
           </div>
           <div className="text-section">
-            <h2 className="detail-title">{item.name}</h2>
+            <h2 className="detail-title">{item.title}</h2>
             <div className="detail-meta">
-              <p>
-                <i className="fas fa-star"></i> Status: {item.status}
-              </p>
-              <p>
-                <i className="fas fa-users"></i> Members: {item.members}
-              </p>
               <p>
                 <i className="fas fa-tags"></i> Category: {item.category}
               </p>

@@ -213,14 +213,6 @@ const EventPlanning = () => {
     }
   };
 
-  const formatEventTime = (t) => {
-    if (!t) return "-";
-    if (typeof t === "string") return t;
-    const h = String(t.hour).padStart(2, "0");
-    const m = String(t.minute).padStart(2, "0");
-    return `${h}:${m}:00`;
-  };
-
   return (
     <div className="event-planning-container">
       <div className="section-header">

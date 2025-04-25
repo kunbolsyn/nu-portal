@@ -35,7 +35,9 @@ const StudentClubs = () => {
           aims: club.aims,
           members: "N/A", // You can replace this if you have member count
           status: "Active", // If API doesn't return status, default to Active
-          logo: club.president?.account?.photo?.filePath || "club_logo.png",
+          logo: club.logo?.filePath
+            ? club.logo.filePath
+            : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
           fullData: club,
         }));
         setClubs(mappedClubs);
@@ -114,9 +116,9 @@ const StudentClubs = () => {
           >
             <img
               src={
-                club.logo.startsWith("http")
-                  ? club.logo
-                  : `${process.env.PUBLIC_URL}/images/default-event.jpg`
+                club.logo?.filePath
+                  ? club.logo.filePath
+                  : `${process.env.PUBLIC_URL}/images/default-news.jpg`
               }
               alt={club.name}
               className="student-club-img"
