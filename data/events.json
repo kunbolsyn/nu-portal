@@ -1,57 +1,62 @@
 [
   {
-    "title": "Student Film Festival To Showcase Local Talent",
+    "id": "0001",
+    "name": "Student Film Festival To Showcase Local Talent",
+    "description": "The annual Student Film Festival is returning this year, showcasing short films created by students...",
+    "organization": "Film Club",
+    "room": "Main Hall",
     "date": "2025-04-30",
-    "venue": "Main Hall",
     "startTime": "14:00",
     "endTime": "16:00",
-    "image": "/images/filmfestival.jpg",
-    "organizer": "Alex Tinez, Event Coordinator",
-    "description": "The annual Student Film Festival is returning this year, showcasing short films created by students...",
-    "club": "Film Club"
+    "status": "Pending",
+    "moderationNote": ""
   },
   {
-    "title": "AI Innovations Workshop",
+    "id": "0002",
+    "name": "AI Innovations Workshop",
+    "description": "Join us for an in-depth workshop on AI and Machine Learning, covering latest research and applications...",
+    "organization": "Tech Club",
+    "room": "8.103",
     "date": "2025-04-28",
-    "venue": "8.103",
     "startTime": "10:00",
     "endTime": "12:00",
-    "image": "/images/aiworkshop.jpg",
-    "organizer": "NU Tech Department",
-    "description": "Join us for an in-depth workshop on AI and Machine Learning, covering latest research and applications...",
-    "club": "Tech Club"
+    "status": "Pending",
+    "moderationNote": ""
   },
   {
-    "title": "Business Networking Event",
+    "id": "0003",
+    "name": "Business Networking Event",
+    "description": "An evening of networking and mentorship opportunities with local entrepreneurs and industry experts.",
+    "organization": "Business Club",
+    "room": "Upper Atrium",
     "date": "2025-04-25",
-    "venue": "Upper Atrium",
     "startTime": "17:00",
     "endTime": "19:00",
-    "image": "/images/networking.jpg",
-    "organizer": "Business Society",
-    "description": "An evening of networking and mentorship opportunities with local entrepreneurs and industry experts.",
-    "club": "Business Club"
+    "status": "Pending",
+    "moderationNote": ""
   },
   {
-    "title": "Open Mic Night",
+    "id": "0004",
+    "name": "Open Mic Night",
+    "description": "Showcase your talents! Singers, poets, and comedians are all welcome to perform in a casual atmosphere.",
+    "organization": "Music Club",
+    "room": "Ballroom Left",
     "date": "2025-04-25",
-    "venue": "Ballroom Left",
     "startTime": "18:00",
     "endTime": "21:00",
-    "image": "/images/openmic.jpg",
-    "organizer": "Music Club",
-    "description": "Showcase your talents! Singers, poets, and comedians are all welcome to perform in a casual atmosphere.",
-    "club": "Music Club"
+    "status": "Pending",
+    "moderationNote": ""
   },
   {
-    "title": "Coding Bootcamp Demo Day",
+    "id": "0005",
+    "name": "Coding Bootcamp Demo Day",
+    "description": "Graduates of the coding bootcamp will present their final projects. Come and see the innovation!",
+    "organization": "Tech Club",
+    "room": "Green Hall",
     "date": "2025-05-01",
-    "venue": "Green Hall",
     "startTime": "15:00",
     "endTime": "17:00",
-    "image": "/images/codingdemo.jpg",
-    "organizer": "NU Tech Department",
-    "description": "Graduates of the coding bootcamp will present their final projects. Come and see the innovation!",
-    "club": "Tech Club"
+    "status": "Pending",
+    "moderationNote": ""
   }
 ]

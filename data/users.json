@@ -15,19 +15,10 @@
     "password": "Staff123!",
     "role": "staff"
   },
+
   {
-    "username": "staff1",
-    "password": "Staff123!",
+    "username": "faculty1",
+    "password": "Faculty123!",
     "role": "faculty"
-  },
-  {
-    "username": "usm1",
-    "password": "USM123!",
-    "role": "usm"
-  },
-  {
-    "username": "it1",
-    "password": "IT123!",
-    "role": "it"
   }
 ]
