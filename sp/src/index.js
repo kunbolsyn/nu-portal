@@ -1,3 +1,4 @@
+// index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -6,14 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import { BrowserRouter } from "react-router-dom"; // import this
+import { HashRouter } from "react-router-dom"; // use HashRouter instead
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/nu-portal">
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 
