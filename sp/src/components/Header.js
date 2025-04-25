@@ -131,7 +131,8 @@ const Header = ({ onToggleSidebar }) => {
               <ul className="notif-list">
                 {events.slice(0, 3).map((ev) => (
                   <li key={ev.eventId}>
-                    📅 <b>{ev.eventTitle}</b>
+                    <i className="fas fa-calendar-alt"></i>{" "}
+                    <b>{ev.eventTitle}</b>
                     <br />
                     <small>{ev.date}</small>
                     <span className="status">{ev.type}</span>
@@ -139,13 +140,12 @@ const Header = ({ onToggleSidebar }) => {
                 ))}
                 {posts.slice(0, 3).map((post) => (
                   <li key={post.newsTitle + post.newsDatePosted}>
-                    <i className="fas fa-news"></i>
-                    {post.newsTitle}
+                    <i className="fas fa-newspaper"></i> <b>{post.newsTitle}</b>
                     <br />
                     <small>
                       {post.newsDatePosted || post.newsDateRequestSent}
                     </small>
-                    <span className="status">{post.status}</span>
+                    <small className="status">{post.status}</small>
                   </li>
                 ))}
               </ul>
