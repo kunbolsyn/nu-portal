@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/nu-portal/static/css/main.9e7aaa7e.css",
-    "main.js": "/nu-portal/static/js/main.42061870.js",
+    "main.css": "/nu-portal/static/css/main.c983e372.css",
+    "main.js": "/nu-portal/static/js/main.701e9e2b.js",
     "static/js/488.c2fb710e.chunk.js": "/nu-portal/static/js/488.c2fb710e.chunk.js",
     "static/media/bg.png": "/nu-portal/static/media/bg.4545c055f6c660d2e6f4.png",
     "static/media/fa-solid-900.ttf": "/nu-portal/static/media/fa-solid-900.2582b0e4bcf85eceead0.ttf",
@@ -14,12 +14,12 @@
     "static/media/fa-v4compatibility.ttf": "/nu-portal/static/media/fa-v4compatibility.da94ef451f4969af06e6.ttf",
     "static/media/fa-v4compatibility.woff2": "/nu-portal/static/media/fa-v4compatibility.ea8f94e1d22e0d35ccd4.woff2",
     "index.html": "/nu-portal/index.html",
-    "main.9e7aaa7e.css.map": "/nu-portal/static/css/main.9e7aaa7e.css.map",
-    "main.42061870.js.map": "/nu-portal/static/js/main.42061870.js.map",
+    "main.c983e372.css.map": "/nu-portal/static/css/main.c983e372.css.map",
+    "main.701e9e2b.js.map": "/nu-portal/static/js/main.701e9e2b.js.map",
     "488.c2fb710e.chunk.js.map": "/nu-portal/static/js/488.c2fb710e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9e7aaa7e.css",
-    "static/js/main.42061870.js"
+    "static/css/main.c983e372.css",
+    "static/js/main.701e9e2b.js"
   ]
 }
