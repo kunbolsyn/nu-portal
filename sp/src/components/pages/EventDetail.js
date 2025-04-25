@@ -41,6 +41,9 @@ const EventDetail = ({ item, onClose }) => {
                 <i className="fas fa-calendar-alt"></i> {item.date}
               </p>
               <p>
+                <i className="fas fa-clock"></i> {item.time}
+              </p>
+              <p>
                 <i className="fas fa-map-marker-alt"></i> {item.venue}
               </p>
             </div>

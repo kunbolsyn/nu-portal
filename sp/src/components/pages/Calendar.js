@@ -28,9 +28,7 @@ const Calendar = () => {
           organizer: item.organizer,
           organizerType: item.organizer_type,
           date: item.date,
-          time: `${String(item.time.hour).padStart(2, "0")}:${String(
-            item.time.minute
-          ).padStart(2, "0")}`,
+          time: item.time,
           venue: item.venue?.venueTitle || "Unknown Venue",
           participants: item.participants_number || 0,
           image: item.photo?.filePath
