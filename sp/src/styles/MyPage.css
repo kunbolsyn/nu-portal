@@ -72,7 +72,7 @@
 }
 
 .vacation-table th {
-  background-color: #465159;
+  background-color: #0E1C36;
   color: white;
   padding: 12px;
   text-align: left;
@@ -141,7 +141,7 @@
 
 .vacation-modal-content h4 {
   margin-top: 0;
-  color: #485766;
+  color: #0E1C36;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
 }
@@ -258,11 +258,13 @@
   border-collapse: collapse;
   margin-bottom: 20px;
   background-color: white;
+  border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .phonebook-table th {
-  background-color: #a6bac8;
+  background-color: #0E1C36;
+
   color: white;
   padding: 12px;
   text-align: left;
@@ -307,7 +309,4 @@
   font-size: 1.2rem;
   color: #0E1C36;
 }
-
-
-/****************************************/
 
