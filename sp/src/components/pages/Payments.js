@@ -2,68 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../styles/Payments.css";
 import { FaMoneyBillWave, FaHistory } from "react-icons/fa";
 
-// Mock data
-const paymentsData = {
-  payments: [
-    {
-      type: "Laundry Fee",
-      id: 12880,
-      amount: 1500.00,
-      date: "2024-01-15",
-      time: "10:00",
-      paymentMethod: "Visa: ..0179"
-    },
-    {
-      type: "ID Recovery",
-      id: 28099,
-      amount: 2600.00,
-      date: "2024-01-10",
-      time: "20:00",
-      paymentMethod: "Mastercard: ..0179"
-    },
-    {
-      type: "Laundry Fee",
-      id: 38530,
-      amount: 1000.00,
-      date: "2024-01-05",
-      time: "10:00",
-      paymentMethod: "Visa: ..0179"
-    },
-    {
-      type: "Sport Complex Membership",
-      id: 59398,
-      amount: 12000.00,
-      date: "2023-12-15",
-      time: "10:00",
-      paymentMethod: "Mastercard: ..0179"
-    },
-    {
-      type: "ID Recovery",
-      id: 48079,
-      amount: 2600.00,
-      date: "2023-12-20",
-      time: "10:00",
-      paymentMethod: "Mastercard: ..0179"
-    },
-    {
-      type: "Student Fund",
-      id: 65669,
-      amount: 5000.00,
-      date: "2024-05-15",
-      time: "10:00",
-      paymentMethod: "Visa: ..0179"
-    },
-    {
-      type: "Dormitory Fee",
-      id: 77509,
-      amount: 500.00,
-      date: "2024-02-05",
-      time: "10:00",
-      paymentMethod: "Mastercard: ..0179"
-    }
-  ]
-};
-
 const Payments = () => {
   const [activeCategory, setActiveCategory] = useState("laundry");
   const [selectedItems, setSelectedItems] = useState([]);
@@ -71,32 +9,54 @@ const Payments = () => {
   const [sportMembership, setSportMembership] = useState("multi");
   const [semester, setSemester] = useState("spring2025");
   const [sortOption, setSortOption] = useState("newest");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Load payment history from mock data
+  const token = localStorage.getItem("token");
+  const accountId = localStorage.getItem("accountId");
+
+  // Fetch payment history from backend
   useEffect(() => {
-    const formattedPayments = paymentsData.payments.map(payment => ({
-      id: payment.id,
-      category: payment.type,
-      date: payment.date,
-      time: payment.time,
-      price: payment.amount,
-      paymentMethod: payment.paymentMethod
-    }));
-    
-    setPaymentHistory(formattedPayments);
-  }, []);
+    const fetchPaymentHistory = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://senior-project-java-backend.onrender.com/api/v1/payments/user/${accountId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch payment history");
+        }
+
+        const data = await response.json();
+        setPaymentHistory(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Payment history fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPaymentHistory();
+  }, [accountId, token]);
 
   // Sort payments based on selected option
   const sortedPayments = [...paymentHistory].sort((a, b) => {
     switch(sortOption) {
       case "newest":
-        return new Date(b.date) - new Date(a.date);
+        return new Date(b.paymentDate) - new Date(a.paymentDate);
       case "oldest":
-        return new Date(a.date) - new Date(b.date);
+        return new Date(a.paymentDate) - new Date(b.paymentDate);
       case "highest":
-        return b.price - a.price;
+        return b.amount - a.amount;
       case "lowest":
-        return a.price - b.price;
+        return a.amount - b.amount;
       default:
         return 0;
     }
@@ -154,29 +114,59 @@ const Payments = () => {
     }
   };
 
-  const handlePayment = () => {
-    const paymentData = {
-      category: activeCategory,
-      amount: calculateTotal(),
-      items: activeCategory === "laundry" ? selectedItems : [],
-      membershipType: activeCategory === "sport" ? sportMembership : null,
-      semester: activeCategory === "fund" ? semester : null
-    };
+  const handlePayment = async () => {
+    try {
+      const paymentData = {
+        userId: accountId,
+        type: paymentCategories.find(c => c.id === activeCategory)?.name,
+        amount: calculateTotal(),
+        paymentDate: new Date().toISOString(),
+        paymentMethod: "Online Payment",
+        status: "Completed",
+        details: {
+          items: activeCategory === "laundry" ? selectedItems : [],
+          membershipType: activeCategory === "sport" ? sportMembership : null,
+          semester: activeCategory === "fund" ? semester : null
+        }
+      };
 
-    console.log("Payment data:", paymentData);
-    alert(`Payment of ${calculateTotal()} KZT for ${activeCategory} submitted!`);
-    
-    // Add to history (mock implementation)
-    const newPayment = {
-      id: Math.floor(Math.random() * 100000),
-      category: paymentCategories.find(c => c.id === activeCategory)?.name,
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-      price: calculateTotal(),
-      paymentMethod: "Visa: .." + Math.floor(Math.random() * 10000).toString().padStart(4, '0')
-    };
-    
-    setPaymentHistory(prev => [newPayment, ...prev]);
+      const response = await fetch(
+        "https://senior-project-java-backend.onrender.com/api/v1/payments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(paymentData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Payment submission failed");
+      }
+
+      const result = await response.json();
+      alert(`Payment of ${calculateTotal()} KZT for ${activeCategory} submitted successfully!`);
+      
+      // Refresh payment history
+      const historyResponse = await fetch(
+        `https://senior-project-java-backend.onrender.com/api/v1/payments/user/${accountId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      if (historyResponse.ok) {
+        const updatedHistory = await historyResponse.json();
+        setPaymentHistory(updatedHistory);
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert(`Payment failed: ${err.message}`);
+    }
   };
 
   // Rest of your renderPaymentForm function remains the same...
@@ -413,36 +403,46 @@ const Payments = () => {
           </div>
         </div>
         
-        <table className="history-table">
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Payment ID</th>
-              <th>Category</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Price</th>
-              <th>Payment Method</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedPayments.map((row, idx) => (
-              <tr key={idx}>
-                <td>{row.category}</td>
-                <td>{row.id}</td>
-                <td>{row.category}</td>
-                <td>{row.date}</td>
-                <td>{row.time}</td>
-                <td>{row.price} KZT</td>
-                <td>{row.paymentMethod}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        
-        <div className="pagination">
-          <span>1-{sortedPayments.length} of {sortedPayments.length}</span>
-        </div>
+        {loading ? (
+          <div className="loading-message">Loading payment history...</div>
+        ) : error ? (
+          <div className="error-message">Error: {error}</div>
+        ) : (
+          <>
+            <table className="history-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Payment ID</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Payment Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedPayments.map((payment, idx) => (
+                  <tr key={idx}>
+                    <td>{payment.type}</td>
+                    <td>{payment.id}</td>
+                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                    <td>{payment.amount} KZT</td>
+                    <td>
+                      <span className={`status ${payment.status.toLowerCase()}`}>
+                        {payment.status}
+                      </span>
+                    </td>
+                    <td>{payment.paymentMethod}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            
+            <div className="pagination">
+              <span>1-{sortedPayments.length} of {sortedPayments.length}</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
