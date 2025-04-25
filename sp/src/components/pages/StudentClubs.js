@@ -92,7 +92,7 @@ const StudentClubs = () => {
           <option value="Recreation">Academic and Professional</option>
           <option value="Arts">Art, Entertainment, and Culture</option>
         </select>
-        <button className="student-clubs-filter-button">Filter</button>
+        
       </div>
 
       <div className="student-clubs-list">
