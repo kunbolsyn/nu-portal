@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Events.css";
 import EventDetail from "./EventDetail";
+import { demoEvents, isDemoMode } from "../../data/demoData";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -10,16 +11,17 @@ const Events = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch events");
-        return res.json();
-      })
-      .then((data) => {
+    const loadEvents = async () => {
+      try {
+        let data = demoEvents;
+        if (!isDemoMode()) {
+          const res = await fetch(
+            "https://senior-project-java-backend.onrender.com/api/events/all",
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          if (!res.ok) throw new Error("Failed to fetch events");
+          data = await res.json();
+        }
         const acceptedEvents = data.filter((item) => item.type === "accepted");
 
         const transformed = acceptedEvents.map((item) => ({
@@ -38,11 +40,13 @@ const Events = () => {
           qr_code: item.qr_code,
         }));
         setEvents(transformed);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching events:", err);
         setEvents([]); // to avoid endless loading
-      });
+      }
+    };
+
+    loadEvents();
   }, []);
 
   if (events.length === 0) {

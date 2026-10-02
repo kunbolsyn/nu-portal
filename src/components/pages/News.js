@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Add this import
 import "../../styles/News.css";
 import "../../styles/NewsCards.css";
+import { demoNews, isDemoMode } from "../../data/demoData";
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -10,16 +11,17 @@ const News = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("https://senior-project-java-backend.onrender.com/api/news/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch news");
-        return res.json();
-      })
-      .then((data) => {
+    const loadNews = async () => {
+      try {
+        let data = demoNews;
+        if (!isDemoMode()) {
+          const res = await fetch(
+            "https://senior-project-java-backend.onrender.com/api/news/all",
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          if (!res.ok) throw new Error("Failed to fetch news");
+          data = await res.json();
+        }
         const acceptedNews = data.filter((item) => item.status === "accepted");
         const transformed = acceptedNews.map((item) => ({
           id: item.news_id,
@@ -34,8 +36,12 @@ const News = () => {
             : `${process.env.PUBLIC_URL}/images/default-news.jpg`,
         }));
         setNews(transformed);
-      })
-      .catch((error) => console.error("Error fetching news:", error));
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+
+    loadNews();
   }, []);
 
   if (news.length === 0) {

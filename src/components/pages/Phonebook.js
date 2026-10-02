@@ -1,6 +1,7 @@
 // src/components/pages/Phonebook.js
 import React, { useState, useEffect } from "react";
 import "../../styles/Phonebook.css";
+import { demoPhonebook, isDemoMode } from "../../data/demoData";
 
 const TABS = ["Students", "Teaching Staff", "Staff", "Student Clubs", "Others"];
 const API_BASE = "https://senior-project-java-backend.onrender.com";
@@ -17,6 +18,13 @@ const Phonebook = () => {
     const stored = localStorage.getItem("savedContacts");
     if (stored) {
       setSavedContacts(JSON.parse(stored));
+    } else if (isDemoMode()) {
+      const initialContacts = [
+        demoPhonebook.Students[0],
+        demoPhonebook["Teaching Staff"][0],
+      ];
+      setSavedContacts(initialContacts);
+      localStorage.setItem("savedContacts", JSON.stringify(initialContacts));
     } else {
       fetch("/data/saved_contacts.json")
         .then((r) => r.json())
@@ -30,6 +38,12 @@ const Phonebook = () => {
 
   // Fetch the right endpoint when tab changes
   useEffect(() => {
+    if (isDemoMode()) {
+      setContacts(demoPhonebook[activeTab] || []);
+      setLoading(false);
+      return;
+    }
+
     let path;
     switch (activeTab) {
       case "Students":
@@ -155,7 +169,7 @@ const Phonebook = () => {
 
   // Filter by name only
   const filtered = contacts.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
+    c.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -199,7 +213,7 @@ const Phonebook = () => {
                 {activeTab === "Students" && <th>ID</th>}
                 <th>Phone</th>
                 {["Students", "Teaching Staff", "Student Clubs"].includes(
-                  activeTab
+                  activeTab,
                 ) && <th>School</th>}
                 {activeTab === "Staff" && <th>Department</th>}
                 {activeTab === "Others" && <th>Description</th>}
@@ -228,7 +242,7 @@ const Phonebook = () => {
                     {activeTab === "Students" && <td>{c.id}</td>}
                     <td>{c.phone}</td>
                     {["Students", "Teaching Staff", "Student Clubs"].includes(
-                      activeTab
+                      activeTab,
                     ) && <td>{c.school}</td>}
                     {activeTab === "Staff" && <td>{c.school}</td>}
                     {activeTab === "Others" && <td>{c.department}</td>}

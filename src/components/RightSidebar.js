@@ -4,6 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styles/RightSidebar.css";
 import EventDetail from "../components/pages/EventDetail";
+import { demoEvents, isDemoMode } from "../data/demoData";
 
 const RightSidebar = () => {
   const [date, setDate] = useState(new Date());
@@ -13,16 +14,17 @@ const RightSidebar = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("https://senior-project-java-backend.onrender.com/api/events/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch events");
-        return res.json();
-      })
-      .then((data) => {
+    const loadEvents = async () => {
+      try {
+        let data = demoEvents;
+        if (!isDemoMode()) {
+          const res = await fetch(
+            "https://senior-project-java-backend.onrender.com/api/events/all",
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          if (!res.ok) throw new Error("Failed to fetch events");
+          data = await res.json();
+        }
         const now = new Date();
         const inTwoWeeks = new Date();
         inTwoWeeks.setDate(now.getDate() + 14);
@@ -51,8 +53,12 @@ const RightSidebar = () => {
           .sort((a, b) => new Date(a.date) - new Date(b.date));
 
         setUpcomingEvents(upcoming);
-      })
-      .catch((err) => console.error("Error fetching upcoming events:", err));
+      } catch (err) {
+        console.error("Error fetching upcoming events:", err);
+      }
+    };
+
+    loadEvents();
   }, []);
 
   return (
@@ -66,7 +72,7 @@ const RightSidebar = () => {
           tileContent={({ date: d, view }) =>
             view === "month" &&
             upcomingEvents.some(
-              (evt) => new Date(evt.date).toDateString() === d.toDateString()
+              (evt) => new Date(evt.date).toDateString() === d.toDateString(),
             ) ? (
               <div className="event-indicator"></div>
             ) : null

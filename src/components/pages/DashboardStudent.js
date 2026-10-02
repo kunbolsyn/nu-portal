@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/DashboardStudent.css";
 import "../../styles/NewsCards.css";
+import { demoNews, isDemoMode } from "../../data/demoData";
 
 const DashboardStudent = () => {
   const [news, setNews] = useState([]);
@@ -11,17 +12,17 @@ const DashboardStudent = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // Fetch university news from backend
-    fetch("https://senior-project-java-backend.onrender.com/api/news/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch news");
-        return res.json();
-      })
-      .then((data) => {
+    const loadNews = async () => {
+      try {
+        let data = demoNews;
+        if (!isDemoMode()) {
+          const res = await fetch(
+            "https://senior-project-java-backend.onrender.com/api/news/all",
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          if (!res.ok) throw new Error("Failed to fetch news");
+          data = await res.json();
+        }
         const acceptedNews = data.filter((item) => item.status === "accepted");
 
         const transformed = acceptedNews
@@ -40,8 +41,12 @@ const DashboardStudent = () => {
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .slice(0, 4);
         setNews(transformed);
-      })
-      .catch((err) => console.error("Error fetching news:", err));
+      } catch (err) {
+        console.error("Error fetching news:", err);
+      }
+    };
+
+    loadNews();
   }, []);
 
   if (news.length === 0) {

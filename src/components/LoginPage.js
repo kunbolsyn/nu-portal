@@ -14,6 +14,7 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    localStorage.removeItem("demoMode");
     setIsLoading(true);
 
     try {
@@ -23,9 +24,7 @@ const LoginPage = () => {
         body: JSON.stringify({ email: username, password }),
       });
 
-
       if (loginRes.status !== 200) return;
-
 
       const authHeader = loginRes.headers.get("Authorization");
       if (!authHeader || !authHeader.startsWith("Bearer ")) return;
@@ -47,7 +46,7 @@ const LoginPage = () => {
               Accept: "application/json",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         if (acctRes.ok) {
@@ -67,6 +66,17 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDemoLogin = () => {
+    localStorage.setItem("demoMode", "true");
+    localStorage.setItem("token", "demo-token");
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("username", "alisher.kunbolsyn@nu.edu.kz");
+    localStorage.setItem("accountId", "demo-student");
+    localStorage.setItem("userRole", "student");
+    navigate("/dashboard");
+    window.location.reload();
   };
 
   return (
@@ -125,6 +135,14 @@ const LoginPage = () => {
                   className="google-logo"
                 />
                 <span>Login using Google</span>
+              </Button>
+              <Button
+                type="button"
+                variant="outline-secondary"
+                className="w-100 mt-2"
+                onClick={handleDemoLogin}
+              >
+                Preview with demo data
               </Button>
             </Form>
           </Card.Body>

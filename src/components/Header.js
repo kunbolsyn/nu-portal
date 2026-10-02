@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../styles/Header.css";
+import { demoEvents, demoNews, isDemoMode } from "../data/demoData";
 
 const Header = ({ onToggleSidebar }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,6 +44,12 @@ const Header = ({ onToggleSidebar }) => {
   useEffect(() => {
     if (!username || !token) return;
 
+    if (isDemoMode()) {
+      setEvents(demoEvents);
+      setPosts(demoNews);
+      return;
+    }
+
     const fetchEvents = async () => {
       try {
         const res = await fetch(
@@ -52,7 +59,7 @@ const Header = ({ onToggleSidebar }) => {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
         if (!res.ok) throw new Error("Failed to fetch events");
         const data = await res.json();
@@ -71,7 +78,7 @@ const Header = ({ onToggleSidebar }) => {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
 
         if (res.status === 204) {

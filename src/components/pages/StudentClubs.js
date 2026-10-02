@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/StudentClubs.css";
 import ClubDetail from "./ClubDetail";
 import { useLocation, useNavigate } from "react-router-dom";
+import { demoClubs, isDemoMode } from "../../data/demoData";
 
 const StudentClubs = () => {
   const [clubs, setClubs] = useState([]);
@@ -12,10 +13,25 @@ const StudentClubs = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedClub, setSelectedClub] = useState(
-    location.state?.selectedClub || null
+    location.state?.selectedClub || null,
   );
 
   useEffect(() => {
+    if (isDemoMode()) {
+      setClubs(
+        demoClubs.map((club) => ({
+          name: club.title,
+          description: club.description,
+          category: club.category,
+          aims: club.aims,
+          corpEmail: club.corpEmail,
+          logo: club.logo.filePath,
+          fullData: club,
+        })),
+      );
+      return;
+    }
+
     const token = localStorage.getItem("token");
     fetch(
       "https://senior-project-java-backend.onrender.com/api/v1/studentorganization/all",
@@ -23,7 +39,7 @@ const StudentClubs = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     )
       .then((response) => response.json())
       .then((data) => {
@@ -92,7 +108,6 @@ const StudentClubs = () => {
           <option value="Recreation">Academic and Professional</option>
           <option value="Arts">Art, Entertainment, and Culture</option>
         </select>
-        
       </div>
 
       <div className="student-clubs-list">

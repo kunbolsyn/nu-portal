@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // ✅ useNavigate added
 import "../../styles/NewsPage.css";
+import { demoNews, isDemoMode } from "../../data/demoData";
 
 const NewsPage = () => {
   const { id } = useParams();
@@ -8,6 +9,11 @@ const NewsPage = () => {
   const [news, setNews] = useState(null);
 
   useEffect(() => {
+    if (isDemoMode()) {
+      setNews(demoNews.find((item) => String(item.news_id) === id) || null);
+      return;
+    }
+
     const token = localStorage.getItem("token");
     fetch(`https://senior-project-java-backend.onrender.com/api/news/all`, {
       headers: { Authorization: `Bearer ${token}` },
